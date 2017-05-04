@@ -1,23 +1,23 @@
 
 'use strict'
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
+import {Router, Route, IndexRedirect, HashRouter, browserHistory} from 'react-router'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import TalkToDatabase from './components/TalkToDatabase.jsx'
 
-import store from './store'
-import App from './components/App'
-import HomeView from './components/HomeView'
+import store from './store.jsx'
+import App from './components/App.jsx'
+import HomeView from './components/HomeView.jsx'
 
 render(
  <Provider store={store}>
-   <Router history={browserHistory}>
-     <Route path="/" component={App} >
+   <HashRouter>
+     <Route path="/" component={TalkToDatabase} >
        <Route path="/home" component={HomeView} />
      <IndexRedirect to="/home" />
     </Route>
-  </Router>
+  </HashRouter>
  </Provider>,
  document.getElementById('main')
 )

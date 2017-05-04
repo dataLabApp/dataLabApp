@@ -5,7 +5,10 @@ module.exports = {
     path: __dirname,
     filename: './assets/bundle.js'
   },
-  devtool: 'source-map',
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '*']
+  },
+  devtool: 'cheap-module-eval-source-map',
   module: {
     loaders: [
       {
