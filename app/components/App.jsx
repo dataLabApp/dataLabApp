@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { DragDropContext, DropTarget } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import DraggableContainer from './DraggableContainer'
-import BarChart from './BarChart'
+import Chart from './Chart'
 import {ItemTypes} from '../constants'
 import update from 'react/lib/update';
 
@@ -44,7 +44,7 @@ class App extends Component {
       <div style={{height:window.innerHeight, width:window.innerWidth}}>
         {Object.keys(this.state.cards).map((cardID,index)=>
           <DraggableContainer key={index} id={cardID} {...this.state.cards[cardID]}>
-            <BarChart />
+            <Chart />
           </DraggableContainer>)}
       </div>)
   }

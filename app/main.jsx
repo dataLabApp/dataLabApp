@@ -9,8 +9,7 @@ import TalkToDatabase from './components/TalkToDatabase.jsx'
 import store from './store.jsx'
 import App from './components/App.jsx'
 import HomeView from './components/HomeView.jsx'
-import BarChart from './components/BarChart.jsx'
-import Dashboard from './components/Dashboard.jsx'
+import Chart from './components/Chart.jsx'
 
 render(
   <div>
