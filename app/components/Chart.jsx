@@ -104,8 +104,6 @@ export default class Chart extends Component {
             return height - tempScale(d.temp);
         });
 
-
-
     return (
       <div>
       <h2>Chart</h2>
