@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styles from '../../assets/TalkToDatabase.css';
 
 export default class TalkToDatabase extends Component {
@@ -7,7 +7,7 @@ export default class TalkToDatabase extends Component {
     return (
       <div>
         <div className={styles.container} data-tid="container">
-          <h2>Home</h2>
+          <h2>TalkToDb</h2>
           {/*<Link to="/counter">to Counter</Link>*/}
         </div>
       </div>
