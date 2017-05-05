@@ -15,14 +15,8 @@ import Dashboard from './components/Dashboard.jsx'
 render(
   <div>
     <Provider store={store}>
-      <BarChart />
+      <App />
     </Provider>
-    <Provider store={store}>
-      <Dashboard />
-    </Provider>
-    <App />
-    <HomeView />
-    <TalkToDatabase />
   </div>
   ,
  document.getElementById('main')
