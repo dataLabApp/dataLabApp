@@ -29,8 +29,6 @@ class DraggableContainer extends Component{
         position: 'absolute',
         left: this.props.left,
         top: this.props.top,
-        width: '200px',
-        height: '120px',
         border: '3px solid #8AC007',
         cursor: 'move'
       }}>
