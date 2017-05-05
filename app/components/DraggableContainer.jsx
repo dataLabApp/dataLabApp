@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {ItemTypes} from '../constants'
 import { DragSource } from 'react-dnd'
+import { ResizableBox } from 'react-resizable';
+
 
 const cardSource = {
   beginDrag(props){
@@ -32,7 +34,8 @@ class DraggableContainer extends Component{
         border: '3px solid #8AC007',
         cursor: 'move'
       }}>
-      {this.props.children}
+      <ResizableBox width={750} height={250} lockAspectRatio ={false} axis='both'
+        minConstraints={[window.innerWidth/20, window.innerHeight/20]} maxConstraints={[window.innerWidth, window.innerHeight]} children={this.props.children} />
     </div>)
   }
 }
