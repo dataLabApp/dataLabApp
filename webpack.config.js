@@ -1,4 +1,5 @@
 module.exports = {
+  target: 'electron-renderer',
   context: __dirname,
   entry: './app/main.jsx',
   output: {
