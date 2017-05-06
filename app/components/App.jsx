@@ -5,13 +5,13 @@ import DraggableContainer from './DraggableContainer'
 import Chart from './Chart'
 import {ItemTypes} from '../constants'
 import update from 'react/lib/update';
-
+import { snapSensitivity } from '../constants'
 const containerTarget = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
     const delta = monitor.getDifferenceFromInitialOffset();
-    const left = Math.round(item.left + delta.x);
-    const top = Math.round(item.top + delta.y);
+    const left = Math.round((item.left + delta.x)/snapSensitivity)*snapSensitivity;
+    const top = Math.round((item.top + delta.y)/snapSensitivity)*snapSensitivity;
 
     component.moveCard(item.id, left, top);
   },
