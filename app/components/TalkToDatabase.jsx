@@ -63,8 +63,6 @@ class TalkToDatabase extends Component {
     console.log(client)
   }
 
->>>>>>> master
-
   render() {
     return (
       <div>
