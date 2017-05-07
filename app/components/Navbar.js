@@ -10,7 +10,7 @@ import {
 import {Link} from 'react-router-dom'
 
 
-function Header() {
+function NavTop() {
   return (
         <Navbar collapseOnSelect>
           <Navbar.Header>
@@ -33,7 +33,7 @@ function Header() {
               </NavDropdown>
             </Nav>
             <Nav pullRight>
-              <NavDropdown title={<i className="fa fa-user fa-fw"></i> } id = 'navDropdown1'>
+              <NavDropdown eventKey={5} title={<i className="fa fa-user fa-fw"></i> } id = 'basic-nav-dropdown'>
                   <MenuItem eventKey="1">
                     <span> <i className="fa fa-user fa-fw"></i> User Profile </span>
                   </MenuItem>
@@ -55,4 +55,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default NavTop;

@@ -1,9 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import Header from './Header'
+import NavTop from './Navbar'
 
 export default (props)=>(
   <div>
-    <Header />
+    <NavTop />
     {props.children}
   </div>)
