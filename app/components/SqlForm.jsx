@@ -31,9 +31,9 @@ export default class SQLForm extends Component{
     return (
   <Form onSubmit={this.updateDB} inline>
     <FormGroup controlId="formInlineName">
-      <ControlLabel>Query:</ControlLabel>
+      <ControlLabel>SQL Query:</ControlLabel>
       {' '}
-      <FormControl type="text" value={this.state.query} onChange={this.handleChange} />
+      <FormControl type="text" className="input-large" value={this.state.query} onChange={this.handleChange} />
     </FormGroup>
     {' '}
     <Button type='submit'>
