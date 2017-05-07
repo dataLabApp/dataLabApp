@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
 import { connect } from 'react-redux'
-import SqlForm from './SqlForm'
+import SQLForm from './SQLForm'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/TalkToDatabase.css';
 const pg = require('pg')
@@ -101,7 +101,7 @@ class TalkToDatabase extends Component {
             }
             {
               this.state.currentTablesArray &&
-            <SqlForm />
+            <SQLForm />
             }
         </div>
       </div>
