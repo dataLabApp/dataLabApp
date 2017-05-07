@@ -1,3 +1,3 @@
 import React from 'react'
 
-export default (props)=><div>HelloAgainWorld</div>
+export default (props)=><div>Welcome Home</div>
