@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "webpack",
-    "build-watch": "webpack -w"
+    "build-watch": "webpack -w",
+    "seed": "node seed.js"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
