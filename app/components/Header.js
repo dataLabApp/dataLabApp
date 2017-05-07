@@ -20,15 +20,14 @@ import Navbar, {Brand} from 'react-bootstrap/lib/Navbar';
 import $ from "jquery";
 // import Sidebar from '../Sidebar';
 
-// const logo = require('../../assets/logo.png');
-
 function Header() {
   return (
     <div id="wrapper" className="content">
       <Navbar fluid={true}  style={ {margin: 0} }>
           <Brand>
             <span>
-          
+             {//<img src="../../assets/graphics/logo.png"/>
+            }
               <span>&nbsp; DuperSet</span>
                 <button type="button" className="navbar-toggle" onClick={() => {toggleMenu();}} style={{position: 'absolute', right: 0, top: 0}}>
                   <span className="sr-only">Toggle navigation</span>
