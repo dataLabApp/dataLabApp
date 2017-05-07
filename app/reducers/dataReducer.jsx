@@ -2,25 +2,25 @@
 import axios from 'axios'
 
 // ----------- Actions
-const FETCH_DATA = 'FETCH_DATA'
+const SET_DATA = 'SET_DATA'
 
 // ----------- Action Creators
-export const receiveData = (data) => ({
-  type: FETCH_DATA,
+export const setCurrentData = (data) => ({
+  type: SET_DATA,
   data
 })
 
 // ----------- Reducer
 const initialState = {
-  allData: []
+  currentData: []
 }
 
 export default function dataReducer(state = initialState, action) {
   const nextState = Object.assign({}, state)
 
   switch (action.type) {
-  case FETCH_DATA:
-    nextState.allData = action.data
+  case SET_DATA:
+    nextState.currentData = action.data
     break
 
   default:
@@ -29,7 +29,7 @@ export default function dataReducer(state = initialState, action) {
   return nextState
 }
 
-// ----------- Disptachers
+// ----------- Dispatchers
 // export const fetchData = () => (dispatch) => {
 //   axios.get('/api/data')
 //       .then(response => {
