@@ -23,6 +23,7 @@ render(
           <Switch>
             <Route exact path="/" component={HomeView} />
             <Route path="/home" component={HomeView} />
+            <Route path="/talktodb" component={TalkToDatabase} />
             <Route path="/dashboard" component={DashboardView} />
             <Route path="/explorer" component={ExplorerView} />
           </Switch>
