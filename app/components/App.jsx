@@ -4,13 +4,10 @@ import Header from './Header'
 
 export default (props)=>(
   <div>
-<<<<<<< HEAD
     <Header />
-=======
     <Link to='/home'>Home</Link>
     {props.children}
     <span>   </span>
->>>>>>> master
     <Link to='/dashboard'>Dashboard</Link>
     <span>   </span>
     <Link to='/talktodb'>Talk To Database</Link>
