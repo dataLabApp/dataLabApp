@@ -3,7 +3,8 @@ import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstra
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 // import { Link } from 'react-router-dom';
-import styles from '../../assets/TalkToDatabase.css';
+import styles from '../../assets/css/TalkToDatabase.css';
+
 const pg = require('pg')
 
 

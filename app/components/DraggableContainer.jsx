@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {ItemTypes} from '../constants'
 import { DragSource } from 'react-dnd'
 import { ResizableBox } from 'react-resizable';
+import styles from '../../assets/css/resizeStyles.css';
 
 
 const cardSource = {
