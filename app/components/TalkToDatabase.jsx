@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
-import styles from '../../assets/TalkToDatabase.css';
+import styles from '../../assets/css/TalkToDatabase.css';
 
 export default class TalkToDatabase extends Component {
   render() {
