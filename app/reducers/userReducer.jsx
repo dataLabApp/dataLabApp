@@ -29,7 +29,7 @@ export default function userReducer(state = initialState, action) {
   return nextState
 }
 
-// ----------- Disptachers
+// ----------- Dispatchers
 // export const fetchUsers = () => (dispatch) => {
 //   axios.get('/api/users')
 //       .then(response => {
