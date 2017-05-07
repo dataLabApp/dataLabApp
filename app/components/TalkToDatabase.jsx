@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
 import { connect } from 'react-redux'
 // import { Link } from 'react-router-dom';
-<<<<<<< HEAD
 import styles from '../../assets/css/TalkToDatabase.css';
-=======
-import styles from '../../assets/TalkToDatabase.css';
+
 const pg = require('pg')
 
 
