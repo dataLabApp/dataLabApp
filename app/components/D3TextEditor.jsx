@@ -17,6 +17,7 @@ class D3TextEditor extends Component{
   handleSubmit(e){
     e.preventDefault()
     this.setState({oldFormTexts: this.state.oldFormTexts.concat([this.state.formText])})
+    this.props.runCode(this.state.formText)
   }
 
   handleChange(e){
@@ -34,10 +35,11 @@ class D3TextEditor extends Component{
 
   render(){
     return(
+    <div>
       <form onSubmit={this.handleSubmit} >
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>Textarea</ControlLabel>
-          <FormControl componentClass="textarea" onChange={this.handleChange} value={this.state.formText} />
+          <FormControl componentClass="textarea" onChange={this.handleChange} value={this.state.formText} rows={"25"} />
         </FormGroup>
         <Button onClick={this.revert} type='button'>
           Revert
@@ -46,6 +48,7 @@ class D3TextEditor extends Component{
           Save
         </Button>
       </form>
+    </div>
     );
   }
 }
