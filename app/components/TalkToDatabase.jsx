@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
+import PageHeader from './PageHeader'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 
@@ -81,8 +82,8 @@ class TalkToDatabase extends Component {
   render() {
     return (
       <div>
-        <div className={styles.container} data-tid="container">
-          <h4>Talk To Database</h4>
+      <PageHeader header="Query the Database" />
+        <div className="container">
           <Form onSubmit={ (event) => this.handleFindAllTables(event) } inline>
             <FormGroup controlId="formInlineName">
               <ControlLabel>Name of Database: </ControlLabel>
