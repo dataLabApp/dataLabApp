@@ -9,20 +9,40 @@ var ReactFauxDOM = require('react-faux-dom')
 export default class BarChart extends React.Component {
 
   render() {
-    let data = [
-    {
-    letter: "a",
-    frequency: 0.4
-    },
-     {
-    letter: "b",
-    frequency: 0.6
-    }
-    ]
+  let data = [
+  {letter: 'A', frequency: .08167},
+  {letter: 'B', frequency: .01492},
+  {letter: 'C', frequency: .02782},
+  {letter: 'D', frequency: .04253},
+  {letter: 'E', frequency: .12702},
+  {letter: 'F', frequency: .02288},
+  {letter: 'G', frequency: .02015},
+  {letter: 'H', frequency: .06094},
+  {letter: 'I', frequency: .06966},
+  {letter: 'J', frequency: .00153},
+  {letter: 'K', frequency: .00772},
+  {letter: 'L', frequency: .04025},
+  {letter: 'M', frequency: .02406},
+  {letter: 'N', frequency: .06749},
+  {letter: 'O', frequency: .07507},
+  {letter: 'P', frequency: .01929},
+  {letter: 'Q', frequency: .00095},
+  {letter: 'R', frequency: .05987},
+  {letter: 'S', frequency: .06327},
+  {letter: 'T', frequency: .09056},
+  {letter: 'U', frequency: .02758},
+  {letter: 'V', frequency: .00978},
+  {letter: 'W', frequency: .02360},
+  {letter: 'X', frequency: .00150},
+  {letter: 'Y', frequency: .01974},
+  {letter: 'Z', frequency: .00074}]
+
+    let totalWidth = 800
+    let totalHeight = 400
 
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-      width = this.props.width - margin.left - margin.right,
-      height = this.props.height - margin.top - margin.bottom;
+      width = totalWidth - margin.left - margin.right,
+      height = totalHeight - margin.top - margin.bottom;
 
     let x = d3.scaleBand()
       .rangeRound([0, width])
@@ -75,7 +95,12 @@ export default class BarChart extends React.Component {
       .attr("height", (d) => {return height - y(d.frequency)});
 
     //DOM manipulations done, convert to React
-    return div.toReact()
-  }
+    return (
+      <div>
+        <h3>Frequency of Letters Graph</h3>
+        { div.toReact() }
+      </div>
+    )
+}
 
 }
