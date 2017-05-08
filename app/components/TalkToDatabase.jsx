@@ -5,7 +5,7 @@ import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
-import CollapsibleTreeMap from './CollapsibleTreeMap'
+import BarChart from './BarChart'
 
 const pg = require('pg')
 
@@ -85,7 +85,7 @@ class TalkToDatabase extends Component {
       <div>
       <PageHeader header="Query the Database" />
         <div className="container">
-          <CollapsibleTreeMap />
+          <BarChart />
           <Form onSubmit={ (event) => this.handleFindAllTables(event) } inline>
             <FormGroup controlId="formInlineName">
               <ControlLabel>Name of Database: </ControlLabel>
