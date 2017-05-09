@@ -7,13 +7,17 @@ const DELETE_CARD_FROM_DASHBOARD = 'DELETE_CARD_FROM_DASHBOARD'
 const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
 const CHANGE_DASHBOARD_TITLE = 'CHANGE_DASHBOARD_TITLE'
 const CHANGE_DASHBOARD_CARD_TITLE = 'CHANGE_DASHBOARD_CARD_TITLE'
+const SET_CURRENT_DASHBOARD = 'SET_CURRENT_DASHBOARD'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
   type: ADD_DASHBOARD,
   dashboardTitle
 })
-
+export const setCurrentDashboard = (dashboardTitle) => ({
+  type: SET_CURRENT_DASHBOARD,
+  dashboardTitle
+})
 export const deleteDashboard = (dashboardTitle) => ({
   type: DELETE_DASHBOARD,
   dashboardTitle
@@ -64,8 +68,10 @@ const dashboard1 = {
   }]
 }
 
-const initialState = [dashboard1]
-
+const initialState = {
+  currentDashboard: dashboard1,
+  dashboards: [dashboard1]
+}
 
 export default function dashboardReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
@@ -73,39 +79,42 @@ export default function dashboardReducer(state = initialState, action) {
   switch (action.type) {
   case ADD_DASHBOARD:
     let newDash = {title: action.dashboardTitle, cards:[]}
-    nextState=nextState.concat([newDash])
+    nextState.dashboards=nextState.dashboards.concat([newDash])
     break
   case DELETE_DASHBOARD:
-    nextState=nextState.filter(dashboard=>dashboard.title!==action.dashboardTitle)
+    nextState.dashboards=nextState.dashboards.filter(dashboard=>dashboard.title!==action.dashboardTitle)
+    break
+  case SET_CURRENT_DASHBOARD:
+    [nextState.currentDashboard]=nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
     break
   case ADD_CARD_TO_DASHBOARD:
   {
-    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
     thisDashboard.cards = thisDashboard.cards.concat(action.card)
     break
   }
   case UDPATE_DASHBOARD_CARD:
   {
-    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
     let [thisCard] = thisDashboard.cards.filter(card=>card.title===action.card.title)
     thisCard = Object.assign({},thisCard, action.card)
     break
   }
   case DELETE_CARD_FROM_DASHBOARD:
   {
-    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
     thisDashboard.cards = thisDashboard.cards.filter(card=>card.title!==action.cardTitle)
     break
   }
   case CHANGE_DASHBOARD_CARD_TITLE:
   {
-    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
     let [thisCard] = thisDashboard.cards.filter(card=>card.title===action.oldCardTitle)
     thisCard.title = action.newCardTitle
   }
   case CHANGE_DASHBOARD_TITLE:
   {
-    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.oldDashboardTitle)
+    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.oldDashboardTitle)
     thisDashboard.title = action.newDashboardTitle
   }
   default:
