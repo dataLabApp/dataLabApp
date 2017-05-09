@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
-
+import {ROOT_PATH} from '../constants'
 import {barChartGenerator} from '../utils/chartGenerators.js'
 
     //send in as props or on state:
