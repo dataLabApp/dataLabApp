@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
 import {ROOT_PATH} from '../constants'
+
 export default class BubbleChart extends Component {
   render () {
     let chartTitle = "Gates Foundation Educational Spending";
@@ -332,6 +333,7 @@ export default class BubbleChart extends Component {
       if (error) {
         console.log(error);
       }
+
       myBubbleChart('#vis > svg', data);
     }
 
