@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
 import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
+import AceEditor from 'react-ace'
+import brace from 'brace'
+
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
 
 class D3TextEditor extends Component{
   constructor(props){
@@ -43,7 +48,7 @@ class D3TextEditor extends Component{
       <form onSubmit={this.handleSubmit} >
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>Textarea</ControlLabel>
-          <FormControl componentClass="textarea" onChange={this.handleChange} value={this.state.formText} rows={"25"} />
+          <AceEditor style={{marginLeft: '100px', marginTop: '15px'}} mode='javascript' theme='monokai' width='600px'  wrapEnabled={true} onChange={this.handleChange} value={this.state.formText} rows={"25"} />
         </FormGroup>
         <Button onClick={this.revert} type='button'>
           Revert
