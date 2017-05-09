@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
-import dataReducer from './dataReducer'
-import userReducer from './userReducer'
-import cardReducer from './cardReducer'
-
-// {data,user,cards}
+import data from './dataReducer'
+import user from './userReducer'
+import cards from './cardReducer'
+import dashboard from './dashboardReducer'
 
 const rootReducer = combineReducers({
-  data: dataReducer,
-  user: userReducer,
-  cards: cardReducer
+  data,
+  user,
+  cards,
+  dashboard
 })
 
 export default rootReducer
