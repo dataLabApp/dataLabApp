@@ -24,7 +24,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      cards: {a: {top: 20, left: 100}, b: {top: 200, left: 100}}
+      cards: {a: {top: 350, left: 50}, b: {top: 650, left: 50}}
     }
   }
 
