@@ -32,9 +32,18 @@ export const updateDashboardCard = (dashboardTitle, cardTitle, card) => ({
 })
 
 // ----------- Reducer
-const initialState = {
-  seedDashboard : {exampleCardTitle:{position:{top:1,left:2},chart:window.explorerFauxNode}}
-}
+const dashboard1 = [{
+  title: 'Sample Card',
+  i: 'a',
+  x: 0,
+  y: 0,
+  w: 1,
+  h: 2,
+  chart: window.explorerFauxNode
+}]
+
+const initialState = [dashboard1]
+
 
 export default function dashboardReducer(state = initialState, action) {
   const nextState = Object.assign({}, state)

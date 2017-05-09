@@ -29,8 +29,8 @@ class D3TextEditor extends Component{
     this.props.handleCode(this.state.formText)
   }
 
-  handleChange(e){
-    this.setState({formText: e.target.value})
+  handleChange(newValue){
+    this.setState({formText: newValue})
   }
 
   revert(){
