@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import SQLForm from './SQLForm.jsx'
-import WidgetCard from './WidgetCard.jsx'
+import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
 import {barChartGenerator} from '../utils/chartGenerators'
 import {DEFAULT_TEMPLATE} from '../constants'
@@ -19,7 +19,7 @@ class ExplorerView extends Component{
     return (
       <div>Welcome to the explorer!
         <SQLForm />
-        <WidgetCard userCode={this.state.userCode} chartGenerator={barChartGenerator}/>
+        <ExplorerChart userCode={this.state.userCode} chartGenerator={barChartGenerator}/>
         <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
       </div>)
   }
