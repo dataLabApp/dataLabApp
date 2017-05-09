@@ -5,6 +5,8 @@ const DELETE_DASHBOARD = 'DELETE_DASHBOARD'
 const ADD_CARD_TO_DASHBOARD = 'ADD_CARD_TO_DASHBOARD'
 const DELETE_CARD_FROM_DASHBOARD = 'DELETE_CARD_FROM_DASHBOARD'
 const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
+const CHANGE_DASHBOARD_TITLE = 'CHANGE_DASHBOARD_TITLE'
+const CHANGE_DASHBOARD_CARD_TITLE = 'CHANGE_DASHBOARD_CARD_TITLE'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
@@ -33,6 +35,19 @@ export const deleteCardFromDashboard = (dashboardTitle, cardTitle) => ({
   type: DELETE_CARD_FROM_DASHBOARD,
   dashboardTitle,
   cardTitle
+})
+
+export const changeDashboardCardTitle = (dashboardTitle, oldCardTitle, newCardTitle) => ({
+  type: CHANGE_DASHBOARD_CARD_TITLE,
+  dashboardTitle,
+  oldCardTitle,
+  newCardTitle
+})
+
+export const changeDashboardTitle = (oldDashboardTitle, newDashboardTitle) => ({
+  type: CHANGE_DASHBOARD_TITLE,
+  oldDashboardTitle,
+  newDashboardTitle
 })
 
 // ----------- Reducer
@@ -81,6 +96,17 @@ export default function dashboardReducer(state = initialState, action) {
     let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
     thisDashboard.cards = thisDashboard.cards.filter(card=>card.title!==action.cardTitle)
     break
+  }
+  case CHANGE_DASHBOARD_CARD_TITLE:
+  {
+    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisCard] = thisDashboard.cards.filter(card=>card.title===action.oldCardTitle)
+    thisCard.title = action.newCardTitle
+  }
+  case CHANGE_DASHBOARD_TITLE:
+  {
+    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.oldDashboardTitle)
+    thisDashboard.title = action.newDashboardTitle
   }
   default:
     return state
