@@ -2,8 +2,7 @@ var d3 = require('d3')
 import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
-// import styles from '../../assets/reset.css'
-import styles from '../../assets/bubble_chart.css'
+    console.log('~~dirname in bubbleChart ', __dirname)
 
 export default class BubbleChart extends Component {
   render () {
@@ -378,9 +377,9 @@ export default class BubbleChart extends Component {
 
       return x1 + x2;
     }
-
+    // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv('./assets/gates_money.csv', display);
+    d3.csv('/Users/bcg/fs/projects/Duperset/assets/gates_money.csv', display);
 
     // setup the buttons.
     setupButtons();
