@@ -53,6 +53,7 @@
     "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "^15.5.4",
     "react-faux-dom": "^3.1.0",
+    "react-grid-layout": "^0.14.6",
     "react-redux": "^5.0.4",
     "react-resizable": "^1.7.0",
     "react-router": "^4.1.1",
