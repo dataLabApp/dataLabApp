@@ -17,7 +17,7 @@ class D3TextEditor extends Component{
   handleSubmit(e){
     e.preventDefault()
     this.setState({oldFormTexts: this.state.oldFormTexts.concat([this.state.formText])})
-    this.props.runCode(this.state.formText)
+    this.props.handleCode(this.state.formText)
   }
 
   handleChange(e){
