@@ -286,7 +286,7 @@ export default class BubbleChart extends Component {
                       d.year +
                       '</span>';
 
-        tooltip.showTooltip(content, d3.event);
+        showTooltip(content, d3.event);
       }
 
       /*
@@ -297,7 +297,7 @@ export default class BubbleChart extends Component {
         d3.select(this)
           .attr('stroke', d3.rgb(fillColor(d.group)).darker());
 
-        tooltip.hideTooltip();
+        hideTooltip();
       }
 
       /*
@@ -335,7 +335,6 @@ export default class BubbleChart extends Component {
       if (error) {
         console.log(error);
       }
-      console.log('~~data ', data)
       myBubbleChart('#vis', data);
     }
 
@@ -389,7 +388,6 @@ export default class BubbleChart extends Component {
     var fauxNode = ReactFauxDOM.createElement('div')
     var div = d3.select(fauxNode)
        .attr("id", 'vis')
-    console.log('~~div in bubbleChart ', div)
 
     return (
       <div>
