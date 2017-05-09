@@ -10,5 +10,10 @@ export default (props)=>(
     <Link to='/explorer'>Explorer</Link>
     <span>   </span>
     <Link to='/home'>Home</Link>
+import NavTop from './Navbar'
+
+export default (props)=>(
+  <div>
+    <NavTop />
     {props.children}
   </div>)

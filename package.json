@@ -1,12 +1,13 @@
 {
-  "name": "electron-quick-start",
+  "name": "duperset",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A desktop application that renders D3 visualizations from your database.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "webpack",
-    "build-watch": "webpack -w"
+    "build-watch": "webpack -w",
+    "seed": "node seed.js"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -29,6 +30,7 @@
     "redux-devtools-extension": "^2.13.1",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
+    "remote-redux-devtools": "^0.5.7",
     "webpack": "^2.5.0"
   },
   "dependencies": {
@@ -37,6 +39,8 @@
     "css-loader": "^0.28.1",
     "d3": "^4.8.0",
     "history": "^4.6.1",
+    "isomorphic-style-loader": "^2.0.0",
+    "jquery": "^3.2.1",
     "pg": "^6.1.5",
     "pg-native": "^1.10.1",
     "react": "^15.5.4",

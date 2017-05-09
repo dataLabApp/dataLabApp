@@ -16,7 +16,7 @@ export const deleteCard = (card) => ({
 
 // ----------- Reducer
 const initialState = {
-  cards: {a: {top: 20, left: 100}, b: {top: 200, left: 100}}
+  cards: {a: {top: 200, left: 100}, b: {top: 500, left: 100}}
 }
 
 export default function cardReducer(state = initialState, action) {
