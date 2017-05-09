@@ -121,7 +121,7 @@ const mapStateToProps = (state, ownProps) => (
     currentData: state.data.currentData
   }
 )
-
+//should we use the object formatting here? KH
 const mapDispatchToProps = dispatch => ({
   setCurrentData: data => dispatch(setCurrentData(data))
 })
