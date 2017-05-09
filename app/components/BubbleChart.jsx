@@ -2,7 +2,9 @@ var d3 = require('d3')
 import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
+
 import {ROOT_PATH} from '../constants'
+
 export default class BubbleChart extends Component {
   render () {
     let chartTitle = "Gates Foundation Educational Spending";
@@ -146,6 +148,7 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
+
           .attr('width', width)
           .attr('height', height);
 
@@ -332,7 +335,9 @@ export default class BubbleChart extends Component {
       if (error) {
         console.log(error);
       }
+
       myBubbleChart('#vis > svg', data);
+
     }
 
     /*
@@ -386,6 +391,7 @@ export default class BubbleChart extends Component {
     var div = d3.select(fauxNode)
        .attr("id", 'vis')
        .append('svg')
+
 
     return (
       <div>
