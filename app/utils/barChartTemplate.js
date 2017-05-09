@@ -1,4 +1,5 @@
-var data = window.TEMPDB || [{id:1, price:7}]
+var data = (window.TEMPDB) || [{id:1, price:7}]
+
 let x = "id"
 let y = "price"
 let chartTitle = "Product Prices"

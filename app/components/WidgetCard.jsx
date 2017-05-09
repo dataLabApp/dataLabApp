@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 
-import {barChartGenerator} from '../utils/chartGenerators'
+import {barChartGenerator} from '../utils/chartGenerators.js'
 
     //send in as props or on state:
 
@@ -15,9 +15,8 @@ export default class WidgetCard extends Component{
   render(){
 
     let title = this.props.chartTitle || 'Delightful Chart Example'
-    let userCode = this.props.userCode || null
+    let userCode = this.props.userCode || undefined
     let chartGenerator = this.props.chartGenerator || barChartGenerator
-    chartGenerator(userCode)
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -41,7 +40,7 @@ export default class WidgetCard extends Component{
         </div>
         <div className="x_content" style={{height:200,width:700}}>
           <div>
-            {window.explorerFauxNode.toReact()}
+            {chartGenerator(userCode)}
           </div>
         </div>
       </div>

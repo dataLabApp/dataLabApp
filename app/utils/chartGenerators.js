@@ -1,9 +1,10 @@
 
 let d3 = require('d3')
-import { fauxNode } from './barChartTemplate.js'
 let fs = require('fs')
 let path = require('path')
+import {DEFAULT_TEMPLATE} from '../constants'
 
-export function barChartGenerator(userGeneratedCode = fs.readFileSync(path.join(__dirname,'/barChartTemplate.js'))){
+export function barChartGenerator(userGeneratedCode = DEFAULT_TEMPLATE){
   eval(userGeneratedCode)
+  return window.explorerFauxNode.toReact()
 }

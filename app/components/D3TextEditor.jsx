@@ -4,7 +4,7 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 class D3TextEditor extends Component{
   constructor(props){
     super(props)
-    this.state = {formText: props.D3template ? props.D3template : 'start creating your chart here'}
+    this.state = {formText: props.codeForEditor || 'start creating your chart here'}
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.revert = this.revert.bind(this)
@@ -12,6 +12,10 @@ class D3TextEditor extends Component{
 
   componentDidMount(){
     this.setState({oldFormTexts: [this.state.formText]})
+  }
+
+  componentWillReceiveProps(newProps){
+    this.setState({formText: newProps.codeForEditor})
   }
 
   handleSubmit(e){
