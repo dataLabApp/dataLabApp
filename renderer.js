@@ -14,3 +14,9 @@ client.query('SELECT * FROM product', function(err, data){
 })
 
 window.client = client
+
+let ReactFauxDOM = require('react-faux-dom')
+window.ReactFauxDOM = ReactFauxDOM
+
+let d3 = require('d3')
+window.d3 = d3
