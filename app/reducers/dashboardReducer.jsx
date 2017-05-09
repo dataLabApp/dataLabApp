@@ -17,45 +17,71 @@ export const deleteDashboard = (dashboardTitle) => ({
   dashboardTitle
 })
 
-export const addCardToDashboard = (dashboardTitle, cardTitle, card) => ({
+export const addCardToDashboard = (dashboardTitle, card) => ({
   type: ADD_CARD_TO_DASHBOARD,
   dashboardTitle,
-  cardTitle,
   card
 })
 
-export const updateDashboardCard = (dashboardTitle, cardTitle, card) => ({
+export const updateDashboardCard = (dashboardTitle, card) => ({
   type: UDPATE_DASHBOARD_CARD,
   dashboardTitle,
-  cardTitle,
   card
+})
+
+export const deleteCardFromDashboard = (dashboardTitle, cardTitle) => ({
+  type: DELETE_CARD_FROM_DASHBOARD,
+  dashboardTitle,
+  cardTitle
 })
 
 // ----------- Reducer
-const initialState = {
-  seedDashboard : {exampleCardTitle:{position:{top:1,left:2},chart:window.explorerFauxNode}}
+const dashboard1 = {
+  title:'dashboard1',
+  cards:[{
+    title: 'Sample Card',
+    i: 'a',
+    x: 2,
+    y: 1,
+    w: 3,
+    h: 3,
+    chart: undefined
+  }]
 }
 
+const initialState = [dashboard1]
+
+
 export default function dashboardReducer(state = initialState, action) {
-  const nextState = Object.assign({}, state)
+  let nextState = Object.assign({}, state)
 
   switch (action.type) {
   case ADD_DASHBOARD:
-    nextState[action.dashboardTitle] = {}
+    let newDash = {title: action.dashboardTitle, cards:[]}
+    nextState=nextState.concat([newDash])
     break
   case DELETE_DASHBOARD:
-    delete nextState[action.dashboardTitle]
+    nextState=nextState.filter(dashboard=>dashboard.title!==action.dashboardTitle)
     break
   case ADD_CARD_TO_DASHBOARD:
-    nextState[action.dashboardTitle][action.cardTitle] = action.card
+  {
+    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    thisDashboard.cards = thisDashboard.cards.concat(action.card)
     break
+  }
   case UDPATE_DASHBOARD_CARD:
-    nextState[action.dashboardTitle][action.cardTitle] = Object.assign(nextState[action.dashboardTitle][action.cardTitle],action.card)
+  {
+    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    let [thisCard] = thisDashboard.cards.filter(card=>card.title===action.card.title)
+    thisCard = Object.assign({},thisCard, action.card)
     break
+  }
   case DELETE_CARD_FROM_DASHBOARD:
-    delete nextState[action.dashboardTitle][action.cardTitle]
+  {
+    let [thisDashboard] = nextState.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    thisDashboard.cards = thisDashboard.cards.filter(card=>card.title!==action.cardTitle)
     break
-
+  }
   default:
     return state
   }
