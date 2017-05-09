@@ -6,7 +6,7 @@ import {barChartGenerator} from '../utils/chartGenerators.js'
     //send in as props or on state:
 
 
-export default class WidgetCard extends Component{
+export default class ExplorerChart extends Component{
   constructor(props){
     super(props)
   }
@@ -14,7 +14,7 @@ export default class WidgetCard extends Component{
   }
   render(){
 
-    let title = this.props.chartTitle || 'Delightful Chart Example'
+    let title = this.props.cardTitle || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
     let chartGenerator = this.props.chartGenerator || barChartGenerator
     return(

@@ -56,10 +56,11 @@ export const changeDashboardTitle = (oldDashboardTitle, newDashboardTitle) => ({
 
 // ----------- Reducer
 const dashboard1 = {
+  counter: 1,
   title:'dashboard1',
   cards:[{
     title: 'Sample Card',
-    i: 'a',
+    i: '1',
     x: 2,
     y: 1,
     w: 3,
@@ -67,10 +68,22 @@ const dashboard1 = {
     chart: undefined
   }]
 }
-
+const dashboard2 = {
+  counter: 1,
+  title:'secondSeedDB',
+  cards:[{
+    title: 'New Sample Card',
+    i: '1',
+    x: 2,
+    y: 3,
+    w: 4,
+    h: 4,
+    chart: undefined
+  }]
+}
 const initialState = {
   currentDashboard: dashboard1,
-  dashboards: [dashboard1]
+  dashboards: [dashboard1, dashboard2]
 }
 
 export default function dashboardReducer(state = initialState, action) {
@@ -78,7 +91,7 @@ export default function dashboardReducer(state = initialState, action) {
 
   switch (action.type) {
   case ADD_DASHBOARD:
-    let newDash = {title: action.dashboardTitle, cards:[]}
+    let newDash = {counter: 1, title: action.dashboardTitle, cards:[]}
     nextState.dashboards=nextState.dashboards.concat([newDash])
     break
   case DELETE_DASHBOARD:
@@ -90,7 +103,9 @@ export default function dashboardReducer(state = initialState, action) {
   case ADD_CARD_TO_DASHBOARD:
   {
     let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
-    thisDashboard.cards = thisDashboard.cards.concat(action.card)
+    ++thisDashboard.counter
+    let thisCard = Object.assign({title:'DefaultCardTitle',i:''+thisDashboard.counter,w:3, h:3, x:1,y:Infinity,chart:null},action.card)
+    thisDashboard.cards = thisDashboard.cards.concat([thisCard])
     break
   }
   case UDPATE_DASHBOARD_CARD:
@@ -121,4 +136,5 @@ export default function dashboardReducer(state = initialState, action) {
     return state
   }
   return nextState
+
 }
