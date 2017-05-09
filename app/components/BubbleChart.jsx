@@ -147,7 +147,6 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
-          .append('svg')
           .attr('width', width)
           .attr('height', height);
 
@@ -308,8 +307,10 @@ export default class BubbleChart extends Component {
       */
       chart.toggleDisplay = function (displayName) {
         if (displayName === 'year') {
+          console.log('going to split bubble');
           splitBubbles();
         } else {
+          console.log('going to group bubbles');
           groupBubbles();
         }
       };
@@ -334,7 +335,7 @@ export default class BubbleChart extends Component {
       if (error) {
         console.log(error);
       }
-      myBubbleChart('#vis', data);
+      myBubbleChart('#vis > svg', data);
     }
 
     /*
@@ -379,14 +380,14 @@ export default class BubbleChart extends Component {
     }
     // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv('/Users/bcg/fs/projects/Duperset/assets/gates_money.csv', display);
+    d3.csv('/Users/andrewgarcia/Documents/temporary/Duperset/assets/gates_money.csv', display);
+    // (/Users/andrewgarcia/Documents/temporary/Duperset)
 
     // setup the buttons.
     setupButtons();
 
     var fauxNode = ReactFauxDOM.createElement('div')
-    var div = d3.select(fauxNode)
-       .attr("id", 'vis')
+    var div = d3.select(fauxNode).attr('id', 'vis').append('svg');
 
     return (
       <div>
