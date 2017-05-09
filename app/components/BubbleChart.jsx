@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
     console.log('~~dirname in bubbleChart ', __dirname)
-
+import {ROOT_PATH} from '../constants'
+console.log('~~ROOT_PATH ', ROOT_PATH)
 export default class BubbleChart extends Component {
   render () {
     let chartTitle = "Gates Foundation Educational Spending";
@@ -379,7 +380,7 @@ export default class BubbleChart extends Component {
     }
     // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv('/Users/bcg/fs/projects/Duperset/assets/gates_money.csv', display);
+    d3.csv(`${ROOT_PATH}/assets/gates_money.csv`, display);
 
     // setup the buttons.
     setupButtons();
