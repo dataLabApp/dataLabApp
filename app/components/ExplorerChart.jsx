@@ -48,4 +48,3 @@ export default class ExplorerChart extends Component{
   }
 }
 
-
