@@ -43,7 +43,7 @@ export default function cardReducer(state = initialState, action) {
 
   case DELETE_CARD:
   {
-    nextState = nextState.filter(card=>card.id!==action.card.id)
+    nextState = nextState.filter(card=>card.id!==action.card)
     nextState.count = count
     break
   }
