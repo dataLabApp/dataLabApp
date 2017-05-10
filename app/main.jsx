@@ -12,6 +12,7 @@ import App from './components/App.jsx'
 import HomeView from './components/HomeView.jsx'
 import DashboardView from './components/DashboardView.jsx'
 import ExplorerView from './components/ExplorerView.jsx'
+import AllCardsView from './components/AllCardsView.jsx'
 
 const history = createBrowserHistory()
 
@@ -26,6 +27,7 @@ render(
             <Route path="/talktodb" component={TalkToDatabase} />
             <Route path="/dashboard" component={DashboardView} />
             <Route path="/explorer" component={ExplorerView} />
+            <Route path="/allCardsView" component={AllCardsView} />
           </Switch>
         </App>
       </Router>
