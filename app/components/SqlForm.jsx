@@ -7,7 +7,7 @@ import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootst
 export default class SQLForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { query: 'SELECT * FROM product' }
+    this.state = { query: 'SELECT * \nFROM' }
     this.updateDB = this.updateDB.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -44,14 +44,3 @@ export default class SQLForm extends Component {
     )
   }
 }
-
-// function respondWithAllTweets(req, res, next) {
-//   client.query(baseQuery, function(err, data) {
-//     if (err) return next(err);
-//     res.render('index', {
-//       title: 'Twitter.js',
-//       tweets: data.rows,
-//       showForm: true
-//     });
-//   })
-// }

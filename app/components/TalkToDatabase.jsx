@@ -16,6 +16,7 @@ class TalkToDatabase extends Component {
     this.state = {
       currentDatabaseName: '',
       currentTablesArray: [],
+      currentSQLQuery: ''
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
