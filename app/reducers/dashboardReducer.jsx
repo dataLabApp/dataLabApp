@@ -1,4 +1,5 @@
-
+import BubbleChart from '../components/BubbleChart'
+import React from 'react'
 // ----------- Actions
 const ADD_DASHBOARD = 'ADD_DASHBOARD'
 const DELETE_DASHBOARD = 'DELETE_DASHBOARD'
@@ -57,13 +58,13 @@ const dashboard1 = {
   counter: 1,
   title:'dashboard1',
   cards:[{
-    title: 'Sample Card',
+    title: 'Bubble Chart',
     i: '1',
-    x: 2,
+    x: 1,
     y: 1,
-    w: 3,
-    h: 3,
-    chart: undefined
+    w: 6,
+    h: 6,
+    chart: <BubbleChart />
   }]
 }
 const dashboard2 = {
@@ -129,7 +130,7 @@ export default function dashboardReducer(state = initialState, action) {
   case UPDATE_DASHBOARD_LAYOUT:
   {
       let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
-      console.log("thisDashboard", thisDashboard, action.dashboardTitle);
+      // console.log("thisDashboard", thisDashboard, action.dashboardTitle);
       thisDashboard.cards = action.layout
       break
   }

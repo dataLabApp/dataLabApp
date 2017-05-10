@@ -46,7 +46,7 @@ class DragAndDrop extends Component {
             <ReactGridLayout className="layout" layout={this.state.cards} cols={12} rowHeight={30} width={1200} ref="rgl"  onLayoutChange={this.onLayoutChange}>
 
                 {
-                    this.state.cards.map((card)=>(<div key={card.i} style={divStyle}><DashboardCard /></div>))
+                    this.state.cards.map((card)=>(<div key={card.i} style={divStyle}><DashboardCard card ={card} /></div>))
                 }
             </ReactGridLayout>
         );
@@ -60,7 +60,6 @@ class DragAndDrop extends Component {
 // ----------------------- Container -----------------------
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("state is ", state)
   return {
       dashboards: state.dashboards,
       currentDashboard: state.currentDashboard
