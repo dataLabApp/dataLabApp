@@ -15,13 +15,11 @@ class TalkToDatabase extends Component {
     super (props)
     this.state = {
       currentDatabaseName: '',
-      currentTableName: '',
-      currentTablesArray: null
+      currentTablesArray: [],
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
-    this.handleTableChange = this.handleTableChange.bind(this)
-    //this.handleFindTableSubmit = this.handleFindTableSubmit.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
+    this.findAllColumns = this.findAllColumns.bind(this)
   }
 
   handleDatabaseChange (event) {
@@ -30,22 +28,24 @@ class TalkToDatabase extends Component {
     })
   }
 
-  handleTableChange (event) {
-    this.setState({
-      currentTableName: event.target.value
-    })
-  }
-
   handleFindAllTables(event) {
+    let array = []
+    let columnNames
     event.preventDefault();
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
     .then (data => {
-      this.setState({
-        currentTablesArray: data.rows
+      data.rows.forEach( x => {
+        columnNames = this.findAllColumns(x.table_name).then(datarows => datarows)
+        array.push({
+          tableName: x.table_name,
+          columnNames: columnNames
+        })
       })
-      console.log('data.rows from findAllTables', data.rows)
+      this.setState({
+        currentTablesArray: array
+      })
     })
     .catch (err => console.log(err))
   }
@@ -54,10 +54,8 @@ class TalkToDatabase extends Component {
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + tableName + "'"
-    console.log('******* query is: ', query)
     return client.query(query)
     .then (data => {
-      console.log('findAllColumns in promise', data.rows)
       return data.rows
     })
     .catch (err => console.log(err))
@@ -66,6 +64,7 @@ class TalkToDatabase extends Component {
   render() {
     let tableArray
     // this.findAllColumns().then( datarows => console.log('findAllColumns', datarows))
+    console.log('****this.state', this.state)
     return (
       <div>
         <div className="container">
@@ -85,9 +84,10 @@ class TalkToDatabase extends Component {
             </Button>
           </form>
 
-            { this.state.currentTablesArray &&
+            { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
-              <li key={x.table_name}> { x.table_name }
+              <li key={x.tableName}> { x.tableName }
+
                 {/*{
                 this.findAllColumns( x.table_name ).then( datarows => datarows.map( y =>
                   <li key = { y.column_name }> { y.column_name } </li>))
@@ -96,7 +96,7 @@ class TalkToDatabase extends Component {
             }
 
             {
-              this.state.currentTablesArray &&
+              this.state.currentTablesArray.length > 0 &&
             <SQLForm />
             }
 
