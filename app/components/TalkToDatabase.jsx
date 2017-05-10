@@ -39,7 +39,6 @@ class TalkToDatabase extends Component {
       data.rows.forEach( x => {
         this.findAllColumns(x.table_name)
         .then(columnArray => {
-          console.log(columnArray)
           array.push({
             tableName: x.table_name,
             columnNames: columnArray
@@ -70,8 +69,6 @@ class TalkToDatabase extends Component {
 
   render() {
     let tableArray
-    // this.findAllColumns().then( datarows => console.log('findAllColumns', datarows))
-    console.log('****this.state', this.state)
     return (
       <div>
         <div className="container">
@@ -94,10 +91,6 @@ class TalkToDatabase extends Component {
             { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
               <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
-                {/*{
-                this.findAllColumns( x.table_name ).then( datarows => datarows.map( y =>
-                  <li key = { y.column_name }> { y.column_name } </li>))
-                }*/}
               </li>)
             }
 
