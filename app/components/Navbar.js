@@ -23,7 +23,7 @@ function NavTop() {
             <Nav>
               <NavItem eventKey={1}><Link to="/dashboard">Dashboard</Link></NavItem>
               <NavItem eventKey={2}><Link to="/explorer">Explorer</Link></NavItem>
-              <NavItem eventKey={3}><Link to="/talktodb">SQLab</Link></NavItem>
+              <NavItem eventKey={3}><Link to="/sqlab">SQLab</Link></NavItem>
               <NavDropdown eventKey={4} title="Dropdown" id="basic-nav-dropdown">
                 <MenuItem eventKey={4.1}>Action</MenuItem>
                 <MenuItem eventKey={4.2}>Another action</MenuItem>

@@ -6,6 +6,7 @@ import PageHeader from './PageHeader'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
+import TalkToDatabase from './TalkToDatabase'
 
 const pg = require('pg')
 
@@ -13,6 +14,8 @@ const pg = require('pg')
 export default function SQLabView () {
   return (
     <div>
+      <PageHeader header="Welcome to SQLab" />
+      <p>SQLab is where you can connect to your database, search your tables, and create slices. Once you find the perfect slice to visualize, click "Save".</p>
       <TalkToDatabase />
     </div>
     );
@@ -32,4 +35,4 @@ export default function SQLabView () {
 //   setCurrentData: data => dispatch(setCurrentData(data))
 // })
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TalkToDatabase)
+// export default connect(mapStateToProps, mapDispatchToProps)(SQLabView)

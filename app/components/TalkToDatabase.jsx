@@ -14,7 +14,7 @@ class TalkToDatabase extends Component {
   constructor (props) {
     super (props)
     this.state = {
-      currentDatabaseName: 'video-shopper',
+      currentDatabaseName: '',
       currentTableName: '',
       currentTablesArray: null
     }
@@ -69,44 +69,96 @@ class TalkToDatabase extends Component {
     event.preventDefault();
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
-    client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'", (err, data) => {
-      if(err)console.log(err)
-      else{
+    client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
+    .then (data => {
       this.setState({
-      currentTablesArray: data.rows
+        currentTablesArray: data.rows
+      })
     })
-      }
-    })
-    window.client = client
+    .catch (err => console.log(err))
+    // client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'", (err, data) => {
+    //   if (err) console.log(err)
+    //   else {
+    //     this.setState({
+    //     currentTablesArray: data.rows
+    //     })
+    //     console.log('currentTablesArray: ', data.rows)
+    //   }
+    // })
+    //window.client = client
   }
 
+
+  findAllColumns() {
+    const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
+    client.connect()
+    let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + "Purchases" + "'"
+    console.log('******* query is: ',query)
+    client.query(query, (err, data) => {
+      if (err) console.log(err)
+      else {
+      console.log('findAllColumns', data.rows)
+      return data.rows
+      }
+    })
+  }
+
+
+  // findAllColumns() {
+  //   const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
+  //   client.connect()
+  //   let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + "Purchases" + "'"
+  //   console.log('******* query is: ',query)
+  //   client.query(query, (err, data) => {
+  //     if (err) console.log(err)
+  //     else {
+  //     console.log('findAllColumns', data.rows)
+  //     return data.rows
+  //     }
+  //   })
+  //   window.client = client
+  // }
+
   render() {
+    let tableArray
     return (
       <div>
-      <PageHeader header="Query the Database" />
         <div className="container">
-          <BarChart />
-          <Form onSubmit={ (event) => this.handleFindAllTables(event) } inline>
-            <FormGroup controlId="formInlineName">
+          <form onSubmit={ (event) => this.handleFindAllTables(event) } >
+            <FormGroup controlId="formBasicText">
               <ControlLabel>Name of Database: </ControlLabel>
-              <FormControl type="text" value={this.state.currentDatabaseName} onChange={event => this.handleDatabaseChange(event)} />
-              <p />
+              <FormControl
+                type="text"
+                value={this.state.currentDatabaseName}
+                placeholder="Enter database name"
+                onChange={event => this.handleDatabaseChange(event)}
+              />
               {/*<ControlLabel>Name of Table: </ControlLabel>
               <FormControl type="text" value={this.state.currentTableName} onChange={event => this.handleTableChange(event)} />*/}
             </FormGroup>
             <p />
-            <Button type='submit'>
+            <Button bsStyle="primary" type='submit'>
               Connect to Database
             </Button>
-          </Form>
+          </form>
+
             { this.state.currentTablesArray &&
             this.state.currentTablesArray.map( x =>
-              <li key={x.table_name}> { x.table_name } </li>)
+              <li key={x.table_name}> { x.table_name }
+                  { console.log('yay********', this.findAllColumns()) }
+                {/*{
+                this.findAllColumns().map( y =>
+                  <li key = { y.id}> { y.column_name } </li>)
+                }*/}
+              </li>)
             }
+
             {
               this.state.currentTablesArray &&
             <SQLForm />
             }
+
+            {/*<BarChart />*/}
         </div>
       </div>
     );

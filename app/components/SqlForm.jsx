@@ -29,17 +29,16 @@ export default class SQLForm extends Component{
 
   render(){
     return (
-  <Form onSubmit={this.updateDB} inline>
+  <form onSubmit={this.updateDB}>
     <FormGroup controlId="formInlineName">
-      <ControlLabel>SQL Query:</ControlLabel>
-      {' '}
+      <ControlLabel>SQL Query: </ControlLabel>
       <FormControl type="text" className="input-large" value={this.state.query} onChange={this.handleChange} />
     </FormGroup>
     {' '}
-    <Button type='submit'>
+    <Button bsStyle="primary" type='submit'>
       Submit Query
     </Button>
-  </Form>)
+  </form>)
   }
 }
 
