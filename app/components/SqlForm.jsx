@@ -7,7 +7,7 @@ import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootst
 export default class SQLForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { query: 'SELECT * \nFROM' }
+    this.state = { query: 'SELECT * FROM' }
     this.updateDB = this.updateDB.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
