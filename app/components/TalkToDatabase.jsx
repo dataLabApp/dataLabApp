@@ -6,6 +6,7 @@ import PageHeader from './PageHeader'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
+import Table from './Table'
 
 const pg = require('pg')
 
@@ -15,13 +16,21 @@ class TalkToDatabase extends Component {
     super (props)
     this.state = {
       currentDatabaseName: 'video-shopper',
-      currentTableName: '',
-      currentTablesArray: null
+      currentTablesArray: [],
+      currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
+      currentData: null
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
-    this.handleTableChange = this.handleTableChange.bind(this)
-    //this.handleFindTableSubmit = this.handleFindTableSubmit.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
+    this.findAllColumns = this.findAllColumns.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleQuery = this.handleQuery.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      currentSQLQuery: event.target.value
+    })
   }
 
   handleDatabaseChange (event) {
@@ -30,83 +39,103 @@ class TalkToDatabase extends Component {
     })
   }
 
-  handleTableChange (event) {
-    this.setState({
-      currentTableName: event.target.value
+  handleQuery(event){
+    client.query(this.state.currentSQLQuery, (err, data) => {
+      if (err) console.error(err)
+      else {
+          console.log(data.rows)
+        this.setState({
+          currentData: data.rows
+        })
+      }
     })
+    event.preventDefault()
   }
 
-  // handleClick(){
-  // const client = new pg.Client('postgres://localhost/video-shopper')
-  // client.connect()
-  // client.query('SELECT * FROM product', function(err, data){
-  //   if(err)console.log(err)
-  //   else{
-  //     window.TEMPDB = data.rows
-  //   }
-  // })
-  // window.client = client
-  // console.log(client)
-  // }
-
-  // handleFindTableSubmit(event) {
-  //   event.preventDefault();
-  //   const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
-  //   client.connect()
-  //   client.query(`SELECT * FROM ${this.state.currentTableName}`, (err, data) => {
-  //     if(err)console.log(err)
-  //     else{
-  //       // console.log(data.rows)
-  //       this.props.setCurrentData(data.rows)
-  //     }
-  //   })
-  //   window.client = client
-  //   // console.log(client)
-  // }
-
-
   handleFindAllTables(event) {
+    let array = []
+    let columnNames
     event.preventDefault();
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
-    client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'", (err, data) => {
-      if(err)console.log(err)
-      else{
-      this.setState({
-      currentTablesArray: data.rows
+    client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
+    .then (data => {
+      data.rows.forEach( x => {
+        this.findAllColumns(x.table_name)
+        .then(columnArray => {
+          array.push({
+            tableName: x.table_name,
+            columnNames: columnArray
+          })
+          this.setState({
+          currentTablesArray: array
+          })
+        })
+      })
     })
-      }
+    .catch (err => console.log(err))
+  }
+
+  findAllColumns(tableName) {
+    let columnArray = []
+    const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
+    client.connect()
+    let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + tableName + "'"
+    return client.query(query)
+    .then (data => {
+      data.rows.forEach( x => {
+        columnArray.push(x.column_name)
+      })
+      return columnArray
     })
-    window.client = client
+    .catch (err => console.log(err))
   }
 
   render() {
     return (
       <div>
-      <PageHeader header="Query the Database" />
         <div className="container">
-          <BarChart />
-          <Form onSubmit={ (event) => this.handleFindAllTables(event) } inline>
-            <FormGroup controlId="formInlineName">
+          <form onSubmit={ event => this.handleFindAllTables(event) } >
+            <FormGroup controlId="formBasicText">
               <ControlLabel>Name of Database: </ControlLabel>
-              <FormControl type="text" value={this.state.currentDatabaseName} onChange={event => this.handleDatabaseChange(event)} />
-              <p />
-              {/*<ControlLabel>Name of Table: </ControlLabel>
-              <FormControl type="text" value={this.state.currentTableName} onChange={event => this.handleTableChange(event)} />*/}
+              <FormControl
+                type="text"
+                value={this.state.currentDatabaseName}
+                placeholder="Enter database name"
+                onChange={event => this.handleDatabaseChange(event)}
+              />
             </FormGroup>
             <p />
-            <Button type='submit'>
+            <Button bsStyle="primary" type='submit'>
               Connect to Database
             </Button>
-          </Form>
-            { this.state.currentTablesArray &&
+          </form>
+          <p />
+            { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
-              <li key={x.table_name}> { x.table_name } </li>)
+              <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
+              </li>)
             }
+
             {
-              this.state.currentTablesArray &&
-            <SQLForm />
+            this.state.currentTablesArray.length > 0 &&
+            <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
+            <p />
+            {/*<BarChart />*/}
+
+            {
+            this.state.currentData &&
+            <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
+            }
+
+            {
+            this.state.currentData &&
+            <Button bsStyle="primary" type='submit' onClick={ (event) => this.props.setCurrentData(this.state.currentData)}>
+              Save Slice
+            </Button>
+            }
+
         </div>
       </div>
     );
