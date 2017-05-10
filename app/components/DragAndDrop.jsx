@@ -56,7 +56,7 @@ class DragAndDrop extends Component {
                 // <div key = {'c'} style = {divStyle}><DashboardCard /></div>
                 // <div key = {"hi"} style = {divStyle}>4 </div>
 
-
+//
 // ----------------------- Container -----------------------
 
 const mapStateToProps = (state, ownProps) => {

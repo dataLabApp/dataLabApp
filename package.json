@@ -28,6 +28,7 @@
     "devtron": "^1.4.0",
     "electromon": "^1.0.6",
     "electron": "~1.6.2",
+    "electron-reload": "^1.1.0",
     "eslint": "^3.19.0",
     "redux-devtools-extension": "^2.13.1",
     "redux-logger": "^3.0.1",
