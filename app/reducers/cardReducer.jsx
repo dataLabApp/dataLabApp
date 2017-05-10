@@ -36,7 +36,7 @@ export default function cardReducer(state = initialState, action) {
   switch (action.type) {
 
   case ADD_CARD:
-    action.card.id = count
+    action.card.id = count + 1
     nextState = nextState.concat([action.card])
     nextState.count = count + 1
     break
