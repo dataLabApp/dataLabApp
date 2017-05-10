@@ -15,7 +15,6 @@ const AllCardsView = (props) => {
           </li>
       )) }
       </div>
-      {props.cards[0].chart}
     </ul>
 
   )
