@@ -39,7 +39,7 @@ class DragAndDrop extends Component {
         //     ];
             var divStyle = { 
                 borderStyle: 'solid',
-                borderWidth: '5px'
+                borderWidth: '0.5px'
             }
 
         return(

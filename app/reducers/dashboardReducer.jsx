@@ -1,4 +1,5 @@
 import BubbleChart from '../components/BubbleChart'
+import BarChart from '../components/BarChart'
 import React from 'react'
 // ----------- Actions
 const ADD_DASHBOARD = 'ADD_DASHBOARD'
@@ -60,11 +61,19 @@ const dashboard1 = {
   cards:[{
     title: 'Bubble Chart',
     i: '1',
-    x: 1,
-    y: 1,
+    x: 8,
+    y: 0,
     w: 6,
-    h: 6,
+    h: 18,
     chart: <BubbleChart />
+  },{
+    title: 'Bar Chart',
+    i: '2',
+    x: 0,
+    y: 0,
+    w: 6,
+    h: 9,
+    chart: <BarChart />
   }]
 }
 const dashboard2 = {
