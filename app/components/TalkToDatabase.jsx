@@ -16,17 +16,36 @@ class TalkToDatabase extends Component {
     this.state = {
       currentDatabaseName: '',
       currentTablesArray: [],
-      currentSQLQuery: ''
+      currentSQLQuery: 'SELECT * FROM',
+      currentData: null
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
     this.findAllColumns = this.findAllColumns.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      currentSQLQuery: event.target.value
+    })
   }
 
   handleDatabaseChange (event) {
     this.setState({
       currentDatabaseName: event.target.value
     })
+  }
+
+  handleQuery(){
+    window.client.query(this.props.currentSQLQuery, function (err, data) {
+      if (err) console.error(err)
+      else {
+        console.log('the query succeeded, type window.TEMPDB in the console to see the new db')
+        window.TEMPDB = data.rows
+      }
+    })
+    e.preventDefault()
   }
 
   handleFindAllTables(event) {
@@ -69,7 +88,6 @@ class TalkToDatabase extends Component {
   }
 
   render() {
-    let tableArray
     return (
       <div>
         <div className="container">
@@ -97,7 +115,7 @@ class TalkToDatabase extends Component {
 
             {
               this.state.currentTablesArray.length > 0 &&
-            <SQLForm />
+            <SQLForm {...this.state} handleChange = { this.handleChange } />
             }
 
             {/*<BarChart />*/}
