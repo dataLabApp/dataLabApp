@@ -8,6 +8,7 @@ const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
 const CHANGE_DASHBOARD_TITLE = 'CHANGE_DASHBOARD_TITLE'
 const CHANGE_DASHBOARD_CARD_TITLE = 'CHANGE_DASHBOARD_CARD_TITLE'
 const SET_CURRENT_DASHBOARD = 'SET_CURRENT_DASHBOARD'
+const UPDATE_DASHBOARD_LAYOUT = 'UPDATE_DASHBOARD_LAYOUT'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
@@ -52,6 +53,12 @@ export const changeDashboardTitle = (oldDashboardTitle, newDashboardTitle) => ({
   type: CHANGE_DASHBOARD_TITLE,
   oldDashboardTitle,
   newDashboardTitle
+})
+
+export const updateDashboardLayout = (dashboardTitle, layout) => ({
+  type: UPDATE_DASHBOARD_LAYOUT,
+  dashboardTitle,
+  layout
 })
 
 // ----------- Reducer
@@ -131,6 +138,13 @@ export default function dashboardReducer(state = initialState, action) {
   {
     let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.oldDashboardTitle)
     thisDashboard.title = action.newDashboardTitle
+  }
+  case UPDATE_DASHBOARD_LAYOUT:
+  {
+      let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
+      console.log("thisDashboard", thisDashboard, action.dashboardTitle);
+      thisDashboard.cards = action.layout
+      break
   }
   default:
     return state

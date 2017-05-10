@@ -26,6 +26,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "devtron": "^1.4.0",
+    "electromon": "^1.0.6",
     "electron": "~1.6.2",
     "eslint": "^3.19.0",
     "redux-devtools-extension": "^2.13.1",
