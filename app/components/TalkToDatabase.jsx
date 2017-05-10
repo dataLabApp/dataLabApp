@@ -36,35 +36,6 @@ class TalkToDatabase extends Component {
     })
   }
 
-  // handleClick(){
-  // const client = new pg.Client('postgres://localhost/video-shopper')
-  // client.connect()
-  // client.query('SELECT * FROM product', function(err, data){
-  //   if(err)console.log(err)
-  //   else{
-  //     window.TEMPDB = data.rows
-  //   }
-  // })
-  // window.client = client
-  // console.log(client)
-  // }
-
-  // handleFindTableSubmit(event) {
-  //   event.preventDefault();
-  //   const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
-  //   client.connect()
-  //   client.query(`SELECT * FROM ${this.state.currentTableName}`, (err, data) => {
-  //     if(err)console.log(err)
-  //     else{
-  //       // console.log(data.rows)
-  //       this.props.setCurrentData(data.rows)
-  //     }
-  //   })
-  //   window.client = client
-  //   // console.log(client)
-  // }
-
-
   handleFindAllTables(event) {
     event.preventDefault();
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
@@ -74,18 +45,9 @@ class TalkToDatabase extends Component {
       this.setState({
         currentTablesArray: data.rows
       })
+      console.log('data.rows from findAllTables', data.rows)
     })
     .catch (err => console.log(err))
-    // client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'", (err, data) => {
-    //   if (err) console.log(err)
-    //   else {
-    //     this.setState({
-    //     currentTablesArray: data.rows
-    //     })
-    //     console.log('currentTablesArray: ', data.rows)
-    //   }
-    // })
-    //window.client = client
   }
 
 
@@ -94,13 +56,12 @@ class TalkToDatabase extends Component {
     client.connect()
     let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + "Purchases" + "'"
     console.log('******* query is: ',query)
-    client.query(query, (err, data) => {
-      if (err) console.log(err)
-      else {
-      console.log('findAllColumns', data.rows)
+    client.query(query)
+    .then (data => {
+      console.log('findAllColumns in promise', data.rows)
       return data.rows
-      }
     })
+    .catch (err => console.log(err))
   }
 
 
@@ -145,7 +106,6 @@ class TalkToDatabase extends Component {
             { this.state.currentTablesArray &&
             this.state.currentTablesArray.map( x =>
               <li key={x.table_name}> { x.table_name }
-                  { console.log('yay********', this.findAllColumns()) }
                 {/*{
                 this.findAllColumns().map( y =>
                   <li key = { y.id}> { y.column_name } </li>)
