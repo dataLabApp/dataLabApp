@@ -30,29 +30,32 @@ const initialState =  [{
 initialState.count = 1;
 
 export default function cardReducer(state = initialState, action) {
-  const nextState = Object.assign({}, state)
+  let nextState = Object.assign({}, state)
 
   switch (action.type) {
 
   case ADD_CARD:
-    action.card[id]=nextState.count
+    action.card.id = nextState.count
     nextState = [...nextState, action.card]
     nextState.count = action.card.id + 1;
     break
 
   case DELETE_CARD:
+  {
     let count = nextState.count
     nextState = nextState.filter(card=>card.id!==action.card.id)
     nextState.count = count
     break
-
+  }
   case UPDATE_CARD:
+  {
     let count = nextState.count
     let [selectedCard] = nextState.filter(card=>card.id===action.updatedCard.id)
     nextState = nextState.filter(card=>card.id!==action.updatedCard.id)
     action.updatedCard = Object.assign({title:action.updatedCard.title, id:action.updatedCard.id, chart: action.updatedCard.chart})
     nextState.push(action.updatedCard)
     nextState.count = count
+  }
   default:
     return state
 

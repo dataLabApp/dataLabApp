@@ -21,7 +21,7 @@ export const deleteDashboard = (dashboardId) => ({
   type: DELETE_DASHBOARD,
   dashboardId
 })
-//consider using addCardToCardsAndDashboard from '../utils/reducerHelpers' instead
+//be sure to call this on a card that already exists in the card reducer
 export const addCardToDashboard = (dashboardId, card) => ({
   type: ADD_CARD_TO_DASHBOARD,
   dashboardId,
