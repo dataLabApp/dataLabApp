@@ -14,13 +14,13 @@ export const addDashboard = (dashboardTitle) => ({
   type: ADD_DASHBOARD,
   dashboardTitle
 })
-export const setCurrentDashboard = (dashboardTitle) => ({
+export const setCurrentDashboard = (dashboardId) => ({
   type: SET_CURRENT_DASHBOARD,
-  dashboardTitle
+  dashboardId
 })
-export const deleteDashboard = (dashboardTitle) => ({
+export const deleteDashboard = (dashboardId) => ({
   type: DELETE_DASHBOARD,
-  dashboardTitle
+  dashboardId
 })
 
 export const addCardToDashboard = (dashboardTitle, card) => ({
