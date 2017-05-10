@@ -7,7 +7,7 @@ import {ROOT_PATH} from '../constants'
 
 export default class BubbleChart extends Component {
   render () {
-    let chartTitle = "World GDP";
+    let chartTitle = "Gates Foundation Educational Spending";
 
     function bubbleChart() {
       // Constants for sizing
@@ -22,16 +22,16 @@ export default class BubbleChart extends Component {
       var center = { x: width / 2, y: height / 2 };
 
       var yearCenters = {
-        Group1: { x: width / 3, y: height / 2 },
-        Group2: { x: width / 2, y: height / 2 },
-        Group3: { x: 2 * width / 3, y: height / 2 }
+        2008: { x: width / 3, y: height / 2 },
+        2009: { x: width / 2, y: height / 2 },
+        2010: { x: 2 * width / 3, y: height / 2 }
       };
 
       // X locations of the year titles.
       var yearsTitleX = {
-        Group1: 160,
-        Group2: width / 2,
-        Group3: width - 160
+        2008: 160,
+        2009: width / 2,
+        2010: width - 160
       };
 
       // @v4 strength to apply to the position forces
@@ -96,7 +96,7 @@ export default class BubbleChart extends Component {
       function createNodes(rawData) {
         // Use the max total_amount in the data as the max in the scale's domain
         // note we have to ensure the total_amount is a number.
-        var maxAmount = d3.max(rawData, function (d) { return +d.gdp; });
+        var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
 
         // Sizes bubbles based on area.
         // @v4: new flattened scale names.
@@ -111,10 +111,12 @@ export default class BubbleChart extends Component {
         var myNodes = rawData.map(function (d) {
           return {
             id: d.id,
-            radius: radiusScale(+d.gdp),
-            value: +d.gdp,
-            country: d.country,
+            radius: radiusScale(+d.total_amount),
+            value: +d.total_amount,
+            name: d.grant_title,
+            org: d.organization,
             group: d.group,
+            year: d.start_year,
             x: Math.random() * 900,
             y: Math.random() * 800
           };
@@ -203,7 +205,7 @@ export default class BubbleChart extends Component {
       * x force.
       */
       function nodeYearPos(d) {
-        return yearCenters[d.group].x;
+        return yearCenters[d.year].x;
       }
 
 
@@ -244,7 +246,7 @@ export default class BubbleChart extends Component {
       * Hides Year title displays.
       */
       function hideYearTitles() {
-        svg.selectAll('.group').remove();
+        svg.selectAll('.year').remove();
       }
 
       /*
@@ -254,11 +256,11 @@ export default class BubbleChart extends Component {
         // Another way to do this would be to create
         // the year texts once and then just hide them.
         var yearsData = d3.keys(yearsTitleX);
-        var years = svg.selectAll('.group')
+        var years = svg.selectAll('.year')
           .data(yearsData);
 
         years.enter().append('text')
-          .attr('class', 'group')
+          .attr('class', 'year')
           .attr('x', function (d) { return yearsTitleX[d]; })
           .attr('y', 40)
           .attr('text-anchor', 'middle')
@@ -306,7 +308,7 @@ export default class BubbleChart extends Component {
       * displayName is expected to be a string and either 'year' or 'all'.
       */
       chart.toggleDisplay = function (displayName) {
-        if (displayName === 'year') {
+        if (displayName === 'group') {
           splitBubbles();
         } else {
           groupBubbles();
@@ -332,10 +334,11 @@ export default class BubbleChart extends Component {
     function display(error, data) {
       if (error) {
         console.log(error);
-      } else {
-        console.log('~~~data ', data)
+        console.log('~~data ', data);
       }
+
       myBubbleChart('#vis > svg', data);
+
     }
 
     /*
@@ -380,7 +383,7 @@ export default class BubbleChart extends Component {
     }
     // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv(`${ROOT_PATH}/assets/gdp_data.csv`, display);
+    d3.csv(`${ROOT_PATH}/assets/gates_money.csv`, display);
 
     // setup the buttons.
     setupButtons();
