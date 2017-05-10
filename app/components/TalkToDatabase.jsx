@@ -14,15 +14,16 @@ class TalkToDatabase extends Component {
   constructor (props) {
     super (props)
     this.state = {
-      currentDatabaseName: '',
+      currentDatabaseName: 'video-shopper',
       currentTablesArray: [],
-      currentSQLQuery: 'SELECT * FROM',
+      currentSQLQuery: "SELECT name FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
       currentData: null
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
     this.findAllColumns = this.findAllColumns.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleQuery = this.handleQuery.bind(this)
   }
 
   handleChange(event) {
@@ -37,15 +38,17 @@ class TalkToDatabase extends Component {
     })
   }
 
-  handleQuery(){
-    window.client.query(this.props.currentSQLQuery, function (err, data) {
+  handleQuery(event){
+    client.query(this.state.currentSQLQuery, (err, data) => {
       if (err) console.error(err)
       else {
-        console.log('the query succeeded, type window.TEMPDB in the console to see the new db')
-        window.TEMPDB = data.rows
+          console.log(data.rows)
+        this.setState({
+          currentData: data.rows
+        })
       }
     })
-    e.preventDefault()
+    event.preventDefault()
   }
 
   handleFindAllTables(event) {
@@ -115,7 +118,7 @@ class TalkToDatabase extends Component {
 
             {
               this.state.currentTablesArray.length > 0 &&
-            <SQLForm {...this.state} handleChange = { this.handleChange } />
+            <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
 
             {/*<BarChart />*/}
