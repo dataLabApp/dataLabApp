@@ -37,26 +37,33 @@ class TalkToDatabase extends Component {
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
     .then (data => {
       data.rows.forEach( x => {
-        columnNames = this.findAllColumns(x.table_name).then(datarows => datarows)
-        array.push({
-          tableName: x.table_name,
-          columnNames: columnNames
+        this.findAllColumns(x.table_name)
+        .then(columnArray => {
+          console.log(columnArray)
+          array.push({
+            tableName: x.table_name,
+            columnNames: columnArray
+          })
+          this.setState({
+          currentTablesArray: array
+          })
         })
-      })
-      this.setState({
-        currentTablesArray: array
       })
     })
     .catch (err => console.log(err))
   }
 
   findAllColumns(tableName) {
+    let columnArray = []
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + tableName + "'"
     return client.query(query)
     .then (data => {
-      return data.rows
+      data.rows.forEach( x => {
+        columnArray.push(x.column_name)
+      })
+      return columnArray
     })
     .catch (err => console.log(err))
   }
@@ -83,11 +90,10 @@ class TalkToDatabase extends Component {
               Connect to Database
             </Button>
           </form>
-
+          <p />
             { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
-              <li key={x.tableName}> { x.tableName }
-
+              <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
                 {/*{
                 this.findAllColumns( x.table_name ).then( datarows => datarows.map( y =>
                   <li key = { y.column_name }> { y.column_name } </li>))
