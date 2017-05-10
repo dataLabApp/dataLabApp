@@ -50,13 +50,12 @@ class TalkToDatabase extends Component {
     .catch (err => console.log(err))
   }
 
-
-  findAllColumns() {
+  findAllColumns(tableName) {
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
-    let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + "Purchases" + "'"
-    console.log('******* query is: ',query)
-    client.query(query)
+    let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + tableName + "'"
+    console.log('******* query is: ', query)
+    return client.query(query)
     .then (data => {
       console.log('findAllColumns in promise', data.rows)
       return data.rows
@@ -64,28 +63,13 @@ class TalkToDatabase extends Component {
     .catch (err => console.log(err))
   }
 
-
-  // findAllColumns() {
-  //   const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
-  //   client.connect()
-  //   let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + "Purchases" + "'"
-  //   console.log('******* query is: ',query)
-  //   client.query(query, (err, data) => {
-  //     if (err) console.log(err)
-  //     else {
-  //     console.log('findAllColumns', data.rows)
-  //     return data.rows
-  //     }
-  //   })
-  //   window.client = client
-  // }
-
   render() {
     let tableArray
+    // this.findAllColumns().then( datarows => console.log('findAllColumns', datarows))
     return (
       <div>
         <div className="container">
-          <form onSubmit={ (event) => this.handleFindAllTables(event) } >
+          <form onSubmit={ event => this.handleFindAllTables(event) } >
             <FormGroup controlId="formBasicText">
               <ControlLabel>Name of Database: </ControlLabel>
               <FormControl
@@ -94,8 +78,6 @@ class TalkToDatabase extends Component {
                 placeholder="Enter database name"
                 onChange={event => this.handleDatabaseChange(event)}
               />
-              {/*<ControlLabel>Name of Table: </ControlLabel>
-              <FormControl type="text" value={this.state.currentTableName} onChange={event => this.handleTableChange(event)} />*/}
             </FormGroup>
             <p />
             <Button bsStyle="primary" type='submit'>
@@ -107,8 +89,8 @@ class TalkToDatabase extends Component {
             this.state.currentTablesArray.map( x =>
               <li key={x.table_name}> { x.table_name }
                 {/*{
-                this.findAllColumns().map( y =>
-                  <li key = { y.id}> { y.column_name } </li>)
+                this.findAllColumns( x.table_name ).then( datarows => datarows.map( y =>
+                  <li key = { y.column_name }> { y.column_name } </li>))
                 }*/}
               </li>)
             }
