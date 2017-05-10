@@ -10,8 +10,8 @@ export default class BubbleChart extends Component {
 
     function bubbleChart() {
       // Constants for sizing
-      var width = 940;
-      var height = 600;
+      var width = 940/2;
+      var height = 600/2;
 
       // tooltip for mouseover functionality
       var tooltip = floatingTooltip('gates_tooltip', 240);
