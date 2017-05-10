@@ -6,6 +6,7 @@ import PageHeader from './PageHeader'
 // import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
+import Table from './Table'
 
 const pg = require('pg')
 
@@ -120,8 +121,12 @@ class TalkToDatabase extends Component {
               this.state.currentTablesArray.length > 0 &&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
-
+            <p />
             {/*<BarChart />*/}
+
+            {this.state.currentData &&
+            <Table columns = {Object.keys(this.state.currentData[0]) } rows = {[1,2,3] } tableName = { this.state.currentSQLQuery } />
+            }
         </div>
       </div>
     );

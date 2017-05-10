@@ -8,8 +8,6 @@ export default class SQLForm extends Component {
     // this.updateDB = this.updateDB.bind(this)
   }
 
-
-
   // updateDB(e) {
   //   window.client.query(this.props.currentSQLQuery, function (err, data) {
   //     if (err) console.error(err)
