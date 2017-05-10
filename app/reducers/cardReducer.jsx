@@ -50,6 +50,7 @@ export default function cardReducer(state = initialState, action) {
     let count = nextState.count
     let [selectedCard] = nextState.filter(card=>card.id===action.updatedCard.id)
     nextState = nextState.filter(card=>card.id!==action.updatedCard.id)
+    action.updatedCard = Object.assign({title:action.updatedCard.title, id:action.updatedCard.id, chart: action.updatedCard.chart})
     nextState.push(action.updatedCard)
     nextState.count = count
   default:
