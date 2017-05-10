@@ -18,6 +18,9 @@ class DragAndDrop extends Component {
         this.onLayoutChange = this.onLayoutChange.bind(this);
         this.updateDashboardLayout = this.props.updateDashboardLayout.bind(this); 
     }
+    print(){
+        window.print();
+    }
     onLayoutChange(layout) {
         let newLayout = this.props.dashboards.currentDashboard.cards.map((card,i)=> Object.assign(card, layout[i]));
         this.setState({
@@ -42,13 +45,14 @@ class DragAndDrop extends Component {
                 borderWidth: '0.5px'
             }
 
-        return(
+        return(<div>
             <ReactGridLayout className="layout" layout={this.state.cards} cols={12} rowHeight={30} width={1200} ref="rgl"  onLayoutChange={this.onLayoutChange}>
 
                 {
                     this.state.cards.map((card)=>(<div key={card.i} style={divStyle}><DashboardCard card ={card} /></div>))
                 }
             </ReactGridLayout>
+            </div>
         );
     }
 }
