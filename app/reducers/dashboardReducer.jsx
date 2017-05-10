@@ -7,6 +7,7 @@ const DELETE_CARD_FROM_DASHBOARD = 'DELETE_CARD_FROM_DASHBOARD'
 const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
 const UPDATE_DASHBOARD = 'UPDATE_DASHBOARD'
 const SET_CURRENT_DASHBOARD = 'SET_CURRENT_DASHBOARD'
+const UPDATE_DASHBOARD_LAYOUT = 'UPDATE_DASHBOARD_LAYOUT'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
@@ -43,6 +44,12 @@ export const deleteCardFromDashboard = (dashboardId, cardId) => ({
 export const updateDashboard = (dashboard) => ({
   type: UPDATE_DASHBOARD,
   dashboard
+})
+
+export const updateDashboardLayout = (dashboardTitle, layout) => ({
+  type: UPDATE_DASHBOARD_LAYOUT,
+  dashboardTitle,
+  layout
 })
 
 // ----------- Reducer
@@ -118,6 +125,13 @@ export default function dashboardReducer(state = initialState, action) {
   {
     let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboard.id)
     thisDashboard = Object.assign({},thisDashboard,action.dashboard) //this mutates state
+  }
+  case UPDATE_DASHBOARD_LAYOUT:
+  {
+      let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
+      console.log("thisDashboard", thisDashboard, action.dashboardTitle);
+      thisDashboard.cards = action.layout
+      break
   }
   default:
     return state
