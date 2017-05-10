@@ -17,7 +17,7 @@ class TalkToDatabase extends Component {
     this.state = {
       currentDatabaseName: 'video-shopper',
       currentTablesArray: [],
-      currentSQLQuery: "SELECT name FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
+      currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
       currentData: null
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
@@ -118,15 +118,24 @@ class TalkToDatabase extends Component {
             }
 
             {
-              this.state.currentTablesArray.length > 0 &&
+            this.state.currentTablesArray.length > 0 &&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
             <p />
             {/*<BarChart />*/}
 
-            {this.state.currentData &&
-            <Table columns = {Object.keys(this.state.currentData[0]) } rows = {[1,2,3] } tableName = { this.state.currentSQLQuery } />
+            {
+            this.state.currentData &&
+            <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
             }
+
+            {
+            this.state.currentData &&
+            <Button bsStyle="primary" type='submit' onClick={ (event) => this.props.setCurrentData(this.state.currentData)}>
+              Save Slice
+            </Button>
+            }
+
         </div>
       </div>
     );
