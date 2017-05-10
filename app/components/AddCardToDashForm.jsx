@@ -6,7 +6,7 @@ class AddCardToDashForm extends Component{
   constructor(props){
     super(props)
     this.state = {
-      selectedDashboard: props.currentDashboard.title
+      selectedDashboard: props.currentDashboard.id
     }
     this.handleSelectChange = this.handleSelectChange.bind(this)
   }
@@ -20,7 +20,7 @@ class AddCardToDashForm extends Component{
       <form onSubmit={e=>this.props.handleSubmit(e,this.state.selectedDashboard)}>
         <FormGroup>
           <FormControl componentClass="select" placeholder="select" onChange={this.handleSelectChange}>
-            <option key='0' value={this.props.currentDashboard.title} >{this.props.currentDashboard.title}</option>
+            <option key='0' value={this.props.currentDashboard.id} >{this.props.currentDashboard.title}</option>
             {this.props.availableDashboards.map((dashboard,index)=>{
               if(dashboard!==this.props.currentDashboard)return(
                 <option key={''+(index+1)}value={dashboard.title}>{dashboard.title}</option>
