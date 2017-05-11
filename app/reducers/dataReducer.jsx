@@ -38,7 +38,7 @@ export default function dataReducer(state = initialState, action) {
     break
 
   case ADD_SLICE:
-    nextState.allSlices = state.allSlices.push(action.sliceObj)
+    nextState.allSlices = [...nextState.allSlices, action.sliceObj]
     break
 
   default:

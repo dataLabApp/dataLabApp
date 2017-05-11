@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Modal, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { connect } from 'react-redux'
@@ -17,13 +17,14 @@ const SaveSliceModal = props => (
               <ControlLabel>Name of Slice</ControlLabel>
               {'  '}
               <FormControl
+                id="sliceName"
                 type="text"
                 value={props.sliceName}
                 placeholder="Enter slice name"
                 onChange={event => props.handleSliceNameChange(event)}
               />
             </FormGroup>
-        <Link to="/dashboard"><Button bsStyle="primary" type='submit'>Save </Button></Link>
+          <Button bsStyle="primary" type='submit'>Save </Button>
         </Form>
       </Modal.Body>
 

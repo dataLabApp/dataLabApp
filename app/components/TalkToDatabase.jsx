@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
@@ -8,9 +8,9 @@ import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
 import Table from './Table'
 import SaveSliceModal from './SaveSliceModal'
+import history from '../main'
 
 const pg = require('pg')
-
 
 class TalkToDatabase extends Component {
   constructor (props) {
@@ -46,17 +46,16 @@ class TalkToDatabase extends Component {
     console.log(this.state.currentSliceName)
   }
 
-  handleDatabaseChange (event) {
+  handleDatabaseChange(event) {
     this.setState({
       currentDatabaseName: event.target.value
     })
   }
 
-  handleQuery(event){
+  handleQuery(event) {
     client.query(this.state.currentSQLQuery, (err, data) => {
       if (err) console.error(err)
       else {
-          console.log(data.rows)
         this.setState({
           currentData: data.rows
         })
@@ -72,8 +71,8 @@ class TalkToDatabase extends Component {
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
-    .then (data => {
-      data.rows.forEach( x => {
+    .then(data => {
+      data.rows.forEach(x => {
         this.findAllColumns(x.table_name)
         .then(columnArray => {
           array.push({
@@ -81,12 +80,12 @@ class TalkToDatabase extends Component {
             columnNames: columnArray
           })
           this.setState({
-          currentTablesArray: array
+            currentTablesArray: array
           })
         })
       })
     })
-    .catch (err => console.log(err))
+    .catch(err => console.log(err))
   }
 
   findAllColumns(tableName) {
@@ -114,13 +113,15 @@ class TalkToDatabase extends Component {
     // this.setState({
     //   showModal: false
     // })
+    event.preventDefault()
+    console.log('event.target.sn.value', event.target.sliceName.value)
     this.props.addSlice({
-      title: event.target.value,
+      title: event.target.sliceName.value,
       dateCreated: new Date(),
-      SQLQuery: currentSQLQuery,
-      data: this.currentData
+      SQLQuery: this.state.currentSQLQuery,
+      data: this.state.currentData
     })
-    console.log('yay')
+    history.push('/explorer')
   }
 
   render() {
@@ -185,7 +186,7 @@ class TalkToDatabase extends Component {
 }
 
 // ----------------------- Container -----------------------
-import { setCurrentData } from '../reducers/dataReducer.jsx'
+import { setCurrentData, addSlice } from '../reducers/dataReducer.jsx'
 
 const mapStateToProps = (state, ownProps) => (
   {
