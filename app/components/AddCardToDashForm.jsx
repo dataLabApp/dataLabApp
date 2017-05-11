@@ -23,7 +23,7 @@ class AddCardToDashForm extends Component{
             <option key='0' value={this.props.currentDashboard.id} >{this.props.currentDashboard.title}</option>
             {this.props.availableDashboards.map((dashboard,index)=>{
               if(dashboard!==this.props.currentDashboard)return(
-                <option key={''+(index+1)}value={dashboard.title}>{dashboard.title}</option>
+                <option key={''+(index+1)} value={dashboard.id}>{dashboard.title}</option>
               )
             })}
           </FormControl>

@@ -1,8 +1,9 @@
-
+import storage from 'electron-json-storage'
 // ----------- Actions
 const ADD_CARD = 'ADD_CARD'
 const DELETE_CARD = 'DELETE_CARD'
 const UPDATE_CARD = 'UPDATE_CARD'
+const LOAD_CARDS = 'LOAD_CARDS'
 
 // ----------- Action Creators
 export const addCard = (card) => ({
@@ -18,6 +19,11 @@ export const deleteCard = (card) => ({
 export const updateCard = (updatedCard) => ({
   type: UPDATE_CARD,
   updatedCard
+})
+
+export const loadCards = (cards) => ({
+  type: LOAD_CARDS,
+  cards
 })
 
 // ----------- Reducer
@@ -55,11 +61,16 @@ export default function cardReducer(state = initialState, action) {
     nextState.push(action.updatedCard)
     nextState.count = count
   }
+  case LOAD_CARDS:
+    nextState=action.cards
+    return nextState
   default:
     return state
 
   }
-
+  storage.set('cards', nextState, function(err){
+    if(err)throw err
+  })
   return nextState
 
 }

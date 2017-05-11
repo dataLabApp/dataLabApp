@@ -14,13 +14,14 @@ export default class DashboardView extends Component {
     render(){
         return (
             <div className = "container">
+            <p>Random fucking words</p>
                 <button onClick={this.print} className="pull-right" id="react-no-print"><span className="glyphicon glyphicon-download"></span></button>
 
                 <PageHeader header="Dashboard"/>
                     <div className="container">
                         <DragAndDrop />
                     </div>
-            </div>    
+            </div>
         );
     }
 }
