@@ -3,10 +3,11 @@ import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstra
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
-// import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
 import Table from './Table'
+import ModalWindow from './ModalWindow'
 
 const pg = require('pg')
 
@@ -18,19 +19,31 @@ class TalkToDatabase extends Component {
       currentDatabaseName: 'video-shopper',
       currentTablesArray: [],
       currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
-      currentData: null
+      currentData: null,
+      showModal: false,
+      currentSliceName: ''
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
     this.findAllColumns = this.findAllColumns.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleQuery = this.handleQuery.bind(this)
+    this.handleShowModal = this.handleShowModal.bind(this)
+    this.handleSaveSlice = this.handleSaveSlice.bind(this)
+    this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
   }
 
   handleChange(event) {
     this.setState({
       currentSQLQuery: event.target.value
     })
+  }
+
+  handleSliceNameChange(event) {
+    this.setState({
+      currentSliceName: event.target.value
+    })
+    console.log(this.state.currentSliceName)
   }
 
   handleDatabaseChange (event) {
@@ -91,13 +104,26 @@ class TalkToDatabase extends Component {
     .catch (err => console.log(err))
   }
 
+  handleShowModal(){
+    this.setState({
+      showModal: true
+    })
+  }
+
+  handleSaveSlice(){
+    this.setState({
+      showModal: false
+    })
+  }
+
   render() {
     return (
       <div>
         <div className="container">
-          <form onSubmit={ event => this.handleFindAllTables(event) } >
+          <Form inline onSubmit={ event => this.handleFindAllTables(event) } >
             <FormGroup controlId="formBasicText">
-              <ControlLabel>Name of Database: </ControlLabel>
+              <ControlLabel>Name of Database</ControlLabel>
+              {'  '}
               <FormControl
                 type="text"
                 value={this.state.currentDatabaseName}
@@ -105,11 +131,11 @@ class TalkToDatabase extends Component {
                 onChange={event => this.handleDatabaseChange(event)}
               />
             </FormGroup>
-            <p />
+            {'    '}
             <Button bsStyle="primary" type='submit'>
               Connect to Database
             </Button>
-          </form>
+          </Form>
           <p />
             { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
@@ -131,9 +157,18 @@ class TalkToDatabase extends Component {
 
             {
             this.state.currentData &&
-            <Button bsStyle="primary" type='submit' onClick={ (event) => this.props.setCurrentData(this.state.currentData)}>
+            <Button bsStyle="primary" type='submit' onClick={ (event) => {
+              this.props.setCurrentData(this.state.currentData)
+              this.handleShowModal()
+              }
+            }>
               Save Slice
             </Button>
+            }
+
+            {
+              this.state.showModal &&
+              <ModalWindow handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
             }
 
         </div>
