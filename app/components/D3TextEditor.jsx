@@ -29,8 +29,8 @@ class D3TextEditor extends Component{
     this.props.handleCode(this.state.formText)
   }
 
-  handleChange(e){
-    this.setState({formText: e.target.value})
+  handleChange(newValue){
+    this.setState({formText: newValue})
   }
 
   revert(){
@@ -47,7 +47,6 @@ class D3TextEditor extends Component{
     <div>
       <form onSubmit={this.handleSubmit} >
         <FormGroup controlId="formControlsTextarea">
-          <ControlLabel>Textarea</ControlLabel>
           <AceEditor style={{marginLeft: '100px', marginTop: '15px'}} mode='javascript' theme='monokai' width='600px'  wrapEnabled={true} onChange={this.handleChange} value={this.state.formText} rows={"25"} />
         </FormGroup>
         <Button onClick={this.revert} type='button'>

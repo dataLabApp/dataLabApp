@@ -3,20 +3,18 @@ var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
 import {barChartGenerator} from '../utils/chartGenerators.js'
 
-    //send in as props or on state:
-
-
-export default class WidgetCard extends Component{
+export default class DashboardCard extends Component{
   constructor(props){
     super(props)
+    // console.log("props are...", props)
   }
   componentDidMount(){
   }
   render(){
 
-    let title = this.props.chartTitle || 'Delightful Chart Example'
+    let title = this.props.card.title || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
-    let chartGenerator = this.props.chartGenerator || barChartGenerator
+    let chart = this.props.card.chart || barChartGenerator
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -40,11 +38,12 @@ export default class WidgetCard extends Component{
         </div>
         <div className="x_content" style={{height:200,width:700}}>
           <div>
-            {chartGenerator(userCode)}
+            {chart}
           </div>
         </div>
       </div>
   )
   }
 }
-
+//chartGenerator(userCode)
+            

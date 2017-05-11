@@ -2,7 +2,10 @@ var d3 = require('d3')
 import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 import {ROOT_PATH} from '../constants'
 
 export default class BubbleChart extends Component {
@@ -11,8 +14,8 @@ export default class BubbleChart extends Component {
 
     function bubbleChart() {
       // Constants for sizing
-      var width = 940;
-      var height = 600;
+      var width = 940/2;
+      var height = 600/2;
 
       // tooltip for mouseover functionality
       var tooltip = floatingTooltip('gates_tooltip', 240);
@@ -145,7 +148,10 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
           .attr('width', width)
           .attr('height', height);
 
@@ -329,6 +335,11 @@ console.log('~~in split bubbles')
     function display(error, data) {
       if (error)
         console.log(error);
+<<<<<<< HEAD
+=======
+      }
+
+>>>>>>> master
       myBubbleChart('#vis > svg', data);
     }
 
@@ -383,7 +394,10 @@ console.log('~~in split bubbles')
     var div = d3.select(fauxNode)
        .attr("id", 'vis')
        .append('svg')
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
     return (
       <div>
