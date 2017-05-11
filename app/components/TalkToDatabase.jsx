@@ -110,9 +110,15 @@ class TalkToDatabase extends Component {
     })
   }
 
-  handleSaveSlice(){
+  handleSaveSlice(event){
     this.setState({
       showModal: false
+    })
+    this.props.addSlice({
+      title: this.state.currentSliceName,
+      dateCreated: new Date(),
+      SQLQuery: currentSQLQuery,
+      data: this.currentData
     })
   }
 
@@ -187,7 +193,10 @@ const mapStateToProps = (state, ownProps) => (
 )
 //should we use the object formatting here? KH
 const mapDispatchToProps = dispatch => ({
-  setCurrentData: data => dispatch(setCurrentData(data))
+  setCurrentData: data => dispatch(setCurrentData(data)),
+  addSlice: sliceObj => dispatch(addSlice(sliceObj))
 })
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(TalkToDatabase)
