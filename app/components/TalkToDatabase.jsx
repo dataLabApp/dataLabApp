@@ -7,7 +7,7 @@ import PageHeader from './PageHeader'
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
 import Table from './Table'
-import ModalWindow from './ModalWindow'
+import SaveSliceModal from './SaveSliceModal'
 
 const pg = require('pg')
 
@@ -168,7 +168,7 @@ class TalkToDatabase extends Component {
 
             {
               this.state.showModal &&
-              <ModalWindow handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
+              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
             }
 
         </div>

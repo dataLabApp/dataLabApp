@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button, Modal, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { connect } from 'react-redux'
 
-const ModalWindow = props => (
+const SaveSliceModal = props => (
   <div className="static-modal">
     <Modal.Dialog>
       <Modal.Header>
@@ -28,7 +28,7 @@ const ModalWindow = props => (
 
       <Modal.Footer>
         {/*<Button> Cancel </Button>*/}
-        <Button bsStyle="primary" type='submit'> <Link to="/dashboard">Save </Link></Button>
+        <Link to="/dashboard"><Button bsStyle="primary" type='submit'>Save </Button></Link>
       </Modal.Footer>
 
     </Modal.Dialog>
@@ -39,4 +39,4 @@ const ModalWindow = props => (
 const mapStateToProps = null;
 const mapDispatchToProps = null;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalWindow);
+export default connect(mapStateToProps, mapDispatchToProps)(SaveSliceModal);
