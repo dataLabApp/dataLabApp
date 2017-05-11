@@ -22,16 +22,16 @@ export default class BubbleChart extends Component {
       var center = { x: width / 2, y: height / 2 };
 
       var yearCenters = {
-        Group1: { x: width / 3, y: height / 2 },
-        Group2: { x: width / 2, y: height / 2 },
-        Group3: { x: 2 * width / 3, y: height / 2 }
+        high: { x: width / 3, y: height / 2 },
+        medium: { x: width / 2, y: height / 2 },
+        low: { x: 2 * width / 3, y: height / 2 }
       };
 
       // X locations of the year titles.
       var yearsTitleX = {
-        Group1: 160,
-        Group2: width / 2,
-        Group3: width - 160
+        high: 160,
+        medium: width / 2,
+        low: width - 160
       };
 
       // @v4 strength to apply to the position forces
@@ -97,7 +97,6 @@ export default class BubbleChart extends Component {
         // Use the max total_amount in the data as the max in the scale's domain
         // note we have to ensure the total_amount is a number.
         var maxAmount = d3.max(rawData, function (d) { return +d.gdp; });
-
         // Sizes bubbles based on area.
         // @v4: new flattened scale names.
         var radiusScale = d3.scalePow()
@@ -231,6 +230,7 @@ export default class BubbleChart extends Component {
       * yearCenter of their data's year.
       */
       function splitBubbles() {
+console.log('~~in split bubbles')
         showYearTitles();
 
         // @v4 Reset the 'x' force to draw the bubbles to their year centers
@@ -274,14 +274,11 @@ export default class BubbleChart extends Component {
         // change outline to indicate hover state.
         d3.select(this).attr('stroke', 'black');
 
-        var content = '<span class="name">Title: </span><span class="value">' +
-                      d.name +
+        var content = '<span class="name">Country: </span><span class="value">' +
+                      d.country +
                       '</span><br/>' +
-                      '<span class="name">Amount: </span><span class="value">$' +
-                      addCommas(d.value) +
-                      '</span><br/>' +
-                      '<span class="name">Year: </span><span class="value">' +
-                      d.year +
+                      '<span class="name">GDP: </span><span class="value">$' +
+                      addCommas(d.value) + 'B'+
                       '</span>';
 
         showTooltip(content, d3.event);
@@ -330,11 +327,8 @@ export default class BubbleChart extends Component {
     * Calls bubble chart function to display inside #vis div.
     */
     function display(error, data) {
-      if (error) {
+      if (error)
         console.log(error);
-      } else {
-        console.log('~~~data ', data)
-      }
       myBubbleChart('#vis > svg', data);
     }
 
@@ -396,8 +390,8 @@ export default class BubbleChart extends Component {
         <h2>{chartTitle}</h2>
         <div className="container">
           <div id="toolbar">
-            <a href="#" id="all" className="button active">All Grants</a>
-            <a href="#" id="year" className="button">Grants By Year</a>
+            <a href="#" id="all" className="button active">One Group</a>
+            <a href="#" id="year" className="button">Split</a>
           </div>
           {fauxNode.toReact()}
         </div>
