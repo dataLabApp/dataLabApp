@@ -23,12 +23,12 @@ const SaveSliceModal = props => (
                 onChange={event => props.handleSliceNameChange(event)}
               />
             </FormGroup>
+        <Link to="/dashboard"><Button bsStyle="primary" type='submit'>Save </Button></Link>
         </Form>
       </Modal.Body>
 
       <Modal.Footer>
         {/*<Button> Cancel </Button>*/}
-        <Link to="/dashboard"><Button bsStyle="primary" type='submit'>Save </Button></Link>
       </Modal.Footer>
 
     </Modal.Dialog>

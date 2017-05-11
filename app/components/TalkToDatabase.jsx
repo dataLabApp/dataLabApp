@@ -111,15 +111,16 @@ class TalkToDatabase extends Component {
   }
 
   handleSaveSlice(event){
-    this.setState({
-      showModal: false
-    })
+    // this.setState({
+    //   showModal: false
+    // })
     this.props.addSlice({
-      title: this.state.currentSliceName,
+      title: event.target.value,
       dateCreated: new Date(),
       SQLQuery: currentSQLQuery,
       data: this.currentData
     })
+    console.log('yay')
   }
 
   render() {
