@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
-// import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import styles from '../../assets/css/TalkToDatabase.css';
 import BarChart from './BarChart'
 import Table from './Table'
+import SaveSliceModal from './SaveSliceModal'
+import history from '../main'
 
 const pg = require('pg')
-
 
 class TalkToDatabase extends Component {
   constructor (props) {
@@ -18,13 +19,18 @@ class TalkToDatabase extends Component {
       currentDatabaseName: 'video-shopper',
       currentTablesArray: [],
       currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
-      currentData: null
+      currentData: null,
+      showModal: false,
+      currentSliceName: ''
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
     this.findAllColumns = this.findAllColumns.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleQuery = this.handleQuery.bind(this)
+    this.handleShowModal = this.handleShowModal.bind(this)
+    this.handleSaveSlice = this.handleSaveSlice.bind(this)
+    this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
   }
 
   handleChange(event) {
@@ -33,17 +39,23 @@ class TalkToDatabase extends Component {
     })
   }
 
-  handleDatabaseChange (event) {
+  handleSliceNameChange(event) {
+    this.setState({
+      currentSliceName: event.target.value
+    })
+    console.log(this.state.currentSliceName)
+  }
+
+  handleDatabaseChange(event) {
     this.setState({
       currentDatabaseName: event.target.value
     })
   }
 
-  handleQuery(event){
+  handleQuery(event) {
     client.query(this.state.currentSQLQuery, (err, data) => {
       if (err) console.error(err)
       else {
-          console.log(data.rows)
         this.setState({
           currentData: data.rows
         })
@@ -59,8 +71,8 @@ class TalkToDatabase extends Component {
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
-    .then (data => {
-      data.rows.forEach( x => {
+    .then(data => {
+      data.rows.forEach(x => {
         this.findAllColumns(x.table_name)
         .then(columnArray => {
           array.push({
@@ -68,12 +80,12 @@ class TalkToDatabase extends Component {
             columnNames: columnArray
           })
           this.setState({
-          currentTablesArray: array
+            currentTablesArray: array
           })
         })
       })
     })
-    .catch (err => console.log(err))
+    .catch(err => console.log(err))
   }
 
   findAllColumns(tableName) {
@@ -91,13 +103,35 @@ class TalkToDatabase extends Component {
     .catch (err => console.log(err))
   }
 
+  handleShowModal(){
+    this.setState({
+      showModal: true
+    })
+  }
+
+  handleSaveSlice(event){
+    // this.setState({
+    //   showModal: false
+    // })
+    event.preventDefault()
+    console.log('event.target.sn.value', event.target.sliceName.value)
+    this.props.addSlice({
+      title: event.target.sliceName.value,
+      dateCreated: new Date(),
+      SQLQuery: this.state.currentSQLQuery,
+      data: this.state.currentData
+    })
+    history.push('/explorer')
+  }
+
   render() {
     return (
       <div>
         <div className="container">
-          <form onSubmit={ event => this.handleFindAllTables(event) } >
+          <Form inline onSubmit={ event => this.handleFindAllTables(event) } >
             <FormGroup controlId="formBasicText">
-              <ControlLabel>Name of Database: </ControlLabel>
+              <ControlLabel>Name of Database</ControlLabel>
+              {'  '}
               <FormControl
                 type="text"
                 value={this.state.currentDatabaseName}
@@ -105,11 +139,11 @@ class TalkToDatabase extends Component {
                 onChange={event => this.handleDatabaseChange(event)}
               />
             </FormGroup>
-            <p />
+            {'    '}
             <Button bsStyle="primary" type='submit'>
               Connect to Database
             </Button>
-          </form>
+          </Form>
           <p />
             { this.state.currentTablesArray.length > 0 &&
             this.state.currentTablesArray.map( x =>
@@ -131,9 +165,18 @@ class TalkToDatabase extends Component {
 
             {
             this.state.currentData &&
-            <Button bsStyle="primary" type='submit' onClick={ (event) => this.props.setCurrentData(this.state.currentData)}>
+            <Button bsStyle="primary" type='submit' onClick={ (event) => {
+              this.props.setCurrentData(this.state.currentData)
+              this.handleShowModal()
+              }
+            }>
               Save Slice
             </Button>
+            }
+
+            {
+              this.state.showModal &&
+              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
             }
 
         </div>
@@ -143,7 +186,7 @@ class TalkToDatabase extends Component {
 }
 
 // ----------------------- Container -----------------------
-import { setCurrentData } from '../reducers/dataReducer.jsx'
+import { setCurrentData, addSlice } from '../reducers/dataReducer.jsx'
 
 const mapStateToProps = (state, ownProps) => (
   {
@@ -152,7 +195,10 @@ const mapStateToProps = (state, ownProps) => (
 )
 //should we use the object formatting here? KH
 const mapDispatchToProps = dispatch => ({
-  setCurrentData: data => dispatch(setCurrentData(data))
+  setCurrentData: data => dispatch(setCurrentData(data)),
+  addSlice: sliceObj => dispatch(addSlice(sliceObj))
 })
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(TalkToDatabase)
