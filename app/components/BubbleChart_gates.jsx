@@ -2,16 +2,17 @@ var d3 = require('d3')
 import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
 import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
+
 import {ROOT_PATH} from '../constants'
 
 export default class BubbleChart extends Component {
   render () {
-    let chartTitle = "World GDP";
+    let chartTitle = "Gates Foundation Educational Spending";
 
     function bubbleChart() {
       // Constants for sizing
-      var width = 940/2;
-      var height = 600/2;
+      var width = 940;
+      var height = 600;
 
       // tooltip for mouseover functionality
       var tooltip = floatingTooltip('gates_tooltip', 240);
@@ -21,16 +22,16 @@ export default class BubbleChart extends Component {
       var center = { x: width / 2, y: height / 2 };
 
       var yearCenters = {
-        high: { x: width / 3, y: height / 2 },
-        medium: { x: width / 2, y: height / 2 },
-        low: { x: 2 * width / 3, y: height / 2 }
+        2008: { x: width / 3, y: height / 2 },
+        2009: { x: width / 2, y: height / 2 },
+        2010: { x: 2 * width / 3, y: height / 2 }
       };
 
       // X locations of the year titles.
       var yearsTitleX = {
-        high: 160,
-        medium: width / 2,
-        low: width - 160
+        2008: 160,
+        2009: width / 2,
+        2010: width - 160
       };
 
       // @v4 strength to apply to the position forces
@@ -95,7 +96,8 @@ export default class BubbleChart extends Component {
       function createNodes(rawData) {
         // Use the max total_amount in the data as the max in the scale's domain
         // note we have to ensure the total_amount is a number.
-        var maxAmount = d3.max(rawData, function (d) { return +d.gdp; });
+        var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
+
         // Sizes bubbles based on area.
         // @v4: new flattened scale names.
         var radiusScale = d3.scalePow()
@@ -109,10 +111,12 @@ export default class BubbleChart extends Component {
         var myNodes = rawData.map(function (d) {
           return {
             id: d.id,
-            radius: radiusScale(+d.gdp),
-            value: +d.gdp,
-            country: d.country,
+            radius: radiusScale(+d.total_amount),
+            value: +d.total_amount,
+            name: d.grant_title,
+            org: d.organization,
             group: d.group,
+            year: d.start_year,
             x: Math.random() * 900,
             y: Math.random() * 800
           };
@@ -144,6 +148,7 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
+
           .attr('width', width)
           .attr('height', height);
 
@@ -200,7 +205,7 @@ export default class BubbleChart extends Component {
       * x force.
       */
       function nodeYearPos(d) {
-        return yearCenters[d.group].x;
+        return yearCenters[d.year].x;
       }
 
 
@@ -228,7 +233,6 @@ export default class BubbleChart extends Component {
       * yearCenter of their data's year.
       */
       function splitBubbles() {
-console.log('~~in split bubbles')
         showYearTitles();
 
         // @v4 Reset the 'x' force to draw the bubbles to their year centers
@@ -242,7 +246,7 @@ console.log('~~in split bubbles')
       * Hides Year title displays.
       */
       function hideYearTitles() {
-        svg.selectAll('.group').remove();
+        svg.selectAll('.year').remove();
       }
 
       /*
@@ -252,11 +256,11 @@ console.log('~~in split bubbles')
         // Another way to do this would be to create
         // the year texts once and then just hide them.
         var yearsData = d3.keys(yearsTitleX);
-        var years = svg.selectAll('.group')
+        var years = svg.selectAll('.year')
           .data(yearsData);
 
         years.enter().append('text')
-          .attr('class', 'group')
+          .attr('class', 'year')
           .attr('x', function (d) { return yearsTitleX[d]; })
           .attr('y', 40)
           .attr('text-anchor', 'middle')
@@ -272,11 +276,14 @@ console.log('~~in split bubbles')
         // change outline to indicate hover state.
         d3.select(this).attr('stroke', 'black');
 
-        var content = '<span class="name">Country: </span><span class="value">' +
-                      d.country +
+        var content = '<span class="name">Title: </span><span class="value">' +
+                      d.name +
                       '</span><br/>' +
-                      '<span class="name">GDP: </span><span class="value">$' +
-                      addCommas(d.value) + 'B'+
+                      '<span class="name">Amount: </span><span class="value">$' +
+                      addCommas(d.value) +
+                      '</span><br/>' +
+                      '<span class="name">Year: </span><span class="value">' +
+                      d.year +
                       '</span>';
 
         showTooltip(content, d3.event);
@@ -301,7 +308,7 @@ console.log('~~in split bubbles')
       * displayName is expected to be a string and either 'year' or 'all'.
       */
       chart.toggleDisplay = function (displayName) {
-        if (displayName === 'year') {
+        if (displayName === 'group') {
           splitBubbles();
         } else {
           groupBubbles();
@@ -325,9 +332,13 @@ console.log('~~in split bubbles')
     * Calls bubble chart function to display inside #vis div.
     */
     function display(error, data) {
-      if (error)
+      if (error) {
         console.log(error);
+        console.log('~~data ', data);
+      }
+
       myBubbleChart('#vis > svg', data);
+
     }
 
     /*
@@ -372,7 +383,7 @@ console.log('~~in split bubbles')
     }
     // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv(`${ROOT_PATH}/assets/gdp_data.csv`, display);
+    d3.csv(`${ROOT_PATH}/assets/gates_money.csv`, display);
 
     // setup the buttons.
     setupButtons();
@@ -382,13 +393,14 @@ console.log('~~in split bubbles')
        .attr("id", 'vis')
        .append('svg')
 
+
     return (
       <div>
         <h2>{chartTitle}</h2>
         <div className="container">
           <div id="toolbar">
-            <a href="#" id="all" className="button active">One Group</a>
-            <a href="#" id="year" className="button">Split</a>
+            <a href="#" id="all" className="button active">All Grants</a>
+            <a href="#" id="year" className="button">Grants By Year</a>
           </div>
           {fauxNode.toReact()}
         </div>
