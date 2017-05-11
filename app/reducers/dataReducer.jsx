@@ -16,7 +16,7 @@ export const addSlice = (sliceObj) => ({
   sliceObj
 })
 
-//sliceObj= {
+// sliceObj= {
 //   title:
 //   dateCreated:
 //   SQLQuery:

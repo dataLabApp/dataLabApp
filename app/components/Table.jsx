@@ -1,13 +1,10 @@
-// Required libraries
 import React from 'react'
 import { connect } from 'react-redux'
 
-
-// ------------- Component
 const Table = props => {
-  const columns = props.columns;
-  const rows = props.rows;
-  const tableName = props.tableName;
+  const columns = props.columns
+  const rows = props.rows
+  const tableName = props.tableName
 
   return (
     <div className="row">
@@ -36,7 +33,7 @@ const Table = props => {
 
 
 // ------------- Container
-const mapStateToProps = null;
-const mapDispatchToProps = null;
+const mapStateToProps = null
+const mapDispatchToProps = null
 
-export default connect(mapStateToProps, mapDispatchToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(Table)

@@ -13,7 +13,7 @@ const SaveSliceModal = props => (
       <Modal.Body>
         Save your slice under a unique name.
         <Form onSubmit = { event => props.handleSaveSlice(event) } >
-          <FormGroup controlId="formBasicText">
+          <FormGroup>
               <ControlLabel>Name of Slice</ControlLabel>
               {'  '}
               <FormControl
@@ -37,7 +37,7 @@ const SaveSliceModal = props => (
 )
 
 // ------------- Container
-const mapStateToProps = null;
-const mapDispatchToProps = null;
+const mapStateToProps = null
+const mapDispatchToProps = null
 
 export default connect(mapStateToProps, mapDispatchToProps)(SaveSliceModal);

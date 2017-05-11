@@ -3,8 +3,7 @@ import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstra
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
-//import { Link } from 'react-router-dom';
-import styles from '../../assets/css/TalkToDatabase.css';
+import styles from '../../assets/css/TalkToDatabase.css'
 import BarChart from './BarChart'
 import Table from './Table'
 import SaveSliceModal from './SaveSliceModal'
@@ -13,8 +12,8 @@ import history from '../main'
 const pg = require('pg')
 
 class TalkToDatabase extends Component {
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
     this.state = {
       currentDatabaseName: 'video-shopper',
       currentTablesArray: [],
@@ -43,7 +42,6 @@ class TalkToDatabase extends Component {
     this.setState({
       currentSliceName: event.target.value
     })
-    console.log(this.state.currentSliceName)
   }
 
   handleDatabaseChange(event) {
@@ -67,7 +65,7 @@ class TalkToDatabase extends Component {
   handleFindAllTables(event) {
     let array = []
     let columnNames
-    event.preventDefault();
+    event.preventDefault()
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
@@ -94,27 +92,26 @@ class TalkToDatabase extends Component {
     client.connect()
     let query = "SELECT column_name FROM information_schema.columns WHERE table_name = '" + tableName + "'"
     return client.query(query)
-    .then (data => {
-      data.rows.forEach( x => {
+    .then(data => {
+      data.rows.forEach(x => {
         columnArray.push(x.column_name)
       })
       return columnArray
     })
-    .catch (err => console.log(err))
+    .catch(err => console.log(err))
   }
 
-  handleShowModal(){
+  handleShowModal() {
     this.setState({
       showModal: true
     })
   }
 
-  handleSaveSlice(event){
+  handleSaveSlice(event) {
     // this.setState({
     //   showModal: false
     // })
     event.preventDefault()
-    console.log('event.target.sn.value', event.target.sliceName.value)
     this.props.addSlice({
       title: event.target.sliceName.value,
       dateCreated: new Date(),
@@ -146,7 +143,7 @@ class TalkToDatabase extends Component {
           </Form>
           <p />
             { this.state.currentTablesArray.length > 0 &&
-            this.state.currentTablesArray.map( x =>
+            this.state.currentTablesArray.map(x =>
               <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
               </li>)
             }
@@ -181,7 +178,7 @@ class TalkToDatabase extends Component {
 
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -193,12 +190,10 @@ const mapStateToProps = (state, ownProps) => (
     currentData: state.data.currentData
   }
 )
-//should we use the object formatting here? KH
+// should we use the object formatting here? KH
 const mapDispatchToProps = dispatch => ({
   setCurrentData: data => dispatch(setCurrentData(data)),
   addSlice: sliceObj => dispatch(addSlice(sliceObj))
 })
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TalkToDatabase)
