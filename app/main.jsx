@@ -13,6 +13,7 @@ import HomeView from './components/HomeView.jsx'
 import DashboardView from './components/DashboardView.jsx'
 import ExplorerView from './components/ExplorerView.jsx'
 import AllCardsView from './components/AllCardsView.jsx'
+import Login from './components/Login.jsx'
 
 const history = createBrowserHistory()
 export default history
@@ -29,6 +30,7 @@ render(
             <Route path="/explorer" component={ExplorerView} />
             <Route path="/sqlab" component={SQLabView} />
             <Route path="/allCardsView" component={AllCardsView} />
+            <Route path="/login" component={Login} />
           </Switch>
         </App>
       </Router>
