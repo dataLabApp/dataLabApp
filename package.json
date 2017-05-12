@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "babel-eslint": "^7.2.3",
     "brace": "^0.10.0",
     "css-loader": "^0.28.1",
     "d3": "^4.8.0",
