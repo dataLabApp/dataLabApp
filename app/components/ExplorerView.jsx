@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
-import {barChartGenerator} from '../utils/chartGenerators'
+import {chartGenerator, storeChartGenerator} from '../utils/chartGenerators'
 import {DEFAULT_TEMPLATE} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
@@ -24,7 +24,7 @@ class ExplorerView extends Component{
 
   handleAddCardToDashboard(e, dashboardId){
     e.preventDefault()
-    this.props.addCardToCards({title: this.state.cardTitle, chart: barChartGenerator(this.state.userCode)})
+    this.props.addCardToCards({title: this.state.cardTitle, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.userCode)})
     setTimeout(()=>{
       let newCard = this.props.cards[this.props.cards.length - 1]
       this.props.addCardToDashboard(+dashboardId, newCard)
@@ -36,7 +36,7 @@ class ExplorerView extends Component{
       <div>
         <PageHeader header="Explorer" />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
-        <ExplorerChart cardTitle={this.state.cardTitle} userCode={this.state.userCode} chartGenerator={barChartGenerator}/>
+        <ExplorerChart cardTitle={this.state.cardTitle} userCode={this.state.userCode} />
         <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
       </div>)
   }
