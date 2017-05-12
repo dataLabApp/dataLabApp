@@ -6,15 +6,16 @@ import {barChartGenerator} from '../utils/chartGenerators.js'
 export default class DashboardCard extends Component{
   constructor(props){
     super(props)
-    // console.log("props are...", props)
+    console.log("props are...", props)
   }
   componentDidMount(){
   }
   render(){
-
+    console.log("props in DashboardCard are ", this.props)
     let title = this.props.card.title || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
-    let chart = this.props.card.chart || barChartGenerator
+    let chart = this.props.card.chart || barChartGenerator 
+    console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -36,10 +37,8 @@ export default class DashboardCard extends Component{
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height:200,width:700}}>
-          <div>
+        <div className="x_content">
             {chart}
-          </div>
         </div>
       </div>
   )
