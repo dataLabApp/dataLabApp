@@ -69,10 +69,28 @@
       </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var firebase = require("firebase/app");
+        require("firebase/auth");
+        require("firebase/database");
+
+      var config = {
+        apiKey: "AIzaSyC2eCmqugkqPku0klbbAsYWUE7zWQ1uUKc",
+        authDomain: "powerdata-4aafd.firebaseapp.com",
+        databaseURL: "https://powerdata-4aafd.firebaseio.com",
+        projectId: "powerdata-4aafd",
+        storageBucket: "powerdata-4aafd.appspot.com",
+        messagingSenderId: "199200737729"
+      };
+      firebase.initializeApp(config);
+    </script>
 
 
     <script src="https://cdn.auth0.com/js/lock/10.15/lock.min.js"></script>
-    <script src="auth0-variables.js"></script>
+    <script src="https://cdn.auth0.com/w2/auth0-6.7.js"></script>
+
 
     <script>
       $ = document.querySelector.bind(document);
@@ -83,7 +101,7 @@
           sso: false
         }
       });
-
+      var auth0 = new Auth0({ domain : 'powerdata.auth0.com', clientID: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'})
       var idToken = localStorage.getItem('id_token') || null;
       var profile = JSON.parse(localStorage.getItem('profile')) || null;
       if (idToken && profile) {
@@ -104,6 +122,28 @@
       lock.on('authenticated', (authResult) => {
         localStorage.setItem('id_token', authResult.idToken);
         lock.getProfile(authResult.idToken, (err, profile) => {
+          console.log("profile is ", profile)
+
+          var options = {
+            id_token : authResult.idToken,
+            api : 'firebase',
+            scope : 'openid name email displayName',
+            target: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'
+          };
+
+          auth0.getDelegationToken(options, function(err, result) {
+            console.log('err is ', err)
+          if(!err) {
+            console.log("result is ", result)
+            // Exchange the delegate token for a Firebase auth token
+            firebase.auth().signInWithCustomToken(result.id_token)
+              .then(()=> firebase.database().ref('users').push(profile))
+              .catch(function(error) {
+              console.log(error);
+            });
+          }
+        });
+        
           localStorage.setItem('profile', JSON.stringify(profile));
           $('.profile-section').classList.remove('hidden');
           $('.avatar').src = profile.picture;
@@ -125,7 +165,12 @@
         $('.btn-login').classList.remove('hidden');
         $('.btn-logout').classList.add('hidden');
       });
+
+
     </script>
+
+
+
   </body>
 
 
