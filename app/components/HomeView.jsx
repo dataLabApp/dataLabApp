@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import Chart from './Chart'
 
 class Home extends Component {
 
@@ -14,6 +15,7 @@ class Home extends Component {
           { this.state.dashboards &&
             this.state.dashboards.map((dashboard, i)=><div key={i}>{dashboard.title}</div>)
           }
+          <Chart />
       </div>
     );
   }

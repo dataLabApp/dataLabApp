@@ -39,13 +39,13 @@ export default class Chart extends Component {
 
     var fauxNode = ReactFauxDOM.createElement('svg')
     var svg = d3.select(fauxNode)
-       .attr('width', fullWidth)
-        .attr('height', fullHeight)
+        .attr("viewBox", "0 0 " + {fullWidth}+' '+ {fullHeight})
+        .attr("preserveAspectRatio", "xMidYMid meet")
         // this g is where the bar chart will be drawn
         .append('g')
         // translate it to leave room for the left and top margins
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
+   
 
     let xLabels = data.map(function(i) {
         return i[x]

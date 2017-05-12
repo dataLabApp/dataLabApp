@@ -38,8 +38,8 @@ export default class BarChart extends React.Component {
   // {letter: 'Y', frequency: .01974},
   // {letter: 'Z', frequency: .00074}]
 
-    let totalWidth = 800/2
-    let totalHeight = 400/2
+    let totalWidth = 800
+    let totalHeight = 400
 
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
       width = totalWidth - margin.left - margin.right,
