@@ -1,4 +1,7 @@
 import storage from 'electron-json-storage'
+import Chart from '../components/Chart'
+import {DEFAULT_TEMPLATE} from '../constants'
+
 // ----------- Actions
 const ADD_CARD = 'ADD_CARD'
 const DELETE_CARD = 'DELETE_CARD'
@@ -30,7 +33,8 @@ export const loadCards = (cards) => ({
 const initialState =  [{
     id: 1,
     title: 'Sample Card',
-    chart: undefined
+    rawCode:DEFAULT_TEMPLATE,
+    chart: ()=>(<Chart />)
   }]
 
 initialState.count = 1;

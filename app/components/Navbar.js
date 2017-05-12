@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 // import Navbar, {Brand} from 'react-bootstrap/lib/Navbar';
 import {Link} from 'react-router-dom'
-
+import {clearCachedData} from '../utils/storageUtils'
 
 function NavTop() {
   return (
@@ -26,7 +26,7 @@ function NavTop() {
               <NavItem eventKey={3}><Link to="/sqlab">SQLab</Link></NavItem>
               <NavItem eventKey={4}><Link to="/allCardsView">AllCards</Link></NavItem>
               <NavDropdown eventKey={5} title="Dropdown" id="basic-nav-dropdown">
-                <MenuItem eventKey={5.1}>Action</MenuItem>
+                <MenuItem eventKey={5.1} onSelect={clearCachedData}>Clear Cached Data</MenuItem>
                 <MenuItem eventKey={5.2}>Another action</MenuItem>
                 <MenuItem eventKey={5.3}>Something else here</MenuItem>
                 <MenuItem divider />

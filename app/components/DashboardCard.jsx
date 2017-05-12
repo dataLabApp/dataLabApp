@@ -14,7 +14,7 @@ export default class DashboardCard extends Component{
     console.log("props in DashboardCard are ", this.props)
     let title = this.props.card.title || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
-    let chart = this.props.card.chart || barChartGenerator 
+    let chart = this.props.card.chart || barChartGenerator
     console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">
@@ -38,7 +38,7 @@ export default class DashboardCard extends Component{
           <div className="clearfix"></div>
         </div>
         <div className="x_content">
-            {chart}
+            {chart()}
         </div>
       </div>
   )
