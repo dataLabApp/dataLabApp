@@ -1,29 +1,145 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Welcome to DuperSet!</title>
-    <link rel="stylesheet" href="./node_modules/react-grid-layout/css/styles.css">
-    <link rel="stylesheet" href-"/node_modules/react-resizable/css/styles.css">
-    <link rel="stylesheet" href="./assets/css/resizeStyles.css"> 
-    <link rel="stylesheet" href="./assets/css/Header.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap-social.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
-    <link rel="stylesheet" href="./assets/css/font-awesome.css">
-    <link rel="stylesheet" href="./assets/css/customGentelalla.css">
-    <link rel="stylesheet" href="./assets/css/bubble_chart.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-  </head>
 
-  <body>
-    <div id='main'>
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to DuperSet!</title>
+  <link rel="stylesheet" href="./node_modules/react-grid-layout/css/styles.css">
+  <link rel="stylesheet" href- "/node_modules/react-resizable/css/styles.css">
+  <link rel="stylesheet" href="./assets/css/resizeStyles.css">
+  <link rel="stylesheet" href="./assets/css/Header.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap-social.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap.css">
+  <link rel="stylesheet" href="./assets/css/font-awesome.css">
+  <link rel="stylesheet" href="./assets/css/customGentelalla.css">
+  <link rel="stylesheet" href="./assets/css/bubble_chart.css">
+  <link rel="stylesheet" href="./assets/css/reset.css">
+
+
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+      .hidden {
+        display: none;
+      }
+      h3 {
+        margin-top: 0;
+      }
+      label {
+        margin: 5px 0;
+        color: #777;
+      }
+    </style>
+
+
+
+</head>
+
+
+
+
+<body>
+  <div id='main'>
+  </div>
+
+
+
+
+
+ <div class="container">
+      <div class="jumbotron" style="margin-top: 15px;">
+        <h1>Auth0 Electron</h1>
+
+        <button class="btn btn-primary btn-login">Login</button>
+        <button class="btn btn-primary btn-logout">Logout</button>
+
+      </div>
+      <div class="profile">
+        <div>
+          <img class="avatar" style="width: 75px;border-radius:50%">
+        </div>
+        <div class="profile-section hidden">
+          <label for="">Username</label>
+          <h3 class="name"></h3>
+          <label for="">Email</label>
+          <h3 class="email"></h3>
+        </div>
+      </div>
     </div>
+
+
+
+    <script src="https://cdn.auth0.com/js/lock/10.14/lock.min.js"></script>
+    <script src="auth0-variables.js"></script>
+
     <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-      // require('./barChart.js');
-      require('./assets/bundle.js')
+      $ = document.querySelector.bind(document);
+
+      var lock = new Auth0Lock('YAHXyLLVk9c5nHEJbKmuEq70_mvgZQvx', 'duperset.auth0.com', {
+        auth: {
+          redirect: false,
+          sso: false
+        }
+      });
+
+      var idToken = localStorage.getItem('id_token') || null;
+      var profile = JSON.parse(localStorage.getItem('profile')) || null;
+      if (idToken && profile) {
+        $('.avatar').src = profile.picture;
+        $('.name').textContent = profile.nickname;
+        $('.email').textContent = profile.email;
+        $('.profile-section').classList.remove('hidden');
+        $('.btn-login').classList.add('hidden');
+        $('.btn-logout').classList.remove('hidden');
+      } else {
+        $('.profile-section').classList.add('hidden');
+        $('.btn-login').classList.remove('hidden');
+        $('.btn-logout').classList.add('hidden');
+      }
+      $('.btn-login').addEventListener('click', function() {
+        lock.show();
+      });
+      lock.on('authenticated', (authResult) => {
+        localStorage.setItem('id_token', authResult.idToken);
+        lock.getProfile(authResult.idToken, (err, profile) => {
+          localStorage.setItem('profile', JSON.stringify(profile));
+          $('.profile-section').classList.remove('hidden');
+          $('.avatar').src = profile.picture;
+          $('.name').textContent = profile.nickname;
+          $('.email').textContent = profile.email;
+          $('.btn-login').classList.add('hidden');
+          $('.btn-logout').classList.remove('hidden');
+        });
+        lock.hide();
+      });
+
+      $('.btn-logout').addEventListener('click', function() {
+        localStorage.removeItem('profile');
+        localStorage.removeItem('id_token');
+        $('.profile-section').classList.add('hidden');
+        $('.avatar').src = '';
+        $('.name').textContent = null;
+        $('.email').textContent = null;
+        $('.btn-login').classList.remove('hidden');
+        $('.btn-logout').classList.add('hidden');
+      });
     </script>
   </body>
+
+
+
+
+
+
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    // require('./barChart.js');
+    require('./assets/bundle.js')
+  </script>
+</body>
+
 </html>
