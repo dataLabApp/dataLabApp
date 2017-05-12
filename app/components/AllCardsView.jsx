@@ -1,39 +1,36 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {deleteCard} from '../reducers/cardReducer'
+import AllCard from './AllCard.jsx'
 
 const AllCardsView = (props) => {
   console.log('~~props in AllCardsView ', props)
   return (
-    <ul className="text-center">
-      <div className="col-md-3 text-center" >
-        { props.cards.map(card => (
-          <li key={card.id} >
-            <h3>{card.title}</h3>
-              {card.chart}
-            <button onClick= { () => props.deleteCard(card.id)}>  Delete </button>
-          </li>
-      )) }
+    <div className="container-fluid">
+      <div className="row">
+            { props.cards.map(card => (
+              <li key={card.id} >
+                <div className="col-sm-4 text-center" >
+                  <AllCard title={card.title} chart={card.chart} />
+                  <button onClick= { () => props.deleteCard(card.id)}>  Delete </button>
+                </div>
+              </li>
+          )) }
       </div>
-      {props.cards[0].chart}
-    </ul>
-
+    </div>
   )
 }
-// <Link to={`/card/${card.title}`}>
 
-const mapStateToProps = (state)=>(
+const mapStateToProps = (state) => (
   {
     cards: state.cards
   }
 )
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteCard: (cardId) => {
-      dispatch(deleteCard(cardId))
-    }
+const mapDispatchToProps = (dispatch) => ({
+  deleteCard: (cardId) => {
+    dispatch(deleteCard(cardId))
   }
-}
+})
 
-export default connect(mapStateToProps,mapDispatchToProps)(AllCardsView)
+export default connect(mapStateToProps, mapDispatchToProps)(AllCardsView)

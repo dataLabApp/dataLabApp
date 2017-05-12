@@ -5,10 +5,7 @@
  * so check out bubble_chart.css for more details.
  */
 var d3 = require('d3')
-var tt = d3.select('body')
-    .append('div')
-    .attr('class', 'tooltip')
-    .style('pointer-events', 'none');
+var tt
   /*
    * Hide the tooltip div.
    */
@@ -19,6 +16,10 @@ var tt = d3.select('body')
 export const floatingTooltip = (tooltipId, width) => {
   // Local variable to hold tooltip div for
   // manipulation in other functions.
+  tt = d3.select('body')
+    .append('div')
+    .attr('class', 'tooltip')
+    .style('pointer-events', 'none');
   tt.attr('id', tooltipId)
 
   // Set a width if it is provided.
