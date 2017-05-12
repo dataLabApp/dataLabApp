@@ -18,10 +18,10 @@ export default class Chart extends Component {
         {temp: 64, month: 'October'},
         {temp: 49, month: 'November'},
         {temp: 37, month: 'December'}
-   ]
-    let x = 'month'
+    ]
+    const x = 'month'
     const y = 'temp'
-    const chartTitle = 'Weather Trends';
+    const chartTitle = 'Weather Trends'
     const yAxisLabel = 'Fahrenheit'
 
     var margin = {top: 20, right: 5, bottom: 50, left: 50}
@@ -30,22 +30,22 @@ export default class Chart extends Component {
     var fullWidth = 700
     var fullHeight = 200
     // the width and height values will be used in the ranges of our scales
-    var width = fullWidth - margin.right - margin.left;
-    var height = fullHeight - margin.top - margin.bottom;
+    var width = fullWidth - margin.right - margin.left
+    var height = fullHeight - margin.top - margin.bottom
 
 
 
     var fauxNode = ReactFauxDOM.createElement('svg')
     var svg = d3.select(fauxNode)
-        .attr("viewBox", "0 0 " + {fullWidth}+' '+ {fullHeight})
-        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
         // this g is where the bar chart will be drawn
         .append('g')
         // translate it to leave room for the left and top margins
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
 
-    let xLabels = data.map(function(i) {
+    const xLabels = data.map(function(i) {
       return i[x]
     })
 

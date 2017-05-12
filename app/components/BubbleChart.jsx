@@ -1,17 +1,18 @@
 var d3 = require('d3')
 import React, { Component } from 'react'
 var ReactFauxDOM = require('react-faux-dom')
-import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
+import {floatingTooltip, showTooltip, hideTooltip} from '../src/tooltip.js'
 import {ROOT_PATH} from '../constants'
 
 export default class BubbleChart extends Component {
   render() {
     const chartTitle = 'World GDP'
+    const width = 600
+    const height = 600
 
     function bubbleChart() {
       // Constants for sizing
-      var width = 940
-      var height = 600
+
 
       // tooltip for mouseover functionality
       var tooltip = floatingTooltip('gates_tooltip', 240)
@@ -143,10 +144,8 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
-          .attr('width', 'auto')
-          .attr('height', 'auto')
-          .attr('viewbox', '0 0 100 100')
-          .attr('preserveAspectRatio', 'xMinYMid meet')
+          .attr('width', width)
+          .attr('height', height)
 
         // Bind nodes data to what will become DOM elements to represent them.
         bubbles = svg.selectAll('.bubble')
@@ -377,6 +376,8 @@ export default class BubbleChart extends Component {
     var div = d3.select(fauxNode)
        .attr('id', 'vis')
        .append('svg')
+       .attr('viewBox', `0 0 ${width} ${height}`)
+       .attr('preserveAspectRatio', 'xMidYMid meet')
 
     return (
       <div>
