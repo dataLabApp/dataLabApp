@@ -20,7 +20,7 @@ export default class DashboardView extends Component {
                     <div className="container">
                         <DragAndDrop />
                     </div>
-            </div>    
+            </div>
         );
     }
 }

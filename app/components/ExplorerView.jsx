@@ -27,7 +27,7 @@ class ExplorerView extends Component{
     this.props.addCardToCards({title: this.state.cardTitle, chart: barChartGenerator(this.state.userCode)})
     setTimeout(()=>{
       let newCard = this.props.cards[this.props.cards.length - 1]
-      this.props.addCardToDashboard(dashboardId, newCard)
+      this.props.addCardToDashboard(+dashboardId, newCard)
     },20)
   }
 

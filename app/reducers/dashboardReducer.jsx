@@ -3,6 +3,7 @@ import Chart from '../components/Chart'
 
 import BarChart from '../components/BarChart'
 import React from 'react'
+import storage from 'electron-json-storage'
 // ----------- Actions
 const ADD_DASHBOARD = 'ADD_DASHBOARD'
 const DELETE_DASHBOARD = 'DELETE_DASHBOARD'
@@ -12,6 +13,7 @@ const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
 const UPDATE_DASHBOARD = 'UPDATE_DASHBOARD'
 const SET_CURRENT_DASHBOARD = 'SET_CURRENT_DASHBOARD'
 const UPDATE_DASHBOARD_LAYOUT = 'UPDATE_DASHBOARD_LAYOUT'
+const LOAD_DASHBOARDS = 'LOAD_DASHBOARDS'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
@@ -55,10 +57,14 @@ export const updateDashboardLayout = (dashboardTitle, layout) => ({
   dashboardTitle,
   layout
 })
-
+export const loadDashboards = (dashboards) => ({
+  type: LOAD_DASHBOARDS,
+  dashboards
+})
 // ----------- Reducer
 const dashboard1 = {
-  counter: 1,
+  id: 1,
+  counter: 2,
   title:'dashboard1',
   cards:[{
     title: 'Chart',
@@ -71,6 +77,7 @@ const dashboard1 = {
   }]
 }
 const dashboard2 = {
+  id: 2,
   counter: 1,
   title:'secondSeedDB',
   cards:[{
@@ -88,6 +95,7 @@ const initialState = {
   currentDashboard: dashboard1,
   dashboards: [dashboard1, dashboard2]
 }
+
 
 export default function dashboardReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
@@ -137,9 +145,15 @@ export default function dashboardReducer(state = initialState, action) {
       thisDashboard.cards = action.layout
       break
   }
+  case LOAD_DASHBOARDS:
+    nextState=action.dashboards
+    return nextState
   default:
     return state
   }
+  storage.set('dashboards', nextState, function(err){
+    if(err)throw err
+  })
   return nextState
 
 }
