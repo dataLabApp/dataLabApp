@@ -3,6 +3,7 @@ import axios from 'axios'
 
 // ----------- Actions
 const SET_DATA = 'SET_DATA'
+const ADD_SLICE = 'ADD_SLICE'
 
 // ----------- Action Creators
 export const setCurrentData = (data) => ({
@@ -10,9 +11,22 @@ export const setCurrentData = (data) => ({
   data
 })
 
+export const addSlice = (sliceObj) => ({
+  type: ADD_SLICE,
+  sliceObj
+})
+
+// sliceObj= {
+//   title:
+//   dateCreated:
+//   SQLQuery:
+//   data:
+// }
+
 // ----------- Reducer
 const initialState = {
-  currentData: []
+  currentData: [],
+  allSlices: []
 }
 
 export default function dataReducer(state = initialState, action) {
@@ -21,6 +35,10 @@ export default function dataReducer(state = initialState, action) {
   switch (action.type) {
   case SET_DATA:
     nextState.currentData = action.data
+    break
+
+  case ADD_SLICE:
+    nextState.allSlices = [...nextState.allSlices, action.sliceObj]
     break
 
   default:

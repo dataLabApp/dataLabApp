@@ -9,7 +9,10 @@ const SQLForm = props => {
         <form onSubmit={props.handleQuery}>
           <FormGroup controlId="formsControlTextarea">
             <ControlLabel>Enter SQL Query: </ControlLabel>
-            <FormControl componentClass="textarea" placeholder="Enter SQL Query here: " value={props.currentSQLQuery} onChange={props.handleChange} />
+            <FormControl
+              componentClass="textarea"
+              placeholder="Enter SQL Query here: " value={props.currentSQLQuery}
+              onChange={props.handleChange} />
           </FormGroup>
           <Button bsStyle="primary" type='submit'>
             Submit Query
@@ -20,7 +23,7 @@ const SQLForm = props => {
 }
 
 // ------------- Container
-const mapStateToProps = null;
-const mapDispatchToProps = null;
+const mapStateToProps = null
+const mapDispatchToProps = null
 
-export default connect(mapStateToProps, mapDispatchToProps)(SQLForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SQLForm)

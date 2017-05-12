@@ -15,6 +15,7 @@ import ExplorerView from './components/ExplorerView.jsx'
 import AllCardsView from './components/AllCardsView.jsx'
 
 const history = createBrowserHistory()
+export default history
 
 render(
   <div>
