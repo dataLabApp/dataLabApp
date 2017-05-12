@@ -5,6 +5,8 @@ import storage from 'electron-json-storage'
 // ----------- Actions
 const SET_DATA = 'SET_DATA'
 const LOAD_DATA = 'LOAD_DATA'
+const ADD_SLICE = 'ADD_SLICE'
+
 
 // ----------- Action Creators
 export const setCurrentData = (data) => ({
@@ -16,9 +18,22 @@ export const loadData = (data) => ({
   data
 })
 
+export const addSlice = (sliceObj) => ({
+  type: ADD_SLICE,
+  sliceObj
+})
+
+// sliceObj= {
+//   title:
+//   dateCreated:
+//   SQLQuery:
+//   data:
+// }
+
 // ----------- Reducer
 const initialState = {
-  currentData: []
+  currentData: [],
+  allSlices: []
 }
 
 export default function dataReducer(state = initialState, action) {
@@ -31,6 +46,9 @@ export default function dataReducer(state = initialState, action) {
   case LOAD_DATA:
     nextState = action.data
     return nextState
+  case ADD_SLICE:
+    nextState.allSlices = [...nextState.allSlices, action.sliceObj]
+    break
   default:
     return state
   }
