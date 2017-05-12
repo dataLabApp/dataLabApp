@@ -1,17 +1,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap'
+import { Form, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap'
 
 const Login = props => {
   return (
-    <form onSubmit={event => {
+    <Form onSubmit={event => {
       event.preventDefault()
       login(event.target.username.value, event.target.password.value)
     }}>
-      <input name="username" />
+    <FormGroup>
+      <ControlLabel>Login</ControlLabel>
+      <FormControl
+      id="userName"
+      type="text"
+      value=""
+      />
+    </FormGroup>
+    <Button bstyle="primary" type="submit">Login</Button>
+      {/*<input name="username" />
       <input name="password" type="password" />
-      <input type="submit" value="Login" />
-    </form>
+      <input type="submit" value="Login" />*/}
+    </Form>
   )
 }
 
