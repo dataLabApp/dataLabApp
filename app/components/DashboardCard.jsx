@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
-import {barChartGenerator} from '../utils/chartGenerators.js'
 
 export default class DashboardCard extends Component{
   constructor(props){
@@ -13,8 +12,7 @@ export default class DashboardCard extends Component{
   render(){
     console.log("props in DashboardCard are ", this.props)
     let title = this.props.card.title || 'Delightful Chart Example'
-    let userCode = this.props.userCode || undefined
-    let chart = this.props.card.chart || barChartGenerator
+    let chart = this.props.card.chart
     console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">

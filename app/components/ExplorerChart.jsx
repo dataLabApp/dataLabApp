@@ -37,7 +37,7 @@ export default class ExplorerChart extends Component{
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height:200,width:700}}>
+        <div className="x_content" style={{height:400,width:700}}>
           <div>
             {chartGenerator(userCode)}
           </div>
