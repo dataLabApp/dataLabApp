@@ -9,21 +9,24 @@ var d3 = require('d3')
 export default class DashboardCard extends Component{
   constructor(props){
     super(props)
-    console.log("props are...", props)
+    this.title= props.card.title
+    this.exportAsSVG = this.exportAsSVG.bind(this);
+
   }
   componentDidMount(){
   }
 
   exportAsSVG() {
+    var config = {
+      filename: this.title
+    }
     d3_save_svg.save(d3.select('svg').node(), config);
-  };
+  }
   
   render(){
-    console.log("props in DashboardCard are ", this.props)
     let title = this.props.card.title || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
     let chart = this.props.card.chart || barChartGenerator
-    console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
