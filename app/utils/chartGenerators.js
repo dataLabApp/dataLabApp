@@ -10,8 +10,14 @@ export function chartGenerator(userGeneratedCode = DEFAULT_TEMPLATE){
   return window.explorerFauxNode.toReact()
 }
 
+// export function createChartGenerator(config){
+//   return function(userGeneratedCode){
+//     config
+//   }
+// }
+
 export function storeChartGenerator(userGeneratedCode){
-  return ()=>chartGenerator(userGeneratedCode)
+  return () => chartGenerator(userGeneratedCode)
 }
 
 // export chartGenerator(){
