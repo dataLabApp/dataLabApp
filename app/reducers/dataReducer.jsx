@@ -23,17 +23,17 @@ export const addSlice = (sliceObj) => ({
   sliceObj
 })
 
-// sliceObj= {
-//   title:
-//   dateCreated:
-//   SQLQuery:
-//   data:
-// }
+let sampleSliceObj= {
+  title:'Example Slice',
+  dateCreated: new Date(),
+  SQLQuery: 'SELECT * FROM products',
+  data: [{xVar:1,yVar:2,extraVar:3}]
+}
 
 // ----------- Reducer
 const initialState = {
   currentData: [],
-  allSlices: []
+  allSlices: [sampleSliceObj]
 }
 
 export default function dataReducer(state = initialState, action) {

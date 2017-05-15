@@ -19,6 +19,7 @@ class AddCardToDashForm extends Component{
     return (
       <form onSubmit={e=>this.props.handleSubmit(e,this.state.selectedDashboard)}>
         <FormGroup>
+          <ControlLabel>Select Dashboard</ControlLabel>
           <FormControl componentClass="select" placeholder="select" onChange={this.handleSelectChange}>
             <option key='0' value={this.props.currentDashboard.id} >{this.props.currentDashboard.title}</option>
             {this.props.availableDashboards.map((dashboard,index)=>{
@@ -28,7 +29,7 @@ class AddCardToDashForm extends Component{
             })}
           </FormControl>
           <Button type='submit'>
-            Add Card to Dashboard
+            Add Card
           </Button>
         </FormGroup>
       </form>

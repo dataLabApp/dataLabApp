@@ -25,8 +25,8 @@ export default class DashboardCard extends Component{
   
   render(){
     let title = this.props.card.title || 'Delightful Chart Example'
-    let userCode = this.props.userCode || undefined
-    let chart = this.props.card.chart || barChartGenerator
+    let chart = this.props.card.chart
+    console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">

@@ -7,15 +7,20 @@ import {chartGenerator, storeChartGenerator} from '../utils/chartGenerators'
 import {DEFAULT_TEMPLATE} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
+import SliceSelector from './SliceSelector.jsx'
 import {addCardToDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 
 class ExplorerView extends Component{
   constructor(props){
     super(props)
-    this.state = {userCode: DEFAULT_TEMPLATE, template: DEFAULT_TEMPLATE, cardTitle: 'Products'}
+    this.state = {userCode: DEFAULT_TEMPLATE, template: DEFAULT_TEMPLATE, cardTitle: 'Products', currentSlice: props.data.allSlices[0]}
     this.handleCodeFromTextEditor = this.handleCodeFromTextEditor.bind(this)
     this.handleAddCardToDashboard = this.handleAddCardToDashboard.bind(this)
+    this.handleChangeSlice = this.handleChangeSlice.bind(this)
+  }
+  handleChangeSlice(e){
+
   }
 
   handleCodeFromTextEditor(text){
@@ -33,12 +38,21 @@ class ExplorerView extends Component{
 
   render (){
     return (
-      <div>
-        <PageHeader header="Explorer" />
+  <div className='container'>
+   <PageHeader header="Explorer" />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-sm-3">
+        <SliceSelector changeSlice={this.handleChangeSlice} currentSlice={this.state.currentSlice} />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
+        </div>
+        <div className="col-sm-9">
         <ExplorerChart cardTitle={this.state.cardTitle} userCode={this.state.userCode} />
-        <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
-      </div>)
+        </div>
+      </div>
+    </div>
+    <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
+  </div>)
   }
 }
 
@@ -46,7 +60,8 @@ let mapStateToProps = (state)=>(
   {
     availableDashboards: state.dashboards.dashboards,
     currentDashboard: state.dashboards.currentDashboard,
-    cards: state.cards
+    cards: state.cards,
+    data: state.data
   }
 )
 

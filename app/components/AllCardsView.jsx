@@ -11,7 +11,7 @@ const AllCardsView = (props) => {
             { props.cards.map(card => (
               <li key={card.id} >
                 <div className="col-sm-4 text-center" >
-                  <AllCard title={card.title} chart={card.chart} />
+                  <AllCard title={card.title} chart={card.chart()} />
                   <button onClick= { () => props.deleteCard(card.id)}>  Delete </button>
                 </div>
               </li>

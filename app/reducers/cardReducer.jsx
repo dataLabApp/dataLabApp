@@ -1,6 +1,7 @@
 import storage from 'electron-json-storage'
 import Chart from '../components/Chart'
 import {DEFAULT_TEMPLATE} from '../constants'
+import React from 'react'
 
 // ----------- Actions
 const ADD_CARD = 'ADD_CARD'
