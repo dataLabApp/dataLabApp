@@ -1,37 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Chart from './Chart'
+import BubbleChart from './BubbleChart'
 
-class Home extends Component {
-
-  constructor(props){
-    super(props);
-    this.state= {dashboards: props.dashboards};
+class HomeView extends Component {
+  constructor(props) {
+    super(props)
+    this.state= {dashboards: props.dashboards}
   }
-  
-  render(){
+
+  render() {
     return (
-      <div className="container">
-          { this.state.dashboards &&
-            this.state.dashboards.map((dashboard, i)=><div key={i}>{dashboard.title}</div>)
-          }
-          <Chart />
-      </div>
-    );
+      <div className="container-fluid">
+         <div className="row">
+            <div className="container" style={{'height': 'auto', 'width': '100%'}}>
+                <div className="col-sm-4">
+                  <Chart />
+                </div>
+                <div className="col-sm-4">
+                  <Chart />
+                </div>
+                <div className="col-sm-4">
+                  <Chart />
+                </div>
+                <div className="col-sm-4 col-md-6 col-lg-6">
+                  <BubbleChart />
+                </div>
+                <div className="col-sm-4 col-md-4 col-lg-4">
+                  <Chart />
+                </div>
+          </div>
+        </div>
+       </div>
+    )
   }
-
 }
-
-
 
 // ----------------------- Container -----------------------
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-      dashboards: state.dashboards.dashboards
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  dashboards: state.dashboards.dashboards
+})
 
 const mapDispatchToProps = null
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeView)

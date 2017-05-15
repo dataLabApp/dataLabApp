@@ -18,8 +18,8 @@ var height = fullHeight - margin.top - margin.bottom
 
 window.explorerFauxNode = window.ReactFauxDOM.createElement('svg')
 var svg = window.d3.select(window.explorerFauxNode)
-.attr('width', fullWidth)
-.attr('height', fullHeight)
+// .attr('width', fullWidth)
+// .attr('height', fullHeight)
 .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
 .attr('preserveAspectRatio', 'xMidYMid meet')
 // this g is where the bar chart will be drawn

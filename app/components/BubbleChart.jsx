@@ -144,8 +144,8 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
-          .attr('width', width)
-          .attr('height', height)
+          // .attr('width', width)
+          // .attr('height', height)
 
         // Bind nodes data to what will become DOM elements to represent them.
         bubbles = svg.selectAll('.bubble')
