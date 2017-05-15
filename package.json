@@ -47,6 +47,7 @@
     "brace": "^0.10.0",
     "css-loader": "^0.28.1",
     "d3": "^4.8.0",
+    "d3-save-svg": "0.0.2",
     "electron-json-storage": "^3.0.5",
     "firebase": "^3.9.0",
     "history": "^4.6.1",
