@@ -9,7 +9,6 @@ class HomeView extends Component {
     this.state= {dashboards: props.dashboards}
   }
 
-            // <div className="container" style={{'height': 'auto', 'width': '100%'}}>
   render() {
     return (
       <div className="container-fluid">
