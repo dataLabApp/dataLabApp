@@ -1,46 +1,46 @@
 var d3 = require('d3')
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 var ReactFauxDOM = require('react-faux-dom')
-import {floatingTooltip, showTooltip, hideTooltip} from '../src/tooltip.js'
+import {floatingTooltip, showTooltip, updatePosition, hideTooltip } from '../src/tooltip.js'
+
 import {ROOT_PATH} from '../constants'
 
 export default class BubbleChart extends Component {
-  render() {
-    const chartTitle = 'World GDP'
-    const width = 600
-    const height = 600
+  render () {
+    let chartTitle = "Gates Foundation Educational Spending";
 
     function bubbleChart() {
       // Constants for sizing
-
+      var width = 940;
+      var height = 600;
 
       // tooltip for mouseover functionality
-      var tooltip = floatingTooltip('gates_tooltip', 240)
+      var tooltip = floatingTooltip('gates_tooltip', 240);
 
       // Locations to move bubbles towards, depending
       // on which view mode is selected.
-      var center = { x: width / 2, y: height / 2 }
+      var center = { x: width / 2, y: height / 2 };
 
       var yearCenters = {
-        high: { x: width / 3, y: height / 2 },
-        medium: { x: width / 2, y: height / 2 },
-        low: { x: 2 * width / 3, y: height / 2 }
-      }
+        2008: { x: width / 3, y: height / 2 },
+        2009: { x: width / 2, y: height / 2 },
+        2010: { x: 2 * width / 3, y: height / 2 }
+      };
 
       // X locations of the year titles.
       var yearsTitleX = {
-        high: 160,
-        medium: width / 2,
-        low: width - 160
-      }
+        2008: 160,
+        2009: width / 2,
+        2010: width - 160
+      };
 
       // @v4 strength to apply to the position forces
-      var forceStrength = 0.03
+      var forceStrength = 0.03;
 
       // These will be set in create_nodes and create_vis
-      var svg = null
-      var bubbles = null
-      var nodes = []
+      var svg = null;
+      var bubbles = null;
+      var nodes = [];
 
       // Charge function that is called for each node.
       // As part of the ManyBody force.
@@ -57,7 +57,7 @@ export default class BubbleChart extends Component {
       // @v4 Before the charge was a stand-alone attribute
       //  of the force layout. Now we can use it as a separate force!
       function charge(d) {
-        return -Math.pow(d.radius, 2.0) * forceStrength
+        return -Math.pow(d.radius, 2.0) * forceStrength;
       }
 
       // Here we create a force layout and
@@ -68,17 +68,18 @@ export default class BubbleChart extends Component {
         .force('x', d3.forceX().strength(forceStrength).x(center.x))
         .force('y', d3.forceY().strength(forceStrength).y(center.y))
         .force('charge', d3.forceManyBody().strength(charge))
-        .on('tick', ticked)
+        .on('tick', ticked);
 
       // @v4 Force starts up automatically,
       //  which we don't want as there aren't any nodes yet.
-      simulation.stop()
+      simulation.stop();
 
       // Nice looking colors - no reason to buck the trend
       // @v4 scales now have a flattened naming scheme
       var fillColor = d3.scaleOrdinal()
         .domain(['low', 'medium', 'high'])
-        .range(['#d84b2a', '#beccae', '#7aa25c'])
+        .range(['#d84b2a', '#beccae', '#7aa25c']);
+
 
       /*
       * This data manipulation function takes the raw data from
@@ -95,33 +96,36 @@ export default class BubbleChart extends Component {
       function createNodes(rawData) {
         // Use the max total_amount in the data as the max in the scale's domain
         // note we have to ensure the total_amount is a number.
-        var maxAmount = d3.max(rawData, function(d) { return +d.gdp })
+        var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
+
         // Sizes bubbles based on area.
         // @v4: new flattened scale names.
         var radiusScale = d3.scalePow()
           .exponent(0.5)
           .range([2, 85])
-          .domain([0, maxAmount])
+          .domain([0, maxAmount]);
 
         // Use map() to convert raw data into node data.
         // Checkout http://learnjsdata.com/ for more on
         // working with data.
-        var myNodes = rawData.map(function(d) {
+        var myNodes = rawData.map(function (d) {
           return {
             id: d.id,
-            radius: radiusScale(+d.gdp),
-            value: +d.gdp,
-            country: d.country,
+            radius: radiusScale(+d.total_amount),
+            value: +d.total_amount,
+            name: d.grant_title,
+            org: d.organization,
             group: d.group,
+            year: d.start_year,
             x: Math.random() * 900,
             y: Math.random() * 800
-          }
-        })
+          };
+        });
 
         // sort them to prevent occlusion of smaller nodes.
-        myNodes.sort(function(a, b) { return b.value - a.value })
+        myNodes.sort(function (a, b) { return b.value - a.value; });
 
-        return myNodes
+        return myNodes;
       }
 
       /*
@@ -139,17 +143,18 @@ export default class BubbleChart extends Component {
       */
       var chart = function chart(selector, rawData) {
         // convert raw data into nodes data
-        nodes = createNodes(rawData)
+        nodes = createNodes(rawData);
 
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
+
           .attr('width', width)
-          .attr('height', height)
+          .attr('height', height);
 
         // Bind nodes data to what will become DOM elements to represent them.
         bubbles = svg.selectAll('.bubble')
-          .data(nodes, function(d) { return d.id })
+          .data(nodes, function (d) { return d.id; });
 
         // Create new circle elements each with class `bubble`.
         // There will be one circle.bubble for each object in the nodes array.
@@ -159,28 +164,28 @@ export default class BubbleChart extends Component {
         var bubblesE = bubbles.enter().append('circle')
           .classed('bubble', true)
           .attr('r', 0)
-          .attr('fill', function(d) { return fillColor(d.group) })
-          .attr('stroke', function(d) { return d3.rgb(fillColor(d.group)).darker() })
+          .attr('fill', function (d) { return fillColor(d.group); })
+          .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
           .attr('stroke-width', 2)
           .on('mouseover', showDetail)
-          .on('mouseout', hideDetail)
+          .on('mouseout', hideDetail);
 
         // @v4 Merge the original empty selection and the enter selection
-        bubbles = bubbles.merge(bubblesE)
+        bubbles = bubbles.merge(bubblesE);
 
         // Fancy transition to make bubbles appear, ending with the
         // correct radius
         bubbles.transition()
           .duration(2000)
-          .attr('r', function(d) { return d.radius })
+          .attr('r', function (d) { return d.radius; });
 
         // Set the simulation's nodes to our newly created nodes array.
         // @v4 Once we set the nodes, the simulation will start running automatically!
-        simulation.nodes(nodes)
+        simulation.nodes(nodes);
 
         // Set initial layout to single group.
-        groupBubbles()
-      }
+        groupBubbles();
+      };
 
       /*
       * Callback function that is called after every tick of the
@@ -191,8 +196,8 @@ export default class BubbleChart extends Component {
       */
       function ticked() {
         bubbles
-          .attr('cx', function(d) { return d.x })
-          .attr('cy', function(d) { return d.y })
+          .attr('cx', function (d) { return d.x; })
+          .attr('cy', function (d) { return d.y; });
       }
 
       /*
@@ -200,8 +205,9 @@ export default class BubbleChart extends Component {
       * x force.
       */
       function nodeYearPos(d) {
-        return yearCenters[d.group].x
+        return yearCenters[d.year].x;
       }
+
 
       /*
       * Sets visualization in "single group mode".
@@ -210,14 +216,15 @@ export default class BubbleChart extends Component {
       * center of the visualization.
       */
       function groupBubbles() {
-        hideYearTitles()
+        hideYearTitles();
 
         // @v4 Reset the 'x' force to draw the bubbles to the center.
-        simulation.force('x', d3.forceX().strength(forceStrength).x(center.x))
+        simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
 
         // @v4 We can reset the alpha value and restart the simulation
-        simulation.alpha(1).restart()
+        simulation.alpha(1).restart();
       }
+
 
       /*
       * Sets visualization in "split by year mode".
@@ -226,21 +233,20 @@ export default class BubbleChart extends Component {
       * yearCenter of their data's year.
       */
       function splitBubbles() {
-        console.log('~~in split bubbles')
-        showYearTitles()
+        showYearTitles();
 
         // @v4 Reset the 'x' force to draw the bubbles to their year centers
-        simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos))
+        simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos));
 
         // @v4 We can reset the alpha value and restart the simulation
-        simulation.alpha(1).restart()
+        simulation.alpha(1).restart();
       }
 
       /*
       * Hides Year title displays.
       */
       function hideYearTitles() {
-        svg.selectAll('.group').remove()
+        svg.selectAll('.year').remove();
       }
 
       /*
@@ -249,17 +255,18 @@ export default class BubbleChart extends Component {
       function showYearTitles() {
         // Another way to do this would be to create
         // the year texts once and then just hide them.
-        var yearsData = d3.keys(yearsTitleX)
-        var years = svg.selectAll('.group')
-          .data(yearsData)
+        var yearsData = d3.keys(yearsTitleX);
+        var years = svg.selectAll('.year')
+          .data(yearsData);
 
         years.enter().append('text')
-          .attr('class', 'group')
-          .attr('x', function(d) { return yearsTitleX[d] })
+          .attr('class', 'year')
+          .attr('x', function (d) { return yearsTitleX[d]; })
           .attr('y', 40)
           .attr('text-anchor', 'middle')
-          .text(function(d) { return d })
+          .text(function (d) { return d; });
       }
+
 
       /*
       * Function called on mouseover to display the
@@ -267,16 +274,19 @@ export default class BubbleChart extends Component {
       */
       function showDetail(d) {
         // change outline to indicate hover state.
-        d3.select(this).attr('stroke', 'black')
+        d3.select(this).attr('stroke', 'black');
 
-        var content = '<span class="name">Country: </span><span class="value">' +
-                      d.country +
+        var content = '<span class="name">Title: </span><span class="value">' +
+                      d.name +
                       '</span><br/>' +
-                      '<span class="name">GDP: </span><span class="value">$' +
-                      addCommas(d.value) + 'B'+
-                      '</span>'
+                      '<span class="name">Amount: </span><span class="value">$' +
+                      addCommas(d.value) +
+                      '</span><br/>' +
+                      '<span class="name">Year: </span><span class="value">' +
+                      d.year +
+                      '</span>';
 
-        showTooltip(content, d3.event)
+        showTooltip(content, d3.event);
       }
 
       /*
@@ -285,9 +295,9 @@ export default class BubbleChart extends Component {
       function hideDetail(d) {
         // reset outline
         d3.select(this)
-          .attr('stroke', d3.rgb(fillColor(d.group)).darker())
+          .attr('stroke', d3.rgb(fillColor(d.group)).darker());
 
-        hideTooltip()
+        hideTooltip();
       }
 
       /*
@@ -297,16 +307,17 @@ export default class BubbleChart extends Component {
       *
       * displayName is expected to be a string and either 'year' or 'all'.
       */
-      chart.toggleDisplay = function(displayName) {
-        if (displayName === 'year') {
-          splitBubbles()
+      chart.toggleDisplay = function (displayName) {
+        if (displayName === 'group') {
+          splitBubbles();
         } else {
-          groupBubbles()
+          groupBubbles();
         }
-      }
+      };
+
 
       // return the chart function from closure.
-      return chart
+      return chart;
     }
 
     /*
@@ -314,15 +325,20 @@ export default class BubbleChart extends Component {
     * to create a new bubble chart instance, load the data, and display it.
     */
 
-    var myBubbleChart = bubbleChart()
+    var myBubbleChart = bubbleChart();
 
     /*
     * Function called once data is loaded from CSV.
     * Calls bubble chart function to display inside #vis div.
     */
     function display(error, data) {
-      if (error)        { console.log(error)}
-      myBubbleChart('#vis > svg', data)
+      if (error) {
+        console.log(error);
+        console.log('~~data ', data);
+      }
+
+      myBubbleChart('#vis > svg', data);
+
     }
 
     /*
@@ -331,22 +347,22 @@ export default class BubbleChart extends Component {
     function setupButtons() {
       d3.select('#toolbar')
         .selectAll('.button')
-        .on('click', function() {
+        .on('click', function () {
           // Remove active class from all buttons
-          d3.selectAll('.button').classed('active', false)
+          d3.selectAll('.button').classed('active', false);
           // Find the button just clicked
-          var button = d3.select(this)
+          var button = d3.select(this);
 
           // Set it as the active button
-          button.classed('active', true)
+          button.classed('active', true);
 
           // Get the id of the button
-          var buttonId = button.attr('id')
+          var buttonId = button.attr('id');
 
           // Toggle the bubble chart based on
           // the currently clicked button.
-          myBubbleChart.toggleDisplay(buttonId)
-        })
+          myBubbleChart.toggleDisplay(buttonId);
+        });
     }
 
     /*
@@ -354,38 +370,37 @@ export default class BubbleChart extends Component {
     * and add commas to it to improve presentation.
     */
     function addCommas(nStr) {
-      nStr += ''
-      var x = nStr.split('.')
-      var x1 = x[0]
-      var x2 = x.length > 1 ? '.' + x[1] : ''
-      var rgx = /(\d+)(\d{3})/
+      nStr += '';
+      var x = nStr.split('.');
+      var x1 = x[0];
+      var x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
       while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2')
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
       }
 
-      return x1 + x2
+      return x1 + x2;
     }
     // path.join(__dirname, 'index.html'),
     // Load the data.
-    d3.csv(`${ROOT_PATH}/assets/gdp_data.csv`, display)
+    d3.csv(`${ROOT_PATH}/assets/gates_money.csv`, display);
 
     // setup the buttons.
-    setupButtons()
+    setupButtons();
 
     var fauxNode = ReactFauxDOM.createElement('div')
     var div = d3.select(fauxNode)
-       .attr('id', 'vis')
+       .attr("id", 'vis')
        .append('svg')
-       .attr('viewBox', `0 0 ${width} ${height}`)
-       .attr('preserveAspectRatio', 'xMidYMid meet')
+
 
     return (
       <div>
         <h2>{chartTitle}</h2>
         <div className="container">
           <div id="toolbar">
-            <a href="#" id="all" className="button active">One Group</a>
-            <a href="#" id="year" className="button">Split</a>
+            <a href="#" id="all" className="button active">All Grants</a>
+            <a href="#" id="year" className="button">Grants By Year</a>
           </div>
           {fauxNode.toReact()}
         </div>

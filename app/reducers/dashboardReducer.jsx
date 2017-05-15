@@ -1,4 +1,11 @@
+import BubbleChart from '../components/BubbleChart'
+import Chart from '../components/Chart'
+import {DEFAULT_TEMPLATE} from '../constants'
+import {storeChartGenerator} from '../utils/chartGenerators'
 
+import BarChart from '../components/BarChart'
+import React from 'react'
+import storage from 'electron-json-storage'
 // ----------- Actions
 const ADD_DASHBOARD = 'ADD_DASHBOARD'
 const DELETE_DASHBOARD = 'DELETE_DASHBOARD'
@@ -8,6 +15,7 @@ const UDPATE_DASHBOARD_CARD = 'UPDATE_DASHBOARD_CARD'
 const UPDATE_DASHBOARD = 'UPDATE_DASHBOARD'
 const SET_CURRENT_DASHBOARD = 'SET_CURRENT_DASHBOARD'
 const UPDATE_DASHBOARD_LAYOUT = 'UPDATE_DASHBOARD_LAYOUT'
+const LOAD_DASHBOARDS = 'LOAD_DASHBOARDS'
 
 // ----------- Action Creators
 export const addDashboard = (dashboardTitle) => ({
@@ -51,39 +59,29 @@ export const updateDashboardLayout = (dashboardTitle, layout) => ({
   dashboardTitle,
   layout
 })
-
+export const loadDashboards = (dashboards) => ({
+  type: LOAD_DASHBOARDS,
+  dashboards
+})
 // ----------- Reducer
 const dashboard1 = {
+  id: 1,
   counter: 1,
   title:'dashboard1',
-  cards:[{
-    title: 'Sample Card',
-    i: '1',
-    x: 2,
-    y: 1,
-    w: 3,
-    h: 3,
-    chart: undefined
-  }]
+  cards:[{title:'CardTitleDelight',i:'1',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE}]
 }
 const dashboard2 = {
-  counter: 1,
+  id: 2,
+  counter: 2,
   title:'secondSeedDB',
-  cards:[{
-    title: 'New Sample Card',
-    i: '1',
-    x: 2,
-    y: 3,
-    w: 4,
-    h: 4,
-    chart: undefined
-  }]
+  cards:[{title:'DefaultCardTitle',i:'1',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE},{title:'SecondCardTitle',i:'2',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE}]
 }
 const initialState = {
   dashboardCounter: 2,
   currentDashboard: dashboard1,
   dashboards: [dashboard1, dashboard2]
 }
+
 
 export default function dashboardReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
@@ -104,7 +102,7 @@ export default function dashboardReducer(state = initialState, action) {
   {
     let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboardId)
     ++thisDashboard.counter //this mutates the old state
-    let thisCard = Object.assign({title:'DefaultCardTitle',i:''+thisDashboard.counter,w:3, h:3, x:1,y:Infinity,chart:null},action.card)
+    let thisCard = Object.assign({title:'DefaultCardTitle',i:''+thisDashboard.counter,w:3, h:3, x:1,y:Infinity,chart:null,rawCode:DEFAULT_TEMPLATE},action.card)
     thisDashboard.cards = thisDashboard.cards.concat([thisCard])
     break
   }
@@ -129,13 +127,19 @@ export default function dashboardReducer(state = initialState, action) {
   case UPDATE_DASHBOARD_LAYOUT:
   {
       let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
-      console.log("thisDashboard", thisDashboard, action.dashboardTitle);
+      // console.log("thisDashboard", thisDashboard, action.dashboardTitle);
       thisDashboard.cards = action.layout
       break
   }
+  case LOAD_DASHBOARDS:
+    nextState=action.dashboards
+    return nextState
   default:
     return state
   }
+  storage.set('dashboards', nextState, function(err){
+    if(err)throw err
+  })
   return nextState
 
 }

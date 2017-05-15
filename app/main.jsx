@@ -6,15 +6,17 @@ import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import {createBrowserHistory} from 'history'
 
-import TalkToDatabase from './components/TalkToDatabase.jsx'
+import SQLabView from './components/SQLabView.jsx'
 import store from './store.jsx'
 import App from './components/App.jsx'
 import HomeView from './components/HomeView.jsx'
 import DashboardView from './components/DashboardView.jsx'
 import ExplorerView from './components/ExplorerView.jsx'
 import AllCardsView from './components/AllCardsView.jsx'
+import Login from './components/Login.jsx'
 
 const history = createBrowserHistory()
+export default history
 
 render(
   <div>
@@ -24,10 +26,11 @@ render(
           <Switch>
             <Route exact path="/" component={HomeView} />
             <Route path="/home" component={HomeView} />
-            <Route path="/talktodb" component={TalkToDatabase} />
             <Route path="/dashboard" component={DashboardView} />
             <Route path="/explorer" component={ExplorerView} />
+            <Route path="/sqlab" component={SQLabView} />
             <Route path="/allCardsView" component={AllCardsView} />
+            <Route path="/login" component={Login} />
           </Switch>
         </App>
       </Router>

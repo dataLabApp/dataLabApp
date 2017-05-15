@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
-import {barChartGenerator} from '../utils/chartGenerators.js'
+import {chartGenerator} from '../utils/chartGenerators.js'
 
     //send in as props or on state:
 
@@ -16,7 +16,6 @@ export default class ExplorerChart extends Component{
 
     let title = this.props.cardTitle || 'Delightful Chart Example'
     let userCode = this.props.userCode || undefined
-    let chartGenerator = this.props.chartGenerator || barChartGenerator
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -38,7 +37,7 @@ export default class ExplorerChart extends Component{
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height:200,width:700}}>
+        <div className="x_content" style={{height:400,width:700}}>
           <div>
             {chartGenerator(userCode)}
           </div>

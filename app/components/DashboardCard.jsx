@@ -2,18 +2,31 @@ import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
 import {barChartGenerator} from '../utils/chartGenerators.js'
+var d3_save_svg = require('d3-save-svg');
+var d3 = require('d3')
+
 
 export default class DashboardCard extends Component{
   constructor(props){
     super(props)
+    this.title= props.card.title
+    this.exportAsSVG = this.exportAsSVG.bind(this);
+
   }
   componentDidMount(){
   }
-  render(){
 
-    let title = this.props.chartTitle || 'Delightful Chart Example'
-    let userCode = this.props.userCode || undefined
-    let chartGenerator = this.props.chartGenerator || barChartGenerator
+  exportAsSVG() {
+    var config = {
+      filename: this.title
+    }
+    d3_save_svg.save(d3.select('svg').node(), config);
+  }
+  
+  render(){
+    let title = this.props.card.title || 'Delightful Chart Example'
+    let chart = this.props.card.chart
+    console.log("Chart is ", chart)
     return(
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -35,13 +48,11 @@ export default class DashboardCard extends Component{
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height:200,width:700}}>
-          <div>
-            {chartGenerator(userCode)}
-          </div>
+        <div className="x_content">
+            {chart()}
         </div>
+          <button onClick={this.exportAsSVG}>Export as SVG</button>
       </div>
   )
   }
 }
-
