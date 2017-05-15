@@ -20,7 +20,7 @@ class ExplorerView extends Component{
     this.handleChangeSlice = this.handleChangeSlice.bind(this)
   }
   handleChangeSlice(e){
-
+    console.log(e.target.value)
   }
 
   handleCodeFromTextEditor(text){
