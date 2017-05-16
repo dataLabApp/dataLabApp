@@ -23,7 +23,7 @@ class HomeView extends Component {
                 <div className="col-sm-4">
                   <Chart />
                 </div>
-                <div className="col-sm-4 col-md-6 col-lg-6">
+                <div className="col-sm-12 col-md-8 col-lg-6">
                   <BubbleChart />
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4">
