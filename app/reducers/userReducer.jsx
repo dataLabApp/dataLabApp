@@ -36,8 +36,8 @@ export const fetchUsers = () => (dispatch) => {
   let tempArray = []
   firebase.database().ref('users').orderByKey().once('value')
     .then(snapshot => {
-      snapshot.forEach(function(childSnapshot) {
-        var childData = childSnapshot.val()
+      snapshot.forEach(x => {
+        var childData = x.val()
         tempArray.push(
           {
             email: childData.email,

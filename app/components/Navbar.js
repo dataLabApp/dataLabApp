@@ -24,7 +24,7 @@ function NavTop(props) {
   function loginNavBar(){
     // let profile;
     // let idToken;
-    
+
     props.auth.lock.show();
 
     props.auth.lock.on('authenticated', (authResult) => {
@@ -38,38 +38,52 @@ function NavTop(props) {
           target: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'
         };
         props.auth.auth0.getDelegationToken(options, function(err, result) {
-
-        if(!err) {
-          
-          // Exchange the delegate token for a Firebase auth token
-          firebase.auth().signInWithCustomToken(result.id_token)
-            .then(()=> firebase.database().ref('users').push(profile))
+          if (!err) {
+            // Exchange the delegate token for a Firebase auth token
+            firebase.auth().signInWithCustomToken(result.id_token)
+            .then(() => firebase.database().ref('users').orderByKey().once('value'))
+            .then(snapshot => {
+              let profileExists = false
+              snapshot.forEach(x => {
+                if (x.val().email === profile.email) profileExists = true
+              })
+              if (!profileExists) {
+                firebase.database().ref('users').push(profile)
+                console.log('******Just created profile in firebase: ', profile)
+              }
+            })
             .then(() => props.login(profile, authResult.idToken))
             .catch(function(error) {
-              console.log(error);
-            });
-        }
-        else {
-          console.log('err is ', err)
-        }
-      });
+              console.log(error)
+            })
+            // // Exchange the delegate token for a Firebase auth token
+            // firebase.auth().signInWithCustomToken(result.id_token)
+            // .then(() => firebase.database().ref('users').push(profile))
+            // .then(() => props.login(profile, authResult.idToken))
+            // .catch(function(error) {
+            //   console.log(error)
+            // })
+          } else {
+            console.log('err is ', err)
+          }
+        })
       // storage.set('profile', JSON.stringify(profile));
-      });
-        props.auth.lock.hide();
-
-    });
+      })
+      props.auth.lock.hide()
+    })
           // console.log("profile on line 55 is ", profile)
           // if (profile) props.login(profile, idToken);
       // console.log("storage is ", storage)
-    }
+  }
+
 
     function logoutNavBar(){
         props.logout();
-   
+
         // storage.remove('profile');
         // storage.remove('id_token');
       }
-  
+
   return (
         <Navbar collapseOnSelect>
           <Navbar.Header>

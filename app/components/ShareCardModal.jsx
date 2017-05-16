@@ -29,9 +29,6 @@ const ShareCardModal = props => (
                   </Checkbox>
                 )
               }
-              <Checkbox readOnly>
-                Checkbox
-              </Checkbox>
             </FormGroup>
           <Button bsStyle="primary" type='submit'>Save </Button>
         </Form>

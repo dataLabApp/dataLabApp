@@ -61,11 +61,3 @@ export default function dataReducer(state = initialState, action) {
   return nextState
 }
 
-// ----------- Dispatchers
-// export const fetchData = () => (dispatch) => {
-//   axios.get('/api/data')
-//       .then(response => {
-//         dispatch(receiveData(response.data))
-//       })
-//       .catch(console.error)
-// }
