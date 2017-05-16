@@ -33,8 +33,6 @@ export default function userReducer(state = initialState, action) {
 // -----------Dispatchers
 
 export const fetchUsers = () => (dispatch) => {
-  //let query = firebase.database().ref('users').orderByKey()
-  //firebase.database().ref('newtable').push({test: 'mandi'})
   let tempArray = []
   firebase.database().ref('users').orderByKey().once('value')
     .then(snapshot => {

@@ -11,7 +11,7 @@ const ShareCardModal = props => (
       </Modal.Header>
 
       <Modal.Body>
-        Choose coworkers to show your card to.
+        Select coworkers to share your card with.
         {/*<Form onSubmit = {  } >*/}
         <Form >
           <FormGroup>
@@ -22,6 +22,13 @@ const ShareCardModal = props => (
                 type="text"
                 placeholder="Enter card name - or message to coworkers - tbd"
               />
+              { props.users &&
+                props.users.map((x, index) =>
+                  <Checkbox key={index} readOnly>
+                    {x.email}
+                  </Checkbox>
+                )
+              }
               <Checkbox readOnly>
                 Checkbox
               </Checkbox>
