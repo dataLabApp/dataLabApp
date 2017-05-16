@@ -31,6 +31,7 @@ class TalkToDatabase extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
+    this. handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
   }
 
   handleChange(event) {
@@ -64,11 +65,30 @@ class TalkToDatabase extends Component {
     event.preventDefault()
   }
 
+  handleFindAllDatabases(event) {
+    // let array = []
+    // let columnNames
+    event.preventDefault()
+    const client = new pg.Client(`postgres://localhost/`)
+    console.log("client is ", client);
+    client.connect()
+    client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
+    .then(data => { console.log(data);
+      data.rows.forEach(x => {
+        console.log(x.datname)
+      })
+    })
+    .catch(err => console.log(err))
+    // this.setState({client})
+  };
+
   handleFindAllTables(event) {
     let array = []
     let columnNames
     event.preventDefault()
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
+    console.log("client is ", client);
+
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
     .then(data => {
@@ -128,7 +148,8 @@ class TalkToDatabase extends Component {
     return (
       <div>
         <div className="container">
-          <Form inline onSubmit={ event => this.handleFindAllTables(event) } >
+          <button onClick = {this.handleFindAllDatabases}>Find Databases</button>
+          <Form onSubmit={ event => this.handleFindAllTables(event) } >
             <FormGroup controlId="formBasicText">
               <ControlLabel>Name of Database</ControlLabel>
               {'  '}
