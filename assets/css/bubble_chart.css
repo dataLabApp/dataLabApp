@@ -23,12 +23,12 @@ a, a:visited, a:active {
 }
 
 
-#vis {
+/*#vis {
   width: 940px;
   height: 600px;
   clear: both;
   margin-bottom: 10px;
-}
+}*/
 
 #toolbar {
   margin-top: 10px;

@@ -7,8 +7,9 @@ import {ROOT_PATH} from '../constants'
 export default class BubbleChart extends Component {
   render() {
     const chartTitle = 'World GDP'
+    // 940 x 600
     const width = 600
-    const height = 600
+    const height = 500
 
     function bubbleChart() {
       // Constants for sizing
@@ -144,8 +145,8 @@ export default class BubbleChart extends Component {
         // Create a SVG element inside the provided selector
         // with desired size.
         svg = d3.select(selector)
-          .attr('width', width)
-          .attr('height', height)
+          // .attr('width', width)
+          // .attr('height', height)
 
         // Bind nodes data to what will become DOM elements to represent them.
         bubbles = svg.selectAll('.bubble')
@@ -376,13 +377,13 @@ export default class BubbleChart extends Component {
     var div = d3.select(fauxNode)
        .attr('id', 'vis')
        .append('svg')
-       .attr('viewBox', `0 0 ${width} ${height}`)
+       .attr('viewBox', `0 0 ${width*2} ${height*2}`)
        .attr('preserveAspectRatio', 'xMidYMid meet')
 
     return (
       <div>
-        <h2>{chartTitle}</h2>
         <div className="container">
+          <h2>{chartTitle}</h2>
           <div id="toolbar">
             <a href="#" id="all" className="button active">One Group</a>
             <a href="#" id="year" className="button">Split</a>

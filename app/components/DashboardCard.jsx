@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
 import {barChartGenerator} from '../utils/chartGenerators.js'
-var d3_save_svg = require('d3-save-svg');
+var d3SaveSvg = require('d3-save-svg');
 var d3 = require('d3')
 
 
@@ -20,9 +20,9 @@ export default class DashboardCard extends Component{
     var config = {
       filename: this.title
     }
-    d3_save_svg.save(d3.select('svg').node(), config);
+    d3SaveSvg.save(d3.select('svg').node(), config);
   }
-  
+
   render(){
     let title = this.props.card.title || 'Delightful Chart Example'
     let chart = this.props.card.chart

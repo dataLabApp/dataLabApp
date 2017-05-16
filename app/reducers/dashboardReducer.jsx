@@ -30,7 +30,7 @@ export const deleteDashboard = (dashboardId) => ({
   type: DELETE_DASHBOARD,
   dashboardId
 })
-//be sure to call this on a card that already exists in the card reducer
+// be sure to call this on a card that already exists in the card reducer
 export const addCardToDashboard = (dashboardId, card) => ({
   type: ADD_CARD_TO_DASHBOARD,
   dashboardId,
@@ -67,14 +67,14 @@ export const loadDashboards = (dashboards) => ({
 const dashboard1 = {
   id: 1,
   counter: 1,
-  title:'dashboard1',
-  cards:[{title:'CardTitleDelight',i:'1',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE}]
+  title: 'dashboard1',
+  cards: [{title: 'CardTitleDelight', i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const dashboard2 = {
   id: 2,
   counter: 2,
-  title:'secondSeedDB',
-  cards:[{title:'DefaultCardTitle',i:'1',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE},{title:'SecondCardTitle',i:'2',w:3, h:3, x:1,y:Infinity,chart:storeChartGenerator(DEFAULT_TEMPLATE),rawCode:DEFAULT_TEMPLATE}]
+  title: 'secondSeedDB',
+  cards: [{title: 'DefaultCardTitle', i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'SecondCardTitle', i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const initialState = {
   dashboardCounter: 2,
@@ -82,54 +82,53 @@ const initialState = {
   dashboards: [dashboard1, dashboard2]
 }
 
-
 export default function dashboardReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
 
   switch (action.type) {
   case ADD_DASHBOARD:
-    let newDash = {counter: 1, id: ++nextState.dashboardCounter, title: action.dashboardTitle, cards:[]}
+    const newDash = {counter: 1, id: ++nextState.dashboardCounter, title: action.dashboardTitle, cards: []}
     nextState.dashboards=nextState.dashboards.concat([newDash])
     break
   case DELETE_DASHBOARD:
-    nextState.dashboards=nextState.dashboards.filter(dashboard=>dashboard.id!==action.dashboardId)
+    nextState.dashboards=nextState.dashboards.filter(dashboard => dashboard.id!==action.dashboardId)
     break
   case SET_CURRENT_DASHBOARD:
-    let [selectedDash] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboardId)
+    const [selectedDash] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
     nextState = Object.assign(nextState, {currentDashboard: selectedDash})
     break
   case ADD_CARD_TO_DASHBOARD:
-  {
-    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboardId)
-    ++thisDashboard.counter //this mutates the old state
-    let thisCard = Object.assign({title:'DefaultCardTitle',i:''+thisDashboard.counter,w:3, h:3, x:1,y:Infinity,chart:null,rawCode:DEFAULT_TEMPLATE},action.card)
+    {
+    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+    ++thisDashboard.counter // this mutates the old state
+    const thisCard = Object.assign({title: 'DefaultCardTitle', i: ''+thisDashboard.counter, w: 3, h: 3, x: 1, y: Infinity, chart: null, rawCode: DEFAULT_TEMPLATE}, action.card)
     thisDashboard.cards = thisDashboard.cards.concat([thisCard])
     break
   }
   case UDPATE_DASHBOARD_CARD:
-  {
-    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboardId)
-    let [thisCard] = thisDashboard.cards.filter(card=>card.id===action.cardId)
-    thisCard = Object.assign({},thisCard, action.card) //this mutates the old state
+    {
+    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+    let [thisCard] = thisDashboard.cards.filter(card => card.id===action.cardId)
+    thisCard = Object.assign({}, thisCard, action.card) // this mutates the old state
     break
   }
   case DELETE_CARD_FROM_DASHBOARD:
-  {
-    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboardId)
-    thisDashboard.cards = thisDashboard.cards.filter(card=>card.id!==action.cardId)
+    {
+    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+    thisDashboard.cards = thisDashboard.cards.filter(card => card.id!==action.cardId)
     break
   }
   case UPDATE_DASHBOARD:
-  {
-    let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.id===action.dashboard.id)
-    thisDashboard = Object.assign({},thisDashboard,action.dashboard) //this mutates state
+    {
+    let [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboard.id)
+    thisDashboard = Object.assign({}, thisDashboard, action.dashboard) // this mutates state
   }
   case UPDATE_DASHBOARD_LAYOUT:
-  {
-      let [thisDashboard] = nextState.dashboards.filter(dashboard=>dashboard.title===action.dashboardTitle)
+    {
+    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.title===action.dashboardTitle)
       // console.log("thisDashboard", thisDashboard, action.dashboardTitle);
-      thisDashboard.cards = action.layout
-      break
+    thisDashboard.cards = action.layout
+    break
   }
   case LOAD_DASHBOARDS:
     nextState=action.dashboards
@@ -137,9 +136,8 @@ export default function dashboardReducer(state = initialState, action) {
   default:
     return state
   }
-  storage.set('dashboards', nextState, function(err){
-    if(err)throw err
+  storage.set('dashboards', nextState, function(err) {
+    if (err) throw err
   })
   return nextState
-
 }

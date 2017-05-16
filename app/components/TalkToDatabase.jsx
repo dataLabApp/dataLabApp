@@ -20,7 +20,8 @@ class TalkToDatabase extends Component {
       currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
       currentData: null,
       showModal: false,
-      currentSliceName: ''
+      currentSliceName: '',
+      client: new pg.Client(`postgres://localhost/video-shopper`)
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
@@ -46,12 +47,13 @@ class TalkToDatabase extends Component {
 
   handleDatabaseChange(event) {
     this.setState({
-      currentDatabaseName: event.target.value
+      currentDatabaseName: event.target.value,
+      client: new pg.Client(`postgres://localhost/${event.target.value}`)
     })
   }
 
   handleQuery(event) {
-    client.query(this.state.currentSQLQuery, (err, data) => {
+    this.state.client.query(this.state.currentSQLQuery, (err, data) => {
       if (err) console.error(err)
       else {
         this.setState({
@@ -84,6 +86,7 @@ class TalkToDatabase extends Component {
       })
     })
     .catch(err => console.log(err))
+    this.setState({client})
   }
 
   findAllColumns(tableName) {

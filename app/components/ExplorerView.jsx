@@ -4,50 +4,98 @@ import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
 import {chartGenerator, storeChartGenerator} from '../utils/chartGenerators'
-import {DEFAULT_TEMPLATE} from '../constants'
+import {DEFAULT_TEMPLATE, HEADLESS_TEMPLATE} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import SliceSelector from './SliceSelector.jsx'
+import AxisSelector from './AxisSelector.jsx'
 import {addCardToDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 
-class ExplorerView extends Component{
-  constructor(props){
+class ExplorerView extends Component {
+  constructor(props) {
     super(props)
-    this.state = {userCode: DEFAULT_TEMPLATE, template: DEFAULT_TEMPLATE, cardTitle: 'Products', currentSlice: props.data.allSlices[0]}
+    this.state = {
+      userCode: HEADLESS_TEMPLATE,  //this should actually prepend the settings-based-code
+      template: HEADLESS_TEMPLATE,
+      config: {
+        data: props.data.allSlices[0].data,
+        title: 'Pick Your Title',
+        x: {
+          dataColumn: Object.keys(props.data.allSlices[0].data[0])[0]
+        },
+        y: {
+          dataColumn: Object.keys(props.data.allSlices[0].data[0])[1]
+        }
+      }
+    }
     this.handleCodeFromTextEditor = this.handleCodeFromTextEditor.bind(this)
     this.handleAddCardToDashboard = this.handleAddCardToDashboard.bind(this)
     this.handleChangeSlice = this.handleChangeSlice.bind(this)
-  }
-  handleChangeSlice(e){
-
+    this.changeConfig = this.changeConfig.bind(this)
   }
 
-  handleCodeFromTextEditor(text){
+  handleChangeSlice(e) {
+    const userSpecifiedSliceTitle = e.target.value
+    const [newSlice] = this.props.data.allSlices.filter(slice => slice.title===userSpecifiedSliceTitle)
+    const oldConfig = this.state.config
+    const newConfig = Object.assign(oldConfig, {data: newSlice.data})
+    this.setState({config: newConfig})
+  }
+
+  handleCodeFromTextEditor(text) {
     this.setState({userCode: text})
   }
 
-  handleAddCardToDashboard(e, dashboardId){
-    e.preventDefault()
-    this.props.addCardToCards({title: this.state.cardTitle, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.userCode)})
-    setTimeout(()=>{
-      let newCard = this.props.cards[this.props.cards.length - 1]
-      this.props.addCardToDashboard(+dashboardId, newCard)
-    },20)
+  changeConfig(attributeToChange){
+    let stateUpdater = newAttribute => {
+      const oldAttributeValues = this.state.config[attributeToChange] || {}
+      const updatedAttributes = Object.assign(oldAttributeValues, newAttribute)
+      const oldConfig = this.state.config
+      const newConfig = Object.assign(oldConfig, {[attributeToChange]: updatedAttributes})
+      this.setState({config: newConfig})
+    }
+    return stateUpdater.bind(this)
   }
 
-  render (){
+  handleAddCardToDashboard(e, dashboardId) {
+    e.preventDefault()
+    this.props.addCardToCards({title: this.state.config.title, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.userCode)})
+    setTimeout(() => {
+      const newCard = this.props.cards[this.props.cards.length - 1]
+      this.props.addCardToDashboard(+dashboardId, newCard)
+    }, 20)
+  }
+
+  render() {
     return (
   <div className='container'>
    <PageHeader header="Explorer" />
     <div className="container-fluid">
       <div className="row">
         <div className="col-sm-3">
-        <SliceSelector changeSlice={this.handleChangeSlice} currentSlice={this.state.currentSlice} />
+        <SliceSelector
+          changeSlice={this.handleChangeSlice}
+          currentSlice={this.state.config.data}
+        />
+        <AxisSelector
+          label='X Axis'
+          attribute='x'
+          currentSettings = {this.state.config.x || {}}
+          currentSlice={this.state.config.data}
+          changeConfig={this.changeConfig}
+        />
+        <AxisSelector
+          label='Y Axis'
+          attribute='y'
+          currentSettings = {this.state.config.y || {}}
+          currentSlice={this.state.config.data}
+          changeConfig={this.changeConfig}
+        />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
         </div>
         <div className="col-sm-9">
-        <ExplorerChart cardTitle={this.state.cardTitle} userCode={this.state.userCode} />
+        <ExplorerChart cardTitle={this.state.config.title} config={this.state.config} userCode={this.state.userCode} />
         </div>
       </div>
     </div>
@@ -56,7 +104,7 @@ class ExplorerView extends Component{
   }
 }
 
-let mapStateToProps = (state)=>(
+const mapStateToProps = (state) => (
   {
     availableDashboards: state.dashboards.dashboards,
     currentDashboard: state.dashboards.currentDashboard,
@@ -65,11 +113,11 @@ let mapStateToProps = (state)=>(
   }
 )
 
-let mapDispatchToProps = (dispatch)=>(
+const mapDispatchToProps = (dispatch) => (
   {
-    addCardToCards: (card)=>dispatch(addCard(card)),
-    addCardToDashboard: (dashboardId, card)=>dispatch(addCardToDashboard(dashboardId, card))
+    addCardToCards: (card) => dispatch(addCard(card)),
+    addCardToDashboard: (dashboardId, card) => dispatch(addCardToDashboard(dashboardId, card))
   }
 )
 
-export default connect(mapStateToProps,mapDispatchToProps)(ExplorerView)
+export default connect(mapStateToProps, mapDispatchToProps)(ExplorerView)
