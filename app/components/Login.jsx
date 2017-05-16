@@ -27,7 +27,7 @@ const Login = props => {
 
 
 // ------------- Container
-const mapStateToProps = null
+const mapStateToProps = (null)
 const mapDispatchToProps = null
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
