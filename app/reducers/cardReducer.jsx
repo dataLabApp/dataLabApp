@@ -35,7 +35,8 @@ const initialState =  [{
     id: 1,
     title: 'Sample Card',
     rawCode:DEFAULT_TEMPLATE,
-    chart: ()=>(<Chart />)
+    chart: ()=>(<Chart />),
+    sliceId: 1,
   }]
 
 initialState.count = 1;
