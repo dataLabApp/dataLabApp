@@ -5,15 +5,16 @@ import {connect} from 'react-redux'
 
 
 export default props => {
-  let columnNames = Object.keys(props.currentSlice.data[0])
+  let columnNames = Object.keys(props.currentSlice[0])
+  let currentDataColumn = props.currentSettings.dataColumn || columnNames[0] || ''
   return (
     <form>
       <FormGroup>
         <ControlLabel>{props.label}</ControlLabel>
-        <FormControl componentClass="select" placeholder="select" onChange={props.changeConfig(props.attribute)}>
-          <option key='0' value={props.currentSetting}>{props.currentSetting}</option>
+        <FormControl componentClass="select" placeholder="select" onChange={(e) => props.changeConfig(props.attribute)({dataColumn: e.target.value})}>
+          <option key='0' value={currentDataColumn}>{currentDataColumn}</option>
           {columnNames.map((column, index) => {
-            if (column!==props.currentSetting) {
+            if (column!==currentDataColumn) {
               return (
               <option key={''+(index+1)} value={column}>{column}</option>
               )
