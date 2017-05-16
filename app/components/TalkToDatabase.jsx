@@ -154,11 +154,11 @@ class TalkToDatabase extends Component {
     return (
       <div>
         <div className="container">
-          <button onClick = {this.handleFindAllDatabases}>Connect to PostGres</button>
+          <Button bsStyle="primary" onClick = {this.handleFindAllDatabases}>Connect to PostGres</Button>
           <form>
               <FormGroup controlId="formControlsSelect">
               <ControlLabel>Name of Database</ControlLabel>
-              <FormControl componentClass="select" placeholder="select">
+              <FormControl componentClass="select" placeholder="select" onChange={this.handleDatabaseChange}>
               {this.state.databases && this.state.databases.map((databaseName,i)=>{
                 return <option key = {i} value={databaseName}>{databaseName}</option>
               })
@@ -166,17 +166,6 @@ class TalkToDatabase extends Component {
             </FormGroup>
           </form>
           <Form onSubmit={ event => this.handleFindAllTables(event) } >
-            <FormGroup controlId="formBasicText">
-              <ControlLabel>Name of Database</ControlLabel>
-              {'  '}
-              <FormControl
-                type="text"
-                value={this.state.currentDatabaseName}
-                placeholder="Enter database name"
-                onChange={event => this.handleDatabaseChange(event)}
-              />
-            </FormGroup>
-            {'    '}
             <Button bsStyle="primary" type='submit'>
               Connect to Database
             </Button>
