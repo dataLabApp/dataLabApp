@@ -23,8 +23,9 @@ export function customChartGenerator(config, template) {
   return chartGenerator(parsedConfig + template)
 }
 
-export function storeChartGenerator(userGeneratedCode) {
-  return () => chartGenerator(userGeneratedCode)
+export function storeChartGenerator(...args) {
+  if (args.length===2) return () => customChartGenerator(...args)
+  else if (args.length===1) return () => chartGenerator(...args)
 }
 
 // export chartGenerator(){
