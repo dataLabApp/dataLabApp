@@ -21,6 +21,7 @@ const AllCardsView = (props) => {
   )
 }
 
+// ----------------------- Container -----------------------
 const mapStateToProps = (state) => (
   {
     cards: state.cards

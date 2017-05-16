@@ -1,6 +1,6 @@
 // Required libraries
 import axios from 'axios'
-const firebase = require('firebase/app')
+// const firebase = require('firebase/app')
 
 // ----------- Actions
 const SET_USERS = 'SET_USERS'
@@ -13,7 +13,7 @@ export const setAllUsers = (users) => ({
 
 // ----------- Reducer
 const initialState = {
-  allUsers: {}
+  allUsers: []
 }
 
 export default function userReducer(state = initialState, action) {
@@ -33,7 +33,22 @@ export default function userReducer(state = initialState, action) {
 // -----------Dispatchers
 
 export const fetchUsers = () => (dispatch) => {
-  firebase.database().ref('users').once('value')
-    .then(usersObject => setAllUsers(usersObject))
+  //let query = firebase.database().ref('users').orderByKey()
+  //firebase.database().ref('newtable').push({test: 'mandi'})
+  let tempArray = []
+  firebase.database().ref('users').orderByKey().once('value')
+    .then(snapshot => {
+      snapshot.forEach(function(childSnapshot) {
+        var childData = childSnapshot.val()
+        tempArray.push(
+          {
+            email: childData.email,
+            firstName: childData.given_name,
+            lastName: childData.family_name,
+          }
+        )
+      })
+    })
+    .then(() => dispatch(setAllUsers(tempArray)))
     .catch(console.error)
 }

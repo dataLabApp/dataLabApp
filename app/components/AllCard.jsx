@@ -14,7 +14,7 @@ class AllCard extends Component {
   }
 
   handleShowModal(event) {
-    console.log('handleshowmodal invoked')
+    this.props.setAllUsers()
     this.setState({
       showShareCardModal: true
     })
@@ -41,7 +41,7 @@ class AllCard extends Component {
         </div>
             {
               this.state.showShareCardModal &&
-              <ShareCardModal />
+              <ShareCardModal users={ this.props.allUsers } />
             }
       </div>
     )
@@ -50,15 +50,16 @@ class AllCard extends Component {
 
 // ----------------------- Container -----------------------
 
-const mapStateToProps = (state, ownProps) => (
-  {
-  }
-)
+import { fetchUsers } from '../reducers/userReducer'
+
+const mapStateToProps = (state, ownProps) => ({
+  allUsers: state.user.allUsers
+})
 
 const mapDispatchToProps = dispatch => ({
-
+  setAllUsers: () => dispatch(fetchUsers())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllCard)
 
-    // <div className="x_panel tile fixed_height_320">
+// <div className="x_panel tile fixed_height_320">

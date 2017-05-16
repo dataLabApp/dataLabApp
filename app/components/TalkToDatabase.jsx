@@ -182,13 +182,11 @@ class TalkToDatabase extends Component {
 }
 
 // ----------------------- Container -----------------------
-import { setCurrentData, addSlice } from '../reducers/dataReducer.jsx'
+import { setCurrentData, addSlice } from '../reducers/dataReducer'
 
-const mapStateToProps = (state, ownProps) => (
-  {
-    currentData: state.data.currentData
-  }
-)
+const mapStateToProps = (state, ownProps) => ({
+  currentData: state.data.currentData
+})
 
 const mapDispatchToProps = dispatch => ({
   setCurrentData: data => dispatch(setCurrentData(data)),
