@@ -1,28 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Modal, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap'
 import { connect } from 'react-redux'
 
-const SaveSliceModal = props => (
+const ShareCardModal = props => (
   <div className="static-modal">
     <Modal.Dialog>
       <Modal.Header>
-        <Modal.Title> Save Slice </Modal.Title>
+        <Modal.Title> Share Your Card </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        Save your slice under a unique name.
-        <Form onSubmit = { event => props.handleSaveSlice(event) } >
+        Share your card with coworkers.
+        <Form onSubmit = { console.log('hey') } >
           <FormGroup>
-              <ControlLabel>Name of Slice</ControlLabel>
+              <ControlLabel>Name of Card</ControlLabel>
               {'  '}
               <FormControl
                 id="sliceName"
                 type="text"
-                value={props.sliceName}
-                placeholder="Enter slice name"
-                onChange={event => props.handleSliceNameChange(event)}
+                placeholder="Enter card name - or message to coworkers - tbd"
+                onChange={ console.log('hey')}
               />
+              <Checkbox unchecked readOnly>
+                Checkbox
+              </Checkbox>
             </FormGroup>
           <Button bsStyle="primary" type='submit'>Save </Button>
         </Form>
@@ -40,4 +42,4 @@ const SaveSliceModal = props => (
 const mapStateToProps = null
 const mapDispatchToProps = null
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaveSliceModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ShareCardModal)
