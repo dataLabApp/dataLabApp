@@ -16,6 +16,7 @@ class TalkToDatabase extends Component {
     super(props)
     this.state = {
       currentDatabaseName: 'video-shopper',
+      databases: [],
       currentTablesArray: [],
       currentSQLQuery: "SELECT name, description, price FROM product JOIN review ON product.id = review.product_id WHERE review.stars = '5'",
       currentData: null,
@@ -31,6 +32,7 @@ class TalkToDatabase extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
+    this. handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
   }
 
   handleChange(event) {
@@ -64,11 +66,34 @@ class TalkToDatabase extends Component {
     event.preventDefault()
   }
 
+  handleFindAllDatabases(event) {
+    let array = []
+    // let columnNames
+    event.preventDefault()
+    const client = new pg.Client(`postgres://localhost/`)
+    console.log("client is ", client);
+    client.connect()
+    client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
+    .then(data => { console.log(data);
+      data.rows.forEach(x=> {
+        array.push(x.datname); 
+      })
+      this.setState({
+            databases: array
+          })
+      console.log(this.state.databases)
+    })
+    .catch(err => console.log(err))
+    // this.setState({client})
+  };
+
   handleFindAllTables(event) {
     let array = []
     let columnNames
     event.preventDefault()
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
+    console.log("client is ", client);
+
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
     .then(data => {
@@ -128,7 +153,18 @@ class TalkToDatabase extends Component {
     return (
       <div>
         <div className="container">
-          <Form inline onSubmit={ event => this.handleFindAllTables(event) } >
+          <button onClick = {this.handleFindAllDatabases}>Connect to PostGres</button>
+          <form>
+              <FormGroup controlId="formControlsSelect">
+              <ControlLabel>Name of Database</ControlLabel>
+              <FormControl componentClass="select" placeholder="select">
+              {this.state.databases && this.state.databases.map((databaseName,i)=>{
+                return <option key = {i} value={databaseName}>{databaseName}</option>
+              })
+              }</FormControl>
+            </FormGroup>
+          </form>
+          <Form onSubmit={ event => this.handleFindAllTables(event) } >
             <FormGroup controlId="formBasicText">
               <ControlLabel>Name of Database</ControlLabel>
               {'  '}
