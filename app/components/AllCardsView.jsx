@@ -10,7 +10,7 @@ const AllCardsView = (props) => {
             <ul style={{listStyle: 'none'}}>
               { props.cards.map(card => (
                 <li key={card.id} >
-                  <div className="col-sm-6 col-md-4 col-lg-4 text-center" >
+                  <div className="col-sm-6 col-md-4 col-lg-3 text-center" >
                     <AllCard title={card.title} chart={card.chart()} onRemove= { () => props.deleteCard(card.id)}/>
                   </div>
                 </li>
