@@ -1,10 +1,20 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
+const d3 = require('d3')
+const d3SaveSvg = require('d3-save-svg')
 
 const AllCard = (props) => {
   const title = props.title || 'Delightful Chart Example'
   const chart = props.chart
+
+  const exportAsSVG = () => {
+    var config = {
+      filename: title
+    }
+    d3SaveSvg.save(d3.select('svg').node(), config)
+  }
+
   return (
     <div className="x_panel tile">
       <div className="x_title">
@@ -20,6 +30,8 @@ const AllCard = (props) => {
             </ul>
           </li>
           <li><a className="collapse-link"><i className="fa fa-share"></i></a>
+          </li>
+          <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a>
           </li>
           <li><a onClick={props.onRemove} className="close-link"><i className="fa fa-close"></i></a>
           </li>

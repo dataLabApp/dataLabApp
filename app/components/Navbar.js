@@ -67,6 +67,7 @@ function NavTop(props) {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
+
               <LinkContainer to="/dashboard">
                   <NavItem eventKey={1}>Dashboard</NavItem>
               </LinkContainer>
