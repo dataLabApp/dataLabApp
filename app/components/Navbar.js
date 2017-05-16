@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux'
+// import storage from 'electron-json-storage'
+
+
 import {
   Navbar,
   Nav,
@@ -10,7 +14,62 @@ import {
 import {Link} from 'react-router-dom'
 import {clearCachedData} from '../utils/storageUtils'
 
-function NavTop() {
+
+function NavTop(props) {
+  let logInOrOutLabel;
+  props.auth.owner ? logInOrOutLabel = 'Logout' : logInOrOutLabel = 'Login';
+  function logInOrOut(){
+    props.auth.owner ? logoutNavBar() : loginNavBar();
+  }
+  function loginNavBar(){
+    // let profile;
+    // let idToken;
+    
+    props.auth.lock.show();
+
+    props.auth.lock.on('authenticated', (authResult) => {
+      // storage.set('id_token', authResult.idToken);
+      // idToken = authResult.idToken
+      props.auth.lock.getProfile(authResult.idToken, (err, profile) => {
+        var options = {
+          id_token : authResult.idToken,
+          api : 'firebase',
+          scope : 'openid name email displayName',
+          target: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'
+        };
+        props.auth.auth0.getDelegationToken(options, function(err, result) {
+
+        if(!err) {
+          
+          // Exchange the delegate token for a Firebase auth token
+          firebase.auth().signInWithCustomToken(result.id_token)
+            .then(()=> firebase.database().ref('users').push(profile))
+            .then(() => props.login(profile, authResult.idToken))
+            .catch(function(error) {
+              console.log(error);
+            });
+        }
+        else {
+          console.log('err is ', err)
+        }
+      });
+      // storage.set('profile', JSON.stringify(profile));
+      });
+        props.auth.lock.hide();
+
+    });
+          // console.log("profile on line 55 is ", profile)
+          // if (profile) props.login(profile, idToken);
+      // console.log("storage is ", storage)
+    }
+
+    function logoutNavBar(){
+        props.logout();
+   
+        // storage.remove('profile');
+        // storage.remove('id_token');
+      }
+  
   return (
         <Navbar collapseOnSelect>
           <Navbar.Header>
@@ -42,12 +101,8 @@ function NavTop() {
                     <span><i className="fa fa-gear fa-fw"></i> Settings </span>
                   </MenuItem>
                   <MenuItem divider />
-                  <MenuItem eventKey = "3" href = 'http://www.strapui.com' >
-                    <span> <i className = "fa fa-eye fa-fw" /> Premium React Themes </span>
-                  </MenuItem>
-                  <MenuItem divider />
                   <MenuItem eventKey = "4">
-                    <span> <i className = "fa fa-sign-out fa-fw" /> Logout </span>
+                    <span><a onClick = {logInOrOut}><i className = "fa fa-sign-out fa-fw" />{logInOrOutLabel}</a></span>
                   </MenuItem>
                 </NavDropdown>
             </Nav>
@@ -56,4 +111,20 @@ function NavTop() {
   );
 }
 
-export default NavTop;
+// ----------------------- Container -----------------------
+import { login, logout } from '../reducers/authReducer.jsx'
+
+const mapStateToProps = (state, ownProps) => {
+  return {auth: state.auth};
+}
+
+const mapDispatchToProps = (dispatch) =>({
+    login: (profile, idToken) => {
+        dispatch(login(profile, idToken));
+    },
+    logout: () => {dispatch(logout())}
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavTop);
+
