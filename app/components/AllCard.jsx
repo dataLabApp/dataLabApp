@@ -10,16 +10,16 @@ const AllCard = (props) => {
       <div className="x_title">
         <h2>{title}</h2>
         <ul className="nav navbar-right panel_toolbox">
-          <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
-          </li>
           <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-cloud-upload"></i></a>
             <ul className="dropdown-menu" role="menu">
               <li><a href="#">Settings 1</a>
               </li>
               <li><a href="#">Settings 2</a>
               </li>
             </ul>
+          </li>
+          <li><a className="collapse-link"><i className="fa fa-share"></i></a>
           </li>
           <li><a onClick={props.onRemove} className="close-link"><i className="fa fa-close"></i></a>
           </li>
