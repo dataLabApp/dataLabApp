@@ -111,9 +111,6 @@ class TalkToDatabase extends Component {
   }
 
   handleSaveSlice(event) {
-    // this.setState({
-    //   showModal: false
-    // })
     event.preventDefault()
     this.props.addSlice({
       title: event.target.sliceName.value,
@@ -156,7 +153,6 @@ class TalkToDatabase extends Component {
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
             <p />
-            {/*<BarChart />*/}
 
             {
             this.state.currentData &&
@@ -168,7 +164,7 @@ class TalkToDatabase extends Component {
             <Button bsStyle="primary" type='submit' onClick={ (event) => {
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
-              }
+            }
             }>
               Save Slice
             </Button>
@@ -193,7 +189,7 @@ const mapStateToProps = (state, ownProps) => (
     currentData: state.data.currentData
   }
 )
-// should we use the object formatting here? KH
+
 const mapDispatchToProps = dispatch => ({
   setCurrentData: data => dispatch(setCurrentData(data)),
   addSlice: sliceObj => dispatch(addSlice(sliceObj))
