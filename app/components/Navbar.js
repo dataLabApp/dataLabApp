@@ -10,6 +10,8 @@ import {
   NavDropdown,
   MenuItem,
 } from 'react-bootstrap';
+
+import {LinkContainer} from 'react-router-bootstrap'
 // import Navbar, {Brand} from 'react-bootstrap/lib/Navbar';
 import {Link} from 'react-router-dom'
 import {clearCachedData} from '../utils/storageUtils'
@@ -74,37 +76,45 @@ function NavTop(props) {
         <Navbar collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to ="/home">DuperSet</Link>
+              <Link to ="/dashboard">DuperSet</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1}><Link to="/dashboard">Dashboard</Link></NavItem>
-              <NavItem eventKey={2}><Link to="/explorer">Explorer</Link></NavItem>
-              <NavItem eventKey={3}><Link to="/sqlab">SQLab</Link></NavItem>
-              <NavItem eventKey={4}><Link to="/allCardsView">AllCards</Link></NavItem>
+              <LinkContainer to="/dashboard">
+                  <NavItem eventKey={1}>Dashboard</NavItem>
+              </LinkContainer>
+               <LinkContainer to="/explorer">
+                  <NavItem eventKey={2}>Explorer</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/sqlab">
+                  <NavItem eventKey={3}>SQLab</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/allcardsview">
+                  <NavItem eventKey={4}>Charts</NavItem>
+              </LinkContainer>
               <NavDropdown eventKey={5} title="Dropdown" id="basic-nav-dropdown">
                 <MenuItem eventKey={5.1} onSelect={clearCachedData}>Clear Cached Data</MenuItem>
                 <MenuItem eventKey={5.2}>Another action</MenuItem>
                 <MenuItem eventKey={5.3}>Something else here</MenuItem>
                 <MenuItem divider />
-                <MenuItem eventKey={6.3}>Separated link</MenuItem>
+                <MenuItem eventKey={5.3}>Separated link</MenuItem>
               </NavDropdown>
             </Nav>
             <Nav pullRight>
-              <NavDropdown eventKey={6} title={<i className="fa fa-user fa-fw"></i> } id = 'basic-nav-dropdown'>
-                  <MenuItem eventKey="1">
+              <NavDropdown eventKey={1} title={<i className="fa fa-user fa-fw"></i>} id = "basic-nav-dropdown">
+                  <MenuItem eventKey={1.1}>
                     <span> <i className="fa fa-user fa-fw"></i> User Profile </span>
                   </MenuItem>
-                  <MenuItem eventKey="2">
+                  <MenuItem eventKey={1.2}>
                     <span><i className="fa fa-gear fa-fw"></i> Settings </span>
                   </MenuItem>
                   <MenuItem divider />
-                  <MenuItem eventKey = "4">
-                    <span><a onClick = {logInOrOut}><i className = "fa fa-sign-out fa-fw" />{logInOrOutLabel}</a></span>
+                  <MenuItem eventKey = {1.3} onClick = {logInOrOut}>
+                    <span><i className = "fa fa-sign-out fa-fw" />{logInOrOutLabel}</span>
                   </MenuItem>
-                </NavDropdown>
+              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
