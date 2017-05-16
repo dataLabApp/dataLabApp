@@ -3,7 +3,7 @@ import data from './dataReducer'
 import user from './userReducer'
 import cards from './cardReducer'
 import dashboards from './dashboardReducer'
-import auth from './auth'
+import auth from './authReducer'
 
 const rootReducer = combineReducers({
   data,

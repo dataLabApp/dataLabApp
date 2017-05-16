@@ -1,4 +1,4 @@
-import storage from 'electron-json-storage'
+// import storage from 'electron-json-storage'
 import React from 'react'
 
 var lock = new Auth0Lock('H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX', 'powerdata.auth0.com', {
@@ -16,21 +16,22 @@ const LOGOUT = 'LOGOUT'
 
 // ----------- Action Creators
 
-export const login = (profile) => ({
+export const login = (profile, idToken) => ({
   type: LOGIN,
   owner: profile.email,
-  profile: profile
+  profile,
+  idToken
 })
 
 export const logout = () => ({
-  type: LOGOUT,
-  owner: null,
-  profile: null
+  type: LOGOUT
 })
+
 
 const initialState = {
     lock,
     auth0,
+    idToken: null,
     owner: null,
     profile: null
   }
@@ -38,16 +39,20 @@ const initialState = {
 export default function authReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
   switch (action.type) {
-    case LOGIN:
-      nextState.owner = action.owner,
-      nextState.profile = action.profile
-      break
-    case LOGOUT:
+    case LOGIN: 
       nextState.owner = action.owner
       nextState.profile = action.profile
+      nextState.idToken = action.idToken
       break
-  default:
-    return state
+    case LOGOUT:
+      nextState.owner = null
+      nextState.profile = null
+      nextState.idToken = null
+      break
+    default:
+      return state
   }
   return nextState;
 }
+
+
