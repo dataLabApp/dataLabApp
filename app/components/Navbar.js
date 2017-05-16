@@ -24,14 +24,8 @@ function NavTop(props) {
     props.auth.owner ? logoutNavBar() : loginNavBar();
   }
   function loginNavBar(){
-    // let profile;
-    // let idToken;
-    
     props.auth.lock.show();
-
     props.auth.lock.on('authenticated', (authResult) => {
-      // storage.set('id_token', authResult.idToken);
-      // idToken = authResult.idToken
       props.auth.lock.getProfile(authResult.idToken, (err, profile) => {
         var options = {
           id_token : authResult.idToken,
@@ -42,7 +36,6 @@ function NavTop(props) {
         props.auth.auth0.getDelegationToken(options, function(err, result) {
 
         if(!err) {
-          
           // Exchange the delegate token for a Firebase auth token
           firebase.auth().signInWithCustomToken(result.id_token)
             .then(()=> firebase.database().ref('users').push(profile))
@@ -55,21 +48,13 @@ function NavTop(props) {
           console.log('err is ', err)
         }
       });
-      // storage.set('profile', JSON.stringify(profile));
       });
         props.auth.lock.hide();
-
     });
-          // console.log("profile on line 55 is ", profile)
-          // if (profile) props.login(profile, idToken);
-      // console.log("storage is ", storage)
     }
 
     function logoutNavBar(){
         props.logout();
-   
-        // storage.remove('profile');
-        // storage.remove('id_token');
       }
   
   return (
