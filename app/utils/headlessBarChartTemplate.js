@@ -1,19 +1,19 @@
 
 const yAxisLabel = 'Dollars'
 
-var margin = {top: 20, right: 5, bottom: 50, left: 50}
+let margin = {top: 20, right: 5, bottom: 50, left: 50}
 // here, we want the full chart to be 700x200, so we determine
 // the width and height by subtracting the margins from those values
-var fullWidth = 700
-var fullHeight = 200
+let fullWidth = 700
+let fullHeight = 200
 // the width and height values will be used in the ranges of our scales
-var width = fullWidth - margin.right - margin.left
-var height = fullHeight - margin.top - margin.bottom
+let width = fullWidth - margin.right - margin.left
+let height = fullHeight - margin.top - margin.bottom
 
 
 
 window.explorerFauxNode = window.ReactFauxDOM.createElement('svg')
-var svg = window.d3.select(window.explorerFauxNode)
+let svg = window.d3.select(window.explorerFauxNode)
 .attr('width', fullWidth)
 .attr('height', fullHeight)
 // this g is where the bar chart will be drawn
@@ -35,7 +35,7 @@ var xScale = window.d3.scaleBand()
 var bandwidth = xScale.bandwidth()
 
 // y value determined by temp
-var maxY = window.d3.max(data, function(d) { return d.price })
+var maxY = window.d3.max(data, d => +d[y]||d[y])
 var yScale = window.d3.scaleLinear()
 .domain([0, maxY])
 .range([height, 0])
