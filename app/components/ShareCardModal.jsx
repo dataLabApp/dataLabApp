@@ -22,7 +22,7 @@ const ShareCardModal = props => (
                 placeholder="Enter card name - or message to coworkers - tbd"
                 onChange={ console.log('hey')}
               />
-              <Checkbox unchecked readOnly>
+              <Checkbox readOnly>
                 Checkbox
               </Checkbox>
             </FormGroup>
