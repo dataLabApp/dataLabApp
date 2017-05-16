@@ -144,7 +144,8 @@ class TalkToDatabase extends Component {
       title: event.target.sliceName.value,
       dateCreated: new Date(),
       SQLQuery: this.state.currentSQLQuery,
-      data: this.state.currentData
+      data: this.state.currentData,
+      database: this.state.currentDatabaseName
     })
     history.push('/explorer')
   }

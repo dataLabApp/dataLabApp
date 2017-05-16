@@ -19,6 +19,7 @@ class ExplorerView extends Component {
       userCode: HEADLESS_TEMPLATE,  //this should actually prepend the settings-based-code
       template: HEADLESS_TEMPLATE,
       config: {
+        sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
         title: 'Pick Your Title',
         x: {
@@ -42,8 +43,9 @@ class ExplorerView extends Component {
   handleChangeSlice(e) {
     const userSpecifiedSliceTitle = e.target.value
     const [newSlice] = this.props.data.allSlices.filter(slice => slice.title===userSpecifiedSliceTitle)
+    const newSliceId = newSlice.id
     const oldConfig = this.state.config
-    const newConfig = Object.assign(oldConfig, {data: newSlice.data.slice()})
+    const newConfig = Object.assign(oldConfig, {data: newSlice.data.slice(), sliceId: newSliceId})
     this.setState({config: newConfig})
   }
 
@@ -64,7 +66,7 @@ class ExplorerView extends Component {
 
   handleAddCardToDashboard(e, dashboardId) {
     e.preventDefault()
-    this.props.addCardToCards({title: this.state.config.title, config: this.state.config, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.config, this.state.userCode)})
+    this.props.addCardToCards({title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.config, this.state.userCode)})
     setTimeout(() => {
       const newCard = this.props.cards[this.props.cards.length - 1]
       this.props.addCardToDashboard(+dashboardId, newCard)

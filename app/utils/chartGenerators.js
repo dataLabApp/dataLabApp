@@ -11,8 +11,8 @@ export function chartGenerator(userGeneratedCode = DEFAULT_TEMPLATE) {
 }
 
 function parseConfig(config) {
-  window.TEMPDB = config.data
-  return `let data = window.TEMPDB
+  let dataString = JSON.stringify(config.data)
+  return `let data = ${dataString}
   const x = '${config.x.dataColumn}'
   const y = '${config.y.dataColumn}'
   const chartTitle = '${config.title}'`
