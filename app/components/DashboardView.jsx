@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PageHeader from './PageHeader'
 import DragAndDrop from './DragAndDrop'
-import {Panel} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {setCurrentDashboard} from '../reducers/dashboardReducer'
 var PrintTemplate = require('react-print')
@@ -28,6 +27,8 @@ const DashboardView = (props) => {
     </div>
   )
 }
+
+// ----------------------- Container -----------------------
 const mapStateToProps = (state) => (
   {
     dashBoards: state.dashboards

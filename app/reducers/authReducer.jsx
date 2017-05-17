@@ -7,7 +7,7 @@ var lock = new Auth0Lock('H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX', 'powerdata.auth0.co
           sso: false
         }
       });
-var auth0 = new Auth0({ domain : 'powerdata.auth0.com', clientID: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'})
+var auth0 = new Auth0({ domain: 'powerdata.auth0.com', clientID: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'})
 
 
 // ----------- Actions
@@ -29,17 +29,17 @@ export const logout = () => ({
 
 
 const initialState = {
-    lock,
-    auth0,
-    idToken: null,
-    owner: null,
-    profile: null
-  }
+  lock,
+  auth0,
+  idToken: null,
+  owner: null,
+  profile: null
+}
 
 export default function authReducer(state = initialState, action) {
   let nextState = Object.assign({}, state)
   switch (action.type) {
-    case LOGIN: 
+    case LOGIN:
       nextState.owner = action.owner
       nextState.profile = action.profile
       nextState.idToken = action.idToken
