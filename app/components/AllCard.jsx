@@ -39,22 +39,23 @@ class AllCard extends Component {
 
   handleSendEmails(event) {
     event.preventDefault()
-    this.setState({
-      showShareCardModal: false
-    })
     this.state.selectedUsers.forEach(x => {
-      console.log(`'${x}'`)
-    })
-    this.state.selectedUsers.forEach(x => {
-      firebase.database().ref().child('users').child(`${x}`).update({
-        message: event.target.emailMessage.value
+      firebase.database().ref().child('users').child(x).update({
+        message: {
+          body: event.target.emailMessage.value,
+          sender: 'Mandi'
+        }
       })
+    })
+    this.setState({
+      showShareCardModal: false,
+      selectedUsers: new Set()
     })
 
   firebase.database().ref('users/mmeidlinger').on('value', function(snapshot) {
     const message = snapshot.val().message
-    let myNotification = new Notification('Mandi Sent You a New Visualization', {
-      body: message
+    let myNotification = new Notification(`${message.sender} Sent You a New Visualization`, {
+      body: message.body
     })
 
     myNotification.onclick = () => {
@@ -113,7 +114,8 @@ class AllCard extends Component {
 import { fetchUsers } from '../reducers/userReducer'
 
 const mapStateToProps = (state, ownProps) => ({
-  allUsers: state.user.allUsers
+  allUsers: state.user.allUsers,
+  // currentOwner: state.auth.profile.username
 })
 
 const mapDispatchToProps = dispatch => ({
