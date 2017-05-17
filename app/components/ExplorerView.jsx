@@ -36,10 +36,6 @@ class ExplorerView extends Component {
     this.changeConfig = this.changeConfig.bind(this)
   }
 
-  componentDidMount(){
-    this.setState()
-  }
-
   handleChangeSlice(e) {
     const userSpecifiedSliceTitle = e.target.value
     const [newSlice] = this.props.data.allSlices.filter(slice => slice.title===userSpecifiedSliceTitle)
