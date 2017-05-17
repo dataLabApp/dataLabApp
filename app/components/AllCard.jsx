@@ -12,11 +12,13 @@ class AllCard extends Component {
     this.state = {
       showShareCardModal: false,
       emailAddresses: [],
-      emailMessage: ''
+      emailMessage: '',
+      selectedUsers: new Set()
     }
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSendEmails = this.handleSendEmails.bind(this)
     this.handleEmailMessageChange = this.handleEmailMessageChange.bind(this)
+    this.handleCheckBoxesChange = this.handleCheckBoxesChange.bind(this)
   }
 
   handleShowModal(event) {
@@ -26,12 +28,24 @@ class AllCard extends Component {
     })
   }
 
+  handleCheckBoxesChange(bool, username) {
+    const userSet = this.state.selectedUsers
+    if (bool) userSet.add(username)
+    else userSet.delete(username)
+    this.setState({
+      selectedUsers: userSet
+    })
+  }
+
   handleSendEmails(event) {
     event.preventDefault()
+
+
     this.setState({
       emailAddresses: 'test@test.com',
       showShareCardModal: false
     })
+
 
 
   firebase.database().ref().child('users').child('mmeidlinger').update({
@@ -58,6 +72,7 @@ class AllCard extends Component {
   }
 
   render() {
+    console.log(this.state.selectedUsers)
     const title = this.props.title || 'Delightful Chart Example'
     const chart = this.props.chart
     const exportAsSVG = () => {
@@ -85,7 +100,7 @@ class AllCard extends Component {
             <div>
               {
                 this.state.showShareCardModal &&
-                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange}/>
+                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange} handleCheckBoxesChange={this.handleCheckBoxesChange}/>
               }
             </div>
           </div>
