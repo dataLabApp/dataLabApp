@@ -50,7 +50,7 @@ function NavTop(props) {
                 //firebase.database().ref('users').push(profile)
                 let userName = profile.username
                 console.log(userName)
-                firebase.database().ref().child('users').set({
+                firebase.database().ref().child('users').update({
                   [userName]: profile
                 })
                 console.log('******Just created profile in firebase: ', profile)
