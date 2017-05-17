@@ -31,22 +31,23 @@ export const loadCards = (cards) => ({
 })
 
 // ----------- Reducer
-const initialState =  [{
-    id: 1,
-    title: 'Sample Card',
-    rawCode:DEFAULT_TEMPLATE,
-    chart: ()=>(<Chart />),
-    sliceId: 1,
-  }]
+const initialState = [{
+  id: 1,
+  title: 'Sample Card',
+  rawCode: DEFAULT_TEMPLATE,
+  chart: () => (<Chart />),
+  sliceId: 1,
+  owner: "DuperSet",
+  public: true
+}]
 
-initialState.count = 1;
+initialState.count = 1
 
 export default function cardReducer(state = initialState, action) {
-  let count = state.count
+  const count = state.count
   let nextState = state.slice()
   nextState.count = count
   switch (action.type) {
-
   case ADD_CARD:
     action.card.id = count + 1
     nextState = nextState.concat([action.card])
@@ -54,16 +55,16 @@ export default function cardReducer(state = initialState, action) {
     break
 
   case DELETE_CARD:
-  {
-    nextState = nextState.filter(card=>card.id!==action.card)
+    {
+    nextState = nextState.filter(card => card.id!==action.card)
     nextState.count = count
     break
   }
   case UPDATE_CARD:
-  {
-    let [selectedCard] = nextState.filter(card=>card.id===action.updatedCard.id)
-    nextState = nextState.filter(card=>card.id!==action.updatedCard.id)
-    action.updatedCard = Object.assign({title:action.updatedCard.title, id:action.updatedCard.id, chart: action.updatedCard.chart})
+    {
+    const [selectedCard] = nextState.filter(card => card.id===action.updatedCard.id)
+    nextState = nextState.filter(card => card.id!==action.updatedCard.id)
+    action.updatedCard = Object.assign({title: action.updatedCard.title, id: action.updatedCard.id, chart: action.updatedCard.chart})
     nextState.push(action.updatedCard)
     nextState.count = count
   }
@@ -72,11 +73,9 @@ export default function cardReducer(state = initialState, action) {
     return nextState
   default:
     return state
-
   }
-  storage.set('cards', nextState, function(err){
-    if(err)throw err
+  storage.set('cards', nextState, function(err) {
+    if (err) throw err
   })
   return nextState
-
 }
