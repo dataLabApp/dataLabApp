@@ -3,8 +3,7 @@ import {connect} from 'react-redux'
 import {deleteCard} from '../reducers/cardReducer'
 import AllCard from './AllCard.jsx'
 
-const AllCardsView = (props) => {
-  return (
+const AllCardsView = (props) => (
     <div className="container-fluid">
       <div className="row">
             <ul style={{listStyle: 'none'}}>
@@ -19,7 +18,6 @@ const AllCardsView = (props) => {
       </div>
     </div>
   )
-}
 
 // ----------------------- Container -----------------------
 const mapStateToProps = (state) => (

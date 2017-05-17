@@ -7,7 +7,6 @@ const SET_DATA = 'SET_DATA'
 const LOAD_DATA = 'LOAD_DATA'
 const ADD_SLICE = 'ADD_SLICE'
 
-
 // ----------- Action Creators
 export const setCurrentData = (data) => ({
   type: SET_DATA,
@@ -23,20 +22,21 @@ export const addSlice = (sliceObj) => ({
   sliceObj
 })
 
-let sampleSliceObj= {
+
+const sampleSliceObj= {
+  id: 1,
   title: 'Example Slice',
   dateCreated: new Date(),
   SQLQuery: 'SELECT * FROM products',
-  data: [{
-    xVar: 1,
-    yVar: 2,
-    extraVar: 3}]
+  database: 'video-shopper',
+  data: [{xVar: 1, yVar: 2, extraVar: 3}]
 }
 
 // ----------- Reducer
 const initialState = {
   currentData: [],
-  allSlices: [sampleSliceObj]
+  allSlices: [sampleSliceObj],
+  sliceIdCounter: 2
 }
 
 export default function dataReducer(state = initialState, action) {
@@ -50,12 +50,14 @@ export default function dataReducer(state = initialState, action) {
     nextState = action.data
     return nextState
   case ADD_SLICE:
-    nextState.allSlices = [...nextState.allSlices, action.sliceObj]
+    nextState.allSlices = [...nextState.allSlices, Object.assign(action.sliceObj, {id: nextState.sliceIdCounter++})]
     break
   default:
     return state
   }
-  storage.set('data', nextState, function(err){
+
+  storage.set('data', nextState, function(err) {
+
     if (err) throw err
   })
   return nextState
