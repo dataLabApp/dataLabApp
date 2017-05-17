@@ -23,7 +23,8 @@ class TalkToDatabase extends Component {
       showModal: false,
       currentSliceName: '',
       client: new pg.Client(`postgres://localhost/video-shopper`),
-      rows: []
+      rows: [],
+      showQueryBox: false
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
@@ -35,6 +36,8 @@ class TalkToDatabase extends Component {
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
     this.handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
     this.createRows = this. createRows.bind(this)
+    this.toggleQueryBox = this. toggleQueryBox.bind(this)
+
 
   }
 
@@ -161,6 +164,13 @@ class TalkToDatabase extends Component {
     })
   }
 
+  toggleQueryBox(){
+    let bool = !this.state.showQueryBox;
+    this.setState({
+      showQueryBox: bool
+    })
+  }
+
   render() {
     if (this.state.databases.length ===0 ) {
       this.handleFindAllDatabases()
@@ -181,10 +191,17 @@ class TalkToDatabase extends Component {
               {this.state.databases && this.state.databases.map((databaseName,i)=>{
                 return <option key = {i} value={databaseName}>{databaseName}</option>
               })
-              }</FormControl>
+            }</FormControl>
+            
+            </FormGroup>
+            <FormGroup>
+            <ControlLabel>Enter a SQL Query</ControlLabel>
+            <Button className="btn-block" onClick={this.toggleQueryBox}>{`query ${this.state.currentDatabaseName}`}</Button>
             </FormGroup>
           </form>
+           
         </div>
+         
           {
           // <Form onSubmit={ event => this.handleFindAllTables(event) } >
           //   <Button type='submit'>
@@ -200,14 +217,15 @@ class TalkToDatabase extends Component {
             //   </li>)
           }
           <div className="col-sm-9">
+            {
+            this.state.showQueryBox &&
+            <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
+            }
             { 
               this.state.currentTablesArray.length > 0 &&
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
             }
-            {
-            this.state.currentTablesArray.length > 0 &&
-            <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
-            }
+        
       
             <p />
             {/*<BarChart />*/}
