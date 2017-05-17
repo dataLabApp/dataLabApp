@@ -7,7 +7,7 @@ const ShareCardModal = props => (
   <div className="static-modal">
     <Modal.Dialog>
       <Modal.Header>
-        <Modal.Title> Share Your Card </Modal.Title>
+        <Modal.Title> Share Your Visualization </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -28,10 +28,11 @@ const ShareCardModal = props => (
                   <Checkbox key={index} readOnly>
                     {x.email}
                   </Checkbox>
+
                 )
               }
             </FormGroup>
-          <Button bsStyle="primary" type='submit'>Send </Button>
+          <Button bsStyle="primary" type='submit'>Send Message</Button>
         </Form>
       </Modal.Body>
 

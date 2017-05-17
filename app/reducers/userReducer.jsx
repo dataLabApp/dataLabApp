@@ -34,7 +34,7 @@ export default function userReducer(state = initialState, action) {
 
 export const fetchUsers = () => (dispatch) => {
   let tempArray = []
-  firebase.database().ref('users').orderByKey().once('value')
+  firebase.database().ref('users').once('value')
     .then(snapshot => {
       snapshot.forEach(x => {
         var childData = x.val()

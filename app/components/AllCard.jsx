@@ -32,6 +32,27 @@ class AllCard extends Component {
       emailAddresses: 'test@test.com',
       showShareCardModal: false
     })
+
+  // firebase.database().red('users/' + '')
+  // firebase.database().ref('users').once('value')
+  //   .then(snapshot => {
+  //     snapshot.forEach(x => {
+  //       if (x.val().email === 'mmeidlinger@gmail.com') {
+  //         firebase.database().ref('users')
+  //       }
+
+  //     })
+  //   })
+  //   .then(() => dispatch(setAllUsers(tempArray)))
+  //   .catch(console.error)
+
+    let myNotification = new Notification('New Visualization', {
+      body: 'Mary has sent you a new visualization'
+    })
+
+    myNotification.onclick = () => {
+      console.log('Notification clicked')
+    }
   }
 
   handleEmailMessageChange(event) {
@@ -55,7 +76,7 @@ class AllCard extends Component {
           <h2>{title}</h2>
           <ul className="nav navbar-right panel_toolbox">
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
-            <li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>
+            {/*<li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>*/}
             <li><a onClick={this.handleShowModal} ><i className="fa fa-share"></i></a></li>
             <li><a onClick={this.props.onRemove} className="close-link"><i className="fa fa-close"></i></a></li>
           </ul>
