@@ -32,7 +32,7 @@ class TalkToDatabase extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
-    this. handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
+    this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
   }
 
   handleChange(event) {
@@ -76,7 +76,7 @@ class TalkToDatabase extends Component {
     client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
     .then(data => { console.log(data);
       data.rows.forEach(x=> {
-        array.push(x.datname); 
+        array.push(x.datname);
       })
       this.setState({
             databases: array

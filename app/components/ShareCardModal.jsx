@@ -12,15 +12,16 @@ const ShareCardModal = props => (
 
       <Modal.Body>
         Select coworkers to share your card with.
-        {/*<Form onSubmit = {  } >*/}
-        <Form >
+       <Form onSubmit = { event => props.handleSendEmails(event) } >
           <FormGroup>
-              <ControlLabel>Name of Card</ControlLabel>
+              <ControlLabel>Message to Coworkers</ControlLabel>
               {'  '}
               <FormControl
-                id="sliceName"
+                id="emailMessage"
                 type="text"
-                placeholder="Enter card name - or message to coworkers - tbd"
+                value={ props.emailMessage }
+                placeholder="Enter message to coworkers."
+                onChange={ event => props.handleEmailMessageChange(event) }
               />
               { props.users &&
                 props.users.map((x, index) =>
@@ -30,7 +31,7 @@ const ShareCardModal = props => (
                 )
               }
             </FormGroup>
-          <Button bsStyle="primary" type='submit'>Save </Button>
+          <Button bsStyle="primary" type='submit'>Send </Button>
         </Form>
       </Modal.Body>
 

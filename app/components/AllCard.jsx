@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 var ReactFauxDOM = require('react-faux-dom')
-<<<<<<< HEAD
 import { ROOT_PATH } from '../constants'
 import ShareCardModal from './ShareCardModal'
 import { connect } from 'react-redux'
@@ -11,15 +10,33 @@ class AllCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showShareCardModal: false
+      showShareCardModal: false,
+      emailAddresses: [],
+      emailMessage: ''
     }
     this.handleShowModal = this.handleShowModal.bind(this)
+    this.handleSendEmails = this.handleSendEmails.bind(this)
+    this.handleEmailMessageChange = this.handleEmailMessageChange.bind(this)
   }
 
   handleShowModal(event) {
     this.props.setAllUsers()
     this.setState({
       showShareCardModal: true
+    })
+  }
+
+  handleSendEmails(event) {
+    event.preventDefault()
+    this.setState({
+      emailAddresses: 'test@test.com',
+      showShareCardModal: false
+    })
+  }
+
+  handleEmailMessageChange(event) {
+    this.setState({
+      emailMessage: event.target.value
     })
   }
 
@@ -37,9 +54,9 @@ class AllCard extends Component {
         <div className="x_title">
           <h2>{title}</h2>
           <ul className="nav navbar-right panel_toolbox">
-            <li><a onClick={this.handleShowModal} ><i className="fa fa-cloud-upload"></i></a></li>
-            <li><a className="collapse-link"><i className="fa fa-share"></i></a></li>
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
+            <li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>
+            <li><a onClick={this.handleShowModal} ><i className="fa fa-share"></i></a></li>
             <li><a onClick={this.props.onRemove} className="close-link"><i className="fa fa-close"></i></a></li>
           </ul>
             <div className="clearfix"></div>
@@ -51,7 +68,7 @@ class AllCard extends Component {
             <div>
               {
                 this.state.showShareCardModal &&
-                <ShareCardModal users={this.props.allUsers} />
+                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange}/>
               }
             </div>
           </div>
