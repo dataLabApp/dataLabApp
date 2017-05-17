@@ -8,8 +8,6 @@ var PrintTemplate = require('react-print')
 
 // export default class DashboardView extends Component {
 const DashboardView = (props) => {
-  console.log('~~props in DashboardView ', props.dashBoards)
-  console.log('~~props id in DashboardView ', props.dashBoards.currentDashboard.id)
   const print = () => (
   window.print()
 )

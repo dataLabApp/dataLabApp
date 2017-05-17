@@ -7,7 +7,6 @@ export default class ExplorerChart extends Component {
   render() {
     const title = this.props.cardTitle || 'Delightful Chart Example'
     const userCode = this.props.userCode || undefined
-    console.log(this.props.config)
     return (
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">

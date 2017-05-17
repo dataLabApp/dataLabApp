@@ -15,9 +15,6 @@ import {addCard} from '../reducers/cardReducer.jsx'
 class ExplorerView extends Component {
   constructor(props) {
     super(props)
-
-    console.log('~~cards in explorer ', this.props.currentDashboard.cards)
-
     this.state = {
       userCode: HEADLESS_TEMPLATE,  // this should actually prepend the settings-based-code
       template: HEADLESS_TEMPLATE,
@@ -38,10 +35,6 @@ class ExplorerView extends Component {
     this.handleChangeSlice = this.handleChangeSlice.bind(this)
     this.changeConfig = this.changeConfig.bind(this)
     this.handleLoadState = this.handleLoadState.bind(this)
-  }
-
-  componentDidMount() {
-    this.setState()
   }
 
   handleChangeSlice(e) {
@@ -70,18 +63,15 @@ class ExplorerView extends Component {
 
   handleAddCardToDashboard(e, dashboardId) {
     e.preventDefault()
-    this.props.addCardToCards({title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.config, this.state.userCode)})
+    this.props.addCardToCards({state: this.state, title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.config, this.state.userCode)})
     setTimeout(() => {
       const newCard = this.props.cards[this.props.cards.length - 1]
       this.props.addCardToDashboard(+dashboardId, newCard)
     }, 20)
   }
 
-  handleLoadState(e) {
-    console.log('~~in handleLoadState')
-    e.preventDefault()
-    const selectedCard = e.target.value
-    this.setState(this.props.currentDashboard.selectedCard.state)
+  handleLoadState(card) {
+    this.setState(card.state)
   }
 
   render() {
@@ -132,7 +122,7 @@ class ExplorerView extends Component {
                 <ul style={{listStyle: 'none'}}>
                   <h4>Load Card from Current Dashboard</h4>
                   { this.props.currentDashboard.cards.map((card, index) => (
-                    <li key={index} ><a onClick= { () => this.handleLoadState }>{card.title}</a> </li>
+                    <li key={index} ><a onClick= {() => this.handleLoadState(card) }>{card.title}</a> </li>
                 )) }
                 </ul>
               </div>
