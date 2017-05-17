@@ -48,8 +48,9 @@ function NavTop(props) {
               })
               if (!profileExists) {
                 //firebase.database().ref('users').push(profile)
-                let userName = profile.username
-                console.log(userName)
+                let userName
+                if (profile.username) userName = profile.username
+                else userName = profile.nickname
                 firebase.database().ref().child('users').update({
                   [userName]: profile
                 })

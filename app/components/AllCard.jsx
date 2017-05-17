@@ -33,27 +33,23 @@ class AllCard extends Component {
       showShareCardModal: false
     })
 
-  // firebase.database().red('users/' + '')
-  // firebase.database().ref('users').once('value')
-  //   .then(snapshot => {
-  //     snapshot.forEach(x => {
-  //       if (x.val().email === 'mmeidlinger@gmail.com') {
-  //         firebase.database().ref('users')
-  //       }
 
-  //     })
-  //   })
-  //   .then(() => dispatch(setAllUsers(tempArray)))
-  //   .catch(console.error)
+  firebase.database().ref().child('users').child('mmeidlinger').update({
+    message: 'new message!'
+  })
 
-    let myNotification = new Notification('New Visualization', {
-      body: 'Mary has sent you a new visualization'
+  firebase.database().ref('users/mmeidlinger').on('value', function(snapshot) {
+    const message = snapshot.val().message
+    let myNotification = new Notification('Mandi Sent You a New Visualization', {
+      body: message
     })
 
     myNotification.onclick = () => {
       console.log('Notification clicked')
     }
+  })
   }
+
 
   handleEmailMessageChange(event) {
     this.setState({

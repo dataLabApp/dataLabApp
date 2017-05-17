@@ -38,14 +38,18 @@ export const fetchUsers = () => (dispatch) => {
     .then(snapshot => {
       snapshot.forEach(x => {
         var childData = x.val()
+        let name
+        if (childData.username) name=childData.username
+        else name=childData.nickname
         tempArray.push(
           {
+            username: childData.nickname,
+            name: childData.name,
             email: childData.email,
-            firstName: childData.given_name,
-            lastName: childData.family_name,
           }
         )
       })
+      console.log(tempArray)
     })
     .then(() => dispatch(setAllUsers(tempArray)))
     .catch(console.error)

@@ -26,7 +26,7 @@ const ShareCardModal = props => (
               { props.users &&
                 props.users.map((x, index) =>
                   <Checkbox key={index} readOnly>
-                    {x.email}
+                    {x.username}, {x.name}
                   </Checkbox>
 
                 )
