@@ -39,18 +39,17 @@ class AllCard extends Component {
 
   handleSendEmails(event) {
     event.preventDefault()
-
-
     this.setState({
-      emailAddresses: 'test@test.com',
       showShareCardModal: false
     })
-
-
-
-  firebase.database().ref().child('users').child('mmeidlinger').update({
-    message: 'new message!'
-  })
+    this.state.selectedUsers.forEach(x => {
+      console.log(`'${x}'`)
+    })
+    this.state.selectedUsers.forEach(x => {
+      firebase.database().ref().child('users').child(`${x}`).update({
+        message: event.target.emailMessage.value
+      })
+    })
 
   firebase.database().ref('users/mmeidlinger').on('value', function(snapshot) {
     const message = snapshot.val().message
