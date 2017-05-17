@@ -55,6 +55,7 @@ class TalkToDatabase extends Component {
       currentDatabaseName: event.target.value,
       client: new pg.Client(`postgres://localhost/${event.target.value}`)
     })
+    this.handleFindAllTables();
   }
 
   handleQuery(event) {
@@ -72,7 +73,7 @@ class TalkToDatabase extends Component {
   handleFindAllDatabases(event) {
     let array = []
     // let columnNames
-    event.preventDefault()
+    // event.preventDefault()
     const client = new pg.Client(`postgres://localhost/`)
     client.connect()
     client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
@@ -83,15 +84,16 @@ class TalkToDatabase extends Component {
       this.setState({
             databases: array
           })
+      this.handleFindAllTables();
     })
     .catch(err => console.log(err))
     // this.setState({client})
   };
 
-  handleFindAllTables(event) {
+  handleFindAllTables() {
     let array = []
     let columnNames
-    event.preventDefault()
+    // event.preventDefault()
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
@@ -160,13 +162,21 @@ class TalkToDatabase extends Component {
   }
 
   render() {
+    if (this.state.databases.length ===0 ) {
+      this.handleFindAllDatabases()
+    }
+
     return (
-      <div>
-        <div className="container">
-          <Button onClick = {this.handleFindAllDatabases}>Connect to PostGres</Button>
+      
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-sm-3">
+        {
+          // <Button onClick = {this.handleFindAllDatabases}>Connect to PostGres</Button>
+        }
           <form>
               <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Name of Database</ControlLabel>
+              <ControlLabel>Select a Database</ControlLabel>
               <FormControl componentClass="select" placeholder="select" onChange={this.handleDatabaseChange}>
               {this.state.databases && this.state.databases.map((databaseName,i)=>{
                 return <option key = {i} value={databaseName}>{databaseName}</option>
@@ -174,26 +184,31 @@ class TalkToDatabase extends Component {
               }</FormControl>
             </FormGroup>
           </form>
-          <Form onSubmit={ event => this.handleFindAllTables(event) } >
-            <Button type='submit'>
-              Connect to Database
-            </Button>
-          </Form>
+        </div>
+          {
+          // <Form onSubmit={ event => this.handleFindAllTables(event) } >
+          //   <Button type='submit'>
+          //     Connect to Database
+          //   </Button>
+          // </Form>
+          }
           <p />
             { 
             //   this.state.currentTablesArray.length > 0 &&
             // this.state.currentTablesArray.map(x =>
             //   <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
             //   </li>)
-            }
+          }
+          <div className="col-sm-9">
             { 
               this.state.currentTablesArray.length > 0 &&
-            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName='Tables in Database'/>
+            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
             }
             {
             this.state.currentTablesArray.length > 0 &&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
+      
             <p />
             {/*<BarChart />*/}
 
@@ -220,6 +235,7 @@ class TalkToDatabase extends Component {
 
         </div>
       </div>
+    </div>
     )
   }
 }
