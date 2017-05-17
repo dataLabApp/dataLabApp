@@ -40,29 +40,30 @@ function NavTop(props) {
         props.auth.auth0.getDelegationToken(options, function(err, result) {
           if (!err) {
             // Exchange the delegate token for a Firebase auth token
-            firebase.auth().signInWithCustomToken(result.id_token)
-            .then(() => firebase.database().ref('users').orderByKey().once('value'))
-            .then(snapshot => {
-              let profileExists = false
-              snapshot.forEach(x => {
-                if (x.val().email === profile.email) profileExists = true
-              })
-              if (!profileExists) {
-                firebase.database().ref('users').push(profile)
-                console.log('******Just created profile in firebase: ', profile)
-              }
-            })
-            .then(() => props.login(profile, authResult.idToken))
-            .catch(function(error) {
-              console.log(error)
-            })
-            // // Exchange the delegate token for a Firebase auth token
             // firebase.auth().signInWithCustomToken(result.id_token)
-            // .then(() => firebase.database().ref('users').push(profile))
+            // .then(() => firebase.database().ref('users').orderByKey().once('value'))
+            // .then(snapshot => {
+            //   let profileExists = false
+            //   snapshot.forEach(x => {
+            //     if (x.val().email === profile.email) profileExists = true
+            //   })
+            //   if (!profileExists) {
+            //     firebase.database().ref('users').push(profile)
+            //     console.log('******Just created profile in firebase: ', profile)
+            //   }
+            // })
             // .then(() => props.login(profile, authResult.idToken))
             // .catch(function(error) {
             //   console.log(error)
             // })
+
+            // Exchange the delegate token for a Firebase auth token
+            firebase.auth().signInWithCustomToken(result.id_token)
+            .then(() => firebase.database().ref('users').push(profile))
+            .then(() => props.login(profile, authResult.idToken))
+            .catch(function(error) {
+              console.log(error)
+            })
           } else {
             console.log('err is ', err)
           }
