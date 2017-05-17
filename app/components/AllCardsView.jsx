@@ -19,6 +19,7 @@ const AllCardsView = (props) => (
     </div>
   )
 
+// ----------------------- Container -----------------------
 const mapStateToProps = (state) => (
   {
     cards: state.cards

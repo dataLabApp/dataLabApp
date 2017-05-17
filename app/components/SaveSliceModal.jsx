@@ -40,4 +40,4 @@ const SaveSliceModal = props => (
 const mapStateToProps = null
 const mapDispatchToProps = null
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaveSliceModal);
+export default connect(mapStateToProps, mapDispatchToProps)(SaveSliceModal)

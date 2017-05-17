@@ -22,6 +22,7 @@ export const addSlice = (sliceObj) => ({
   sliceObj
 })
 
+
 const sampleSliceObj= {
   id: 1,
   title: 'Example Slice',
@@ -54,17 +55,11 @@ export default function dataReducer(state = initialState, action) {
   default:
     return state
   }
+
   storage.set('data', nextState, function(err) {
+
     if (err) throw err
   })
   return nextState
 }
 
-// ----------- Dispatchers
-// export const fetchData = () => (dispatch) => {
-//   axios.get('/api/data')
-//       .then(response => {
-//         dispatch(receiveData(response.data))
-//       })
-//       .catch(console.error)
-// }

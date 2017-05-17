@@ -37,8 +37,8 @@ class TalkToDatabase extends Component {
     this.handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
     this.createRows = this. createRows.bind(this)
     this.toggleQueryBox = this. toggleQueryBox.bind(this)
-
-
+    this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
+    this.createRows = this.createRows.bind(this)
   }
 
   handleChange(event) {
@@ -80,9 +80,9 @@ class TalkToDatabase extends Component {
     const client = new pg.Client(`postgres://localhost/`)
     client.connect()
     client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
-    .then(data => { 
+    .then(data => {
       data.rows.forEach(x=> {
-        array.push(x.datname); 
+        array.push(x.datname);
       })
       this.setState({
             databases: array
@@ -141,9 +141,6 @@ class TalkToDatabase extends Component {
   }
 
   handleSaveSlice(event) {
-    // this.setState({
-    //   showModal: false
-    // })
     event.preventDefault()
     this.props.addSlice({
       title: event.target.sliceName.value,
@@ -210,7 +207,7 @@ class TalkToDatabase extends Component {
           // </Form>
           }
           <p />
-            { 
+            {
             //   this.state.currentTablesArray.length > 0 &&
             // this.state.currentTablesArray.map(x =>
             //   <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
@@ -221,14 +218,13 @@ class TalkToDatabase extends Component {
             this.state.showQueryBox &&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
-            { 
+            {
               this.state.currentTablesArray.length > 0 &&
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
             }
         
       
             <p />
-            {/*<BarChart />*/}
 
             {
             this.state.currentData &&
@@ -240,7 +236,7 @@ class TalkToDatabase extends Component {
             <Button bsStyle="primary" type='submit' onClick={ (event) => {
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
-              }
+            }
             }>
               Save Slice
             </Button>
@@ -259,14 +255,12 @@ class TalkToDatabase extends Component {
 }
 
 // ----------------------- Container -----------------------
-import { setCurrentData, addSlice } from '../reducers/dataReducer.jsx'
+import { setCurrentData, addSlice } from '../reducers/dataReducer'
 
-const mapStateToProps = (state, ownProps) => (
-  {
-    currentData: state.data.currentData
-  }
-)
-// should we use the object formatting here? KH
+const mapStateToProps = (state, ownProps) => ({
+  currentData: state.data.currentData
+})
+
 const mapDispatchToProps = dispatch => ({
   setCurrentData: data => dispatch(setCurrentData(data)),
   addSlice: sliceObj => dispatch(addSlice(sliceObj))
