@@ -9,7 +9,7 @@ import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import SliceSelector from './SliceSelector.jsx'
 import AxisSelector from './AxisSelector.jsx'
-import {addCardToDashboard} from '../reducers/dashboardReducer.jsx'
+import {addCardToDashboard, setCurrentDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 
 class ExplorerView extends Component {
@@ -34,6 +34,7 @@ class ExplorerView extends Component {
     this.handleAddCardToDashboard = this.handleAddCardToDashboard.bind(this)
     this.handleChangeSlice = this.handleChangeSlice.bind(this)
     this.changeConfig = this.changeConfig.bind(this)
+    this.handleLoadState = this.handleLoadState.bind(this)
   }
 
   handleChangeSlice(e) {
@@ -49,8 +50,8 @@ class ExplorerView extends Component {
     this.setState({userCode: text})
   }
 
-  changeConfig(attributeToChange){
-    let stateUpdater = newAttribute => {
+  changeConfig(attributeToChange) {
+    const stateUpdater = newAttribute => {
       const oldAttributeValues = this.state.config[attributeToChange] || {}
       const updatedAttributes = Object.assign(oldAttributeValues, newAttribute)
       const oldConfig = this.state.config
@@ -62,11 +63,15 @@ class ExplorerView extends Component {
 
   handleAddCardToDashboard(e, dashboardId) {
     e.preventDefault()
-    this.props.addCardToCards({title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chartGenerator: IIFChartGenerator(this.state.userCode)})
+    this.props.addCardToCards({state: this.state, title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chartGenerator: IIFChartGenerator(this.state.userCode)})
     setTimeout(() => {
       const newCard = this.props.cards[this.props.cards.length - 1]
       this.props.addCardToDashboard(+dashboardId, newCard)
     }, 20)
+  }
+
+  handleLoadState(card) {
+    this.setState(card.state)
   }
 
   render() {
@@ -106,7 +111,30 @@ class ExplorerView extends Component {
       </div>
     </div>
     <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
-  </div>)
+    <div className="container-fluid">
+      <div className="row">
+          <div className="container" style={{'height': 'auto', 'width': '100%'}}>
+              <div className="col-sm-6">
+                <ul style={{listStyle: 'none'}}>
+                  <h4>Choose Dashboard</h4>
+                  { this.props.availableDashboards.map(db => (
+                    <li key={db.id} ><a onClick= { () => this.props.setCurrentDashboard(db.id)}>{db.title}</a> </li>
+                )) }
+                </ul>
+              </div>
+              <div className="col-sm-6">
+                <ul style={{listStyle: 'none'}}>
+                  <h4>Load Card from Current Dashboard</h4>
+                  { this.props.currentDashboard.cards.map((card, index) => (
+                    <li key={index} ><a onClick= {() => this.handleLoadState(card) }>{card.title}</a> </li>
+                )) }
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    )
   }
 }
 
@@ -122,7 +150,8 @@ const mapStateToProps = (state) => (
 const mapDispatchToProps = (dispatch) => (
   {
     addCardToCards: (card) => dispatch(addCard(card)),
-    addCardToDashboard: (dashboardId, card) => dispatch(addCardToDashboard(dashboardId, card))
+    addCardToDashboard: (dashboardId, card) => dispatch(addCardToDashboard(dashboardId, card)),
+    setCurrentDashboard: (id) => dispatch(setCurrentDashboard(id))
   }
 )
 

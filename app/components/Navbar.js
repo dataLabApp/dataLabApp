@@ -22,6 +22,9 @@ function NavTop(props) {
     props.auth.owner ? logoutNavBar() : loginNavBar();
   }
   function loginNavBar(){
+    // let profile;
+    // let idToken;
+
     props.auth.lock.show();
     props.auth.lock.on('authenticated', (authResult) => {
       props.auth.lock.getProfile(authResult.idToken, (err, profile) => {
@@ -32,28 +35,66 @@ function NavTop(props) {
           target: 'H_0BdQzChMQaVnTgE2iiV4vUpaHdWaYX'
         };
         props.auth.auth0.getDelegationToken(options, function(err, result) {
-
-        if(!err) {
-          // Exchange the delegate token for a Firebase auth token
-          firebase.auth().signInWithCustomToken(result.id_token)
-            .then(()=> firebase.database().ref('users').push(profile))
+          if (!err) {
+            let userName
+            if (profile.username) userName = profile.username
+            else userName = profile.nickname
+            // Exchange the delegate token for a Firebase auth token
+            firebase.auth().signInWithCustomToken(result.id_token)
+            .then(() => firebase.database().ref('users').once('value'))
+            .then(snapshot => {
+              let profileExists = false
+              snapshot.forEach(x => {
+                if (x.val().email === profile.email) profileExists = true
+              })
+              if (!profileExists) {
+                //firebase.database().ref('users').push(profile)
+                firebase.database().ref().child('users').update({
+                  [userName]: profile
+                })
+                console.log('******Just created profile in firebase: ', profile)
+              }
+            })
             .then(() => props.login(profile, authResult.idToken))
+            .then(() => {
+              firebase.database().ref(`users/${userName}/message`).on('value', function (snapshot) {
+                const message = snapshot.val()
+                console.log(message)
+                let myNotification = new Notification(`${message.sender} Sent You a New Visualization`, {
+                  body: message.body
+                })
+                myNotification.onclick = () => {
+                  console.log('Notification clicked')
+                }
+              })
+            })
             .catch(function(error) {
-              console.log(error);
-            });
-        }
-        else {
-          console.log('err is ', err)
-        }
-      });
-      });
-        props.auth.lock.hide();
-    });
-    }
+              console.log(error)
+            })
 
-    function logoutNavBar(){
-        props.logout();
-      }
+            // // Exchange the delegate token for a Firebase auth token
+            // firebase.auth().signInWithCustomToken(result.id_token)
+            // .then(() => firebase.database().ref('users').push(profile))
+            // .then(() => props.login(profile, authResult.idToken))
+            // .catch(function(error) {
+            //   console.log(error)
+            // })
+          } else {
+            console.log('err is ', err)
+          }
+        })
+      // storage.set('profile', JSON.stringify(profile));
+      })
+      props.auth.lock.hide()
+    })
+          // console.log("profile on line 55 is ", profile)
+          // if (profile) props.login(profile, idToken);
+      // console.log("storage is ", storage)
+  }
+
+  function logoutNavBar() {
+    props.logout();
+  }
 
   return (
         <Navbar collapseOnSelect>

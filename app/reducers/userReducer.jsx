@@ -1,12 +1,13 @@
 // Required libraries
 import axios from 'axios'
+// const firebase = require('firebase/app')
 
 // ----------- Actions
-const FETCH_USERS = 'FETCH_USERS'
+const SET_USERS = 'SET_USERS'
 
 // ----------- Action Creators
-export const receiveUsers = (users) => ({
-  type: FETCH_USERS,
+export const setAllUsers = (users) => ({
+  type: SET_USERS,
   users
 })
 
@@ -19,7 +20,7 @@ export default function userReducer(state = initialState, action) {
   const nextState = Object.assign({}, state)
 
   switch (action.type) {
-  case FETCH_USERS:
+  case SET_USERS:
     nextState.allUsers = action.users
     break
 
@@ -29,11 +30,26 @@ export default function userReducer(state = initialState, action) {
   return nextState
 }
 
-// ----------- Dispatchers
-// export const fetchUsers = () => (dispatch) => {
-//   axios.get('/api/users')
-//       .then(response => {
-//         dispatch(receiveUsers(response.data))
-//       })
-//       .catch(console.error)
-// }
+// -----------Dispatchers
+
+export const fetchUsers = () => (dispatch) => {
+  let tempArray = []
+  firebase.database().ref('users').once('value')
+    .then(snapshot => {
+      snapshot.forEach(x => {
+        var childData = x.val()
+        let name
+        if (childData.username) name=childData.username
+        else name=childData.nickname
+        tempArray.push(
+          {
+            username: childData.nickname,
+            name: childData.name,
+            email: childData.email,
+          }
+        )
+      })
+    })
+    .then(() => dispatch(setAllUsers(tempArray)))
+    .catch(console.error)
+}
