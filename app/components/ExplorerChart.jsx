@@ -11,7 +11,7 @@ export default class ExplorerChart extends Component {
     let data = this.props.config.data
     let config = this.props.config
     return (
-      <div className="x_panel tile fixed_height_320">
+      <div className="x_panel tile">
         <div className="x_title">
           <h2>{title}</h2>
           <ul className="nav navbar-right panel_toolbox">
@@ -31,10 +31,11 @@ export default class ExplorerChart extends Component {
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height: 700, width: 800}}>
+        <div className="x_content" >
             {chartGenerator(data, config).toReact()}
         </div>
       </div>
     )
   }
 }
+// style={{height: 700, width: 800}}
