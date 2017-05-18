@@ -1,19 +1,17 @@
 
 const yAxisLabel = 'Dollars'
 
-let margin = {top: 20, right: 5, bottom: 50, left: 50}
+const margin = {top: 20, right: 5, bottom: 50, left: 50}
 // here, we want the full chart to be 700x200, so we determine
 // the width and height by subtracting the margins from those values
-let fullWidth = 700
-let fullHeight = 200
+const fullWidth = 700
+const fullHeight = 200
 // the width and height values will be used in the ranges of our scales
-let width = fullWidth - margin.right - margin.left
-let height = fullHeight - margin.top - margin.bottom
-
-
+const width = fullWidth - margin.right - margin.left
+const height = fullHeight - margin.top - margin.bottom
 
 window.explorerFauxNode = window.ReactFauxDOM.createElement('svg')
-let svg = window.d3.select(window.explorerFauxNode)
+const svg = window.d3.select(window.explorerFauxNode)
 .attr('width', fullWidth)
 .attr('height', fullHeight)
 // this g is where the bar chart will be drawn

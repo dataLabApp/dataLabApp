@@ -1,20 +1,18 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'react-redux'
 // import storage from 'electron-json-storage'
-
-
 import {
   Navbar,
   Nav,
   NavItem,
   NavDropdown,
   MenuItem,
-} from 'react-bootstrap';
-
+} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 // import Navbar, {Brand} from 'react-bootstrap/lib/Navbar';
 import {Link} from 'react-router-dom'
 import {clearCachedData} from '../utils/storageUtils'
+import {seedInvoiceData} from '../utils/invoicesUtils'
 
 
 function NavTop(props) {
@@ -56,7 +54,7 @@ function NavTop(props) {
     function logoutNavBar(){
         props.logout();
       }
-  
+
   return (
         <Navbar collapseOnSelect>
           <Navbar.Header>
@@ -82,7 +80,7 @@ function NavTop(props) {
               </LinkContainer>
               <NavDropdown eventKey={5} title="Dropdown" id="basic-nav-dropdown">
                 <MenuItem eventKey={5.1} onSelect={clearCachedData}>Clear Cached Data</MenuItem>
-                <MenuItem eventKey={5.2}>Another action</MenuItem>
+                <MenuItem eventKey={5.2} onSelect={seedInvoiceData}>Seed Invoices Data For 10 seconds</MenuItem>
                 <MenuItem eventKey={5.3}>Something else here</MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey={5.3}>Separated link</MenuItem>

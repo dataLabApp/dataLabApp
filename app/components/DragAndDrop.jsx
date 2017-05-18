@@ -6,6 +6,7 @@ import DashboardCard from './DashboardCard'
 import styles from '../../node_modules/react-grid-layout/css/styles.css'
 import styles2 from '../../node_modules/react-resizable/css/styles.css'
 import {updateDashboardLayout} from '../reducers/dashboardReducer'
+import {fetchSliceData} from '../reducers/dataReducer'
 
 class DragAndDrop extends Component {
   constructor(props) {
@@ -26,14 +27,26 @@ class DragAndDrop extends Component {
       cards: newLayout
     })
   }
+  componentWillMount() {
+    this.fetchSliceDataForAll()
+    this.stopUpdating = setInterval(() => {
+      this.fetchSliceDataForAll()
+    }, 3000)
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({title: nextProps.dashboards.currentDashboard.title,
       cards: nextProps.dashboards.currentDashboard.cards})
+    this.fetchSliceDataForAll(nextProps.dashboards.currentDashboard.cards)
   }
 
   componentWillUnmount() {
+    clearInterval(this.stopUpdating)
     this.updateDashboardLayout(this.state.title, this.state.cards)
+  }
+
+  fetchSliceDataForAll(currentCards = this.state.cards) {
+    currentCards.forEach(card => this.props.fetchSliceData(card.sliceId))
   }
 
   render() {
@@ -74,7 +87,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateDashboardLayout: (dashboardTitle, layout) => {
     dispatch(updateDashboardLayout(dashboardTitle, layout))
-  }
+  },
+  fetchSliceData: (sliceId) => dispatch(fetchSliceData(sliceId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DragAndDrop)
+

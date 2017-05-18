@@ -5,12 +5,10 @@ import {loadCards} from '../reducers/cardReducer'
 import store from '../store'
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
-import {storeChartGenerator} from '../utils/chartGenerators'
+import {storeChartGenerator, IIFChartGenerator} from '../utils/chartGenerators'
 
 class Loader extends Component {
-  constructor(props) {
-    super(props)
-  }
+
 
   componentWillMount() {
     storage.getAll((err, data) => {
@@ -19,7 +17,7 @@ class Loader extends Component {
       if (data.cards) {
         data.cards.forEach(card => {
           if (!card.config)card.chart = storeChartGenerator(card.rawCode)
-          else card.chart = storeChartGenerator(card.config, card.rawCode)
+          else card.chartGenerator = IIFChartGenerator(card.rawCode)
         })
         const highestId = data.cards.reduce((accum, card) => (card.id>accum ? card.id : accum), 0)
         data.cards.count = highestId
@@ -28,8 +26,8 @@ class Loader extends Component {
       if (data.data) this.props.loadData(data.data)
       if (data.dashboards) {
         data.dashboards.currentDashboard.cards.forEach(card => {
-          if (!card.config)card.chart=storeChartGenerator(card.rawCode)
-          else card.chart=storeChartGenerator(card.config, card.rawCode)
+          if (!card.config)card.chart = storeChartGenerator(card.rawCode)
+          else card.chartGenerator = IIFChartGenerator(card.rawCode)
         })
         data.dashboards.dashboards.forEach(dashboard => { dashboard.cards.forEach(card => card.chart=storeChartGenerator(card.rawCode)) })
         this.props.loadDashboards(data.dashboards)
@@ -44,7 +42,7 @@ class Loader extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    currentDashboardCards: state.dashboards.currentDashboard.cards
   }
 }
 

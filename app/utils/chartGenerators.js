@@ -4,14 +4,30 @@ const fs = require('fs')
 const path = require('path')
 import {DEFAULT_TEMPLATE} from '../constants'
 import ReactFauxDom from 'react-faux-dom'
+import store from '../store.jsx'
 
 export function chartGenerator(userGeneratedCode = DEFAULT_TEMPLATE) {
   eval(userGeneratedCode)
   return window.explorerFauxNode.toReact()
 }
+function datalessChartGenerator(userGeneratedCode = DEFAULT_TEMPLATE) {
+  return (data) => {
+    eval(userGeneratedCode)
+    return window.explorerFauxNode
+  }
+}
+
+export function IIFChartGenerator(userCode){
+  let result = eval(userCode)
+  return (data, config) => result(data, config)
+}
+// function gentleCustomChartGenerator(config, template) {
+//   const parsedConfig = parseConfig(config)
+//   return gentleChartGenerator(parsedConfig + template)
+// }
 
 function parseConfig(config) {
-  let dataString = JSON.stringify(config.data)
+  const dataString = JSON.stringify(config.data)
   return `let data = ${dataString}
   const x = '${config.x.dataColumn}'
   const y = '${config.y.dataColumn}'
@@ -28,11 +44,3 @@ export function storeChartGenerator(...args) {
   else if (args.length===1) return () => chartGenerator(...args)
 }
 
-// export chartGenerator(){
-//   return new Function('data','node',`
-//     import ReactFauxDom from 'react-faux-dom'
-//     import d3 from 'd3'
-//     let chartNode = ReactFauxDOM.createElement('svg')
-//     let svg = d3.select(chartNode)
-//   `)
-// }
