@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
+import {FormGroup, Form, ControlLabel, FormControl, Button} from 'react-bootstrap'
 import {chartGenerator, storeChartGenerator, IIFChartGenerator} from '../utils/chartGenerators'
 
 export default class ExplorerChart extends Component {
+  constructor(props){
+    super(props)
+    this.state = {showTitleForm: false}
+  }
   render() {
     const title = this.props.cardTitle
     const userCode = this.props.userCode
@@ -12,8 +17,13 @@ export default class ExplorerChart extends Component {
     let config = this.props.config
     return (
       <div className="x_panel tile">
-        <div className="x_title">
-          <h2>{title}</h2>
+        <div className="x_title" onClick={() => this.setState({showTitleForm: true})}>
+          <h2>{this.state.showTitleForm
+            ? <Form inline onSubmit={() => this.setState({showTitleForm: false})}>
+               <FormControl type="text" value={title} onChange={(e) => this.props.updateCardTitle(e.target.value)}>
+               </FormControl>
+            </Form>
+            : title}</h2>
           <ul className="nav navbar-right panel_toolbox">
             <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
             </li>
