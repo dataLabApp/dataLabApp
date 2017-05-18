@@ -100,7 +100,7 @@ function NavTop(props) {
         <Navbar collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to ="/dashboard">DuperSet</Link>
+              <Link to ="/dashboard">dataLab</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
