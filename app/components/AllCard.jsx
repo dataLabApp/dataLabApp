@@ -28,10 +28,9 @@ class AllCard extends Component {
     })
   }
 
-  handleCheckBoxesChange(bool, username) {
+  handleCheckBoxesChange(boolChecked, username) {
     const userSet = this.state.selectedUsers
-    if (bool) userSet.add(username)
-    else userSet.delete(username)
+    boolChecked ? userSet.add(username) : userSet.delete(username)
     this.setState({
       selectedUsers: userSet
     })
@@ -39,31 +38,22 @@ class AllCard extends Component {
 
   handleSendEmails(event) {
     event.preventDefault()
+    let sender = ''
+    this.props.currentOwner ? sender = this.props.currentOwner.nickname : sender = 'A DataLab User'
     this.state.selectedUsers.forEach(x => {
       firebase.database().ref().child('users').child(x).update({
         message: {
           body: event.target.emailMessage.value,
-          sender: 'Mandi'
+          sender: sender
         }
       })
     })
+
     this.setState({
       showShareCardModal: false,
       selectedUsers: new Set()
     })
-
-  firebase.database().ref('users/mmeidlinger').on('value', function(snapshot) {
-    const message = snapshot.val().message
-    let myNotification = new Notification(`${message.sender} Sent You a New Visualization`, {
-      body: message.body
-    })
-
-    myNotification.onclick = () => {
-      console.log('Notification clicked')
-    }
-  })
   }
-
 
   handleEmailMessageChange(event) {
     this.setState({
@@ -72,7 +62,6 @@ class AllCard extends Component {
   }
 
   render() {
-    console.log(this.state.selectedUsers)
     const title = this.props.title || 'Delightful Chart Example'
     const chart = this.props.chart
     const exportAsSVG = () => {
@@ -115,7 +104,7 @@ import { fetchUsers } from '../reducers/userReducer'
 
 const mapStateToProps = (state, ownProps) => ({
   allUsers: state.user.allUsers,
-  // currentOwner: state.auth.profile.username
+  currentOwner: state.auth.profile
 })
 
 const mapDispatchToProps = dispatch => ({
