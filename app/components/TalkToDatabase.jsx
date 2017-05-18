@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem} from 'react-bootstrap'
+import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem, ProgressBar, ProgressBarProps} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
@@ -85,7 +85,8 @@ class TalkToDatabase extends Component {
       if (err) console.error(err)
       else {
         this.setState({
-          currentData: data.rows
+          currentData: data.rows,
+          activeTab: 'saveSlice'
         })
       }
     })
@@ -202,13 +203,18 @@ class TalkToDatabase extends Component {
     return (
       
     <div className="container-fluid">
+     <ProgressBar>
+      <ProgressBar label='Choose a Database' bsStyle="success" now={33} key={1} onClick={()=>this.changeTab('selectDatabase')} />
+      <ProgressBar label='Filter Data' bsStyle="warning" now={33} key={2} onClick={()=>this.changeTab('makeQuery')} />
+      <ProgressBar label='Save Data Slice' active bsStyle="info" now={33} key={3} onClick={()=>this.changeTab('sliceName')} />
+    </ProgressBar>
       <div className="row">
         <div className="col-sm-3">
          <ListGroup >
-          <ListGroupItem href="#link1"  onClick={()=>this.changeTab('selectDatabase')}>Choose Database</ListGroupItem>
-          <ListGroupItem onClick={()=>this.changeTab('makeQuery')}>Filter Data
+          <ListGroupItem onClick={()=>this.changeTab('selectDatabase')} className={this.state.activeTab == "selectDatabase" ? "active" : ""} >Choose Database</ListGroupItem>
+          <ListGroupItem onClick={()=>this.changeTab('makeQuery')} className={this.state.activeTab == "makeQuery" ? "active" : ""} >Filter Data
           </ListGroupItem>
-          <ListGroupItem onClick={()=>this.changeTab('sliceName')}>Save Slice
+          <ListGroupItem onClick={()=>this.changeTab('saveSlice')} className={this.state.activeTab == "saveSlice" ? "active" : ""} >Save Slice
           </ListGroupItem>
         </ListGroup>
         </div>
@@ -239,24 +245,24 @@ class TalkToDatabase extends Component {
             }
 
             {
-            (this.state.activeTab == 'makeQuery' || this.state.activeTab =='sliceName') &&this.state.currentData &&
+            (this.state.activeTab =='saveSlice') &&this.state.currentData &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
             }
 
             {
             this.state.currentData &&
-            <Button bsStyle="primary" type='submit' onClick={ (event) => {
+            <Button bsStyle="primary" type='submit' className='pull-right' onClick={ (event) => {
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
             }
             }>
-              Save Slice
+              Save Data Slice
             </Button>
             }
 
             {
               this.state.showModal &&
-              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
+              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handlesaveSliceChange={ this.handleSliceNameChange } />
             }
 
        
