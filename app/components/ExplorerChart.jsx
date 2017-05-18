@@ -31,10 +31,8 @@ export default class ExplorerChart extends Component {
           </ul>
           <div className="clearfix"></div>
         </div>
-        <div className="x_content" style={{height: 400, width: 700}}>
-          <div>
+        <div className="x_content" style={{height: 700, width: 800}}>
             {chartGenerator(data, config).toReact()}
-          </div>
         </div>
       </div>
     )

@@ -101,7 +101,7 @@ export default function dashboardReducer(state = initialState, action) {
     {
     const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
     ++thisDashboard.counter // this mutates the old state
-    const thisCard = Object.assign({title: 'DefaultCardTitle', i: ''+thisDashboard.counter, w: 3, h: 3, x: 1, y: Infinity, chart: null, rawCode: DEFAULT_TEMPLATE}, action.card)
+    const thisCard = Object.assign({title: 'DefaultCardTitle', i: ''+thisDashboard.counter, w: 6, h: 8, x: 1, y: Infinity, chart: null, rawCode: DEFAULT_TEMPLATE}, action.card)
     thisDashboard.cards = thisDashboard.cards.concat([thisCard])
     break
   }
