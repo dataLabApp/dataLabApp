@@ -22,8 +22,10 @@
 
   let fauxNode = window.ReactFauxDOM.createElement('svg')
   let svg = window.d3.select(fauxNode)
-  .attr('width', fullWidth)
-  .attr('height', fullHeight)
+  // .attr('width', fullWidth)
+  // .attr('height', fullHeight)
+  .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
+  .attr('preserveAspectRatio', 'xMidYMid meet')
   // this g is where the bar chart will be drawn
   .append('g')
   // translate it to leave room for the left and top margins
