@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, FormGroup, Button, ControlLabel, FormControl} from 'react-bootstrap'
+import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem, ProgressBar, ProgressBarProps} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
@@ -23,7 +23,9 @@ class TalkToDatabase extends Component {
       showModal: false,
       currentSliceName: '',
       client: new pg.Client(`postgres://localhost/video-shopper`),
-      rows: []
+      rows: [],
+      showQueryBox: false,
+      activeTab: 'selectDatabase'
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
@@ -33,8 +35,13 @@ class TalkToDatabase extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
+    this.handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
+    this.createRows = this. createRows.bind(this)
+    this.toggleQueryBox = this. toggleQueryBox.bind(this)
     this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
     this.createRows = this.createRows.bind(this)
+    this.changeTab = this.changeTab.bind(this)
+
   }
 
   handleChange(event) {
@@ -49,19 +56,37 @@ class TalkToDatabase extends Component {
     })
   }
 
+//client: new pg.Client(`postgres://localhost/video-shopper`)
   handleDatabaseChange(event) {
+        event.preventDefault()
+
+    let dbName = event.target.value;
+    console.log("dbName ",dbName)
+
     this.setState({
-      currentDatabaseName: event.target.value,
-      client: new pg.Client(`postgres://localhost/${event.target.value}`)
-    })
+      currentDatabaseName: dbName
+    }, this.handleFindAllTables);
+
+ 
+
+    // return this.setState({
+    //     currentDatabaseName: dbName,
+    //     client: new pg.Client(`postgres://localhost/${dbName}`)
+    //   })
+    // .then((res) => this.handleFindAllTables())
+    // .catch(err => console.log(err))
+    
+ 
   }
+    
 
   handleQuery(event) {
     this.state.client.query(this.state.currentSQLQuery, (err, data) => {
       if (err) console.error(err)
       else {
         this.setState({
-          currentData: data.rows
+          currentData: data.rows,
+          activeTab: 'saveSlice'
         })
       }
     })
@@ -71,7 +96,7 @@ class TalkToDatabase extends Component {
   handleFindAllDatabases(event) {
     let array = []
     // let columnNames
-    event.preventDefault()
+    // event.preventDefault()
     const client = new pg.Client(`postgres://localhost/`)
     client.connect()
     client.query("SELECT datname FROM pg_database WHERE datistemplate = false")
@@ -80,33 +105,35 @@ class TalkToDatabase extends Component {
         array.push(x.datname);
       })
       this.setState({
-            databases: array
-          })
+          databases: array
+      }, this.handleFindAllTables)
     })
     .catch(err => console.log(err))
     // this.setState({client})
   };
 
-  handleFindAllTables(event) {
+  handleFindAllTables() {
+    let that = this;
     let array = []
-    let columnNames
-    event.preventDefault()
+    // event.preventDefault()
     const client = new pg.Client(`postgres://localhost/${this.state.currentDatabaseName}`)
     client.connect()
     client.query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'public'")
     .then(data => {
       data.rows.forEach(x => {
-        this.findAllColumns(x.table_name)
+        that.findAllColumns(x.table_name)
         .then(columnArray => {
           array.push({
             tableName: x.table_name,
             columnNames: columnArray
           })
-          this.setState({
-            currentTablesArray: array
-          })
-          this.createRows();
+        
         })
+        .then(() => {
+          return this.setState({
+            currentTablesArray: array
+          })})
+        .then(()=> this.createRows())
       })
     })
     .catch(err => console.log(err))
@@ -155,69 +182,97 @@ class TalkToDatabase extends Component {
     })
   }
 
+  toggleQueryBox(){
+    let bool = !this.state.showQueryBox;
+    this.setState({
+      showQueryBox: bool
+    })
+  }
+
+  changeTab(tab){
+    this.setState({
+      activeTab: tab
+    })
+  }
+
   render() {
+    if (this.state.databases.length ===0 ) {
+      this.handleFindAllDatabases()
+    }
+
     return (
-      <div>
-        <div className="container">
-          <Button onClick = {this.handleFindAllDatabases}>Connect to PostGres</Button>
-          <form>
+      
+    <div className="container-fluid">
+     <ProgressBar>
+      <ProgressBar label='Choose a Database' bsStyle="success" now={33} key={1} onClick={()=>this.changeTab('selectDatabase')} />
+      <ProgressBar label='Filter Data' bsStyle="warning" now={33} key={2} onClick={()=>this.changeTab('makeQuery')} />
+      <ProgressBar label='Save Data Slice' active bsStyle="info" now={33} key={3} onClick={()=>this.changeTab('sliceName')} />
+    </ProgressBar>
+      <div className="row">
+        <div className="col-sm-3">
+         <ListGroup >
+          <ListGroupItem onClick={()=>this.changeTab('selectDatabase')} className={this.state.activeTab == "selectDatabase" ? "active" : ""} >Choose Database</ListGroupItem>
+          <ListGroupItem onClick={()=>this.changeTab('makeQuery')} className={this.state.activeTab == "makeQuery" ? "active" : ""} >Filter Data
+          </ListGroupItem>
+          <ListGroupItem onClick={()=>this.changeTab('saveSlice')} className={this.state.activeTab == "saveSlice" ? "active" : ""} >Save Slice
+          </ListGroupItem>
+        </ListGroup>
+        </div>
+         
+        <div className="col-sm-9">
+            {
+              this.state.activeTab == "selectDatabase" &&
               <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Name of Database</ControlLabel>
+              <ControlLabel>Select a Database</ControlLabel>
               <FormControl componentClass="select" placeholder="select" onChange={this.handleDatabaseChange}>
-              {this.state.databases && this.state.databases.map((databaseName,i)=>{
-                return <option key = {i} value={databaseName}>{databaseName}</option>
+              {  
+              this.state.databases && this.state.databases.map((databaseName,i)=>{
+                return <option key = {databaseName} value={databaseName}>{databaseName}</option>
               })
-              }</FormControl>
+              }
+              </FormControl>
             </FormGroup>
-          </form>
-          <Form onSubmit={ event => this.handleFindAllTables(event) } >
-            <Button type='submit'>
-              Connect to Database
-            </Button>
-          </Form>
-          <p />
+            
+            }  
             {
-            //   this.state.currentTablesArray.length > 0 &&
-            // this.state.currentTablesArray.map(x =>
-            //   <li key={x.tableName}> { x.tableName }: { x.columnNames.join(', ') }
-            //   </li>)
+              (this.state.activeTab=="selectDatabase" && this.state.rows.length>0) &&
+            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
             }
+      
             {
-              this.state.currentTablesArray.length > 0 &&
-            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName='Tables in Database'/>
-            }
-            {
-            this.state.currentTablesArray.length > 0 &&
+            this.state.activeTab == 'makeQuery'&&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
-            <p />
 
             {
-            this.state.currentData &&
+            (this.state.activeTab =='saveSlice' && this.state.currentData) &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
             }
 
             {
-            this.state.currentData &&
-            <Button bsStyle="primary" type='submit' onClick={ (event) => {
+            (this.state.activeTab == 'saveSlice' && this.state.currentData) &&
+            <Button bsStyle="primary" type='submit' className='pull-right' onClick={ (event) => {
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
             }
             }>
-              Save Slice
+              Save Data Slice
             </Button>
             }
 
             {
               this.state.showModal &&
-              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handleSliceNameChange={ this.handleSliceNameChange } />
+              <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handlesaveSliceChange={ this.handleSliceNameChange } />
             }
 
+       
         </div>
       </div>
+    </div>
     )
   }
 }
+
 
 // ----------------------- Container -----------------------
 import { setCurrentData, addSlice } from '../reducers/dataReducer'

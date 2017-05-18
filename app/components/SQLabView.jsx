@@ -15,7 +15,9 @@ export default function SQLabView () {
   return (
     <div className="container">
       <PageHeader header="Welcome to SQLab" />
-      <p>SQLab is where you can connect to your database, search your tables, and create slices. Once you find the perfect slice to visualize, click "Save".</p>
+      {
+      // <p>SQLab is where you can connect to your database, search your tables, and create slices. Once you find the perfect slice to visualize, click "Save".</p>
+      }
       <TalkToDatabase />
     </div>
     );
