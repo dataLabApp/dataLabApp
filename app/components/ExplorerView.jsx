@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
-import {chartGenerator, storeChartGenerator} from '../utils/chartGenerators'
-import {DEFAULT_TEMPLATE, HEADLESS_TEMPLATE} from '../constants'
+import {chartGenerator, storeChartGenerator, gentleStoreChartGenerator, IIFChartGenerator} from '../utils/chartGenerators'
+import {DEFAULT_TEMPLATE, HEADLESS_TEMPLATE, IIF_BAR_CHART} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import SliceSelector from './SliceSelector.jsx'
@@ -16,8 +16,8 @@ class ExplorerView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userCode: HEADLESS_TEMPLATE,  // this should actually prepend the settings-based-code
-      template: HEADLESS_TEMPLATE,
+      userCode: IIF_BAR_CHART,  // this should actually prepend the settings-based-code
+      template: IIF_BAR_CHART,
       config: {
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
@@ -63,7 +63,7 @@ class ExplorerView extends Component {
 
   handleAddCardToDashboard(e, dashboardId) {
     e.preventDefault()
-    this.props.addCardToCards({state: this.state, title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chart: storeChartGenerator(this.state.config, this.state.userCode)})
+    this.props.addCardToCards({state: this.state, title: this.state.config.title, sliceId: this.state.config.sliceId, config: this.state.config, rawCode: this.state.userCode, chartGenerator: IIFChartGenerator(this.state.userCode)})
     setTimeout(() => {
       const newCard = this.props.cards[this.props.cards.length - 1]
       this.props.addCardToDashboard(+dashboardId, newCard)
@@ -102,7 +102,11 @@ class ExplorerView extends Component {
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
         </div>
         <div className="col-sm-9">
-        <ExplorerChart cardTitle={this.state.config.title} config={this.state.config} userCode={this.state.userCode} />
+        <ExplorerChart
+          cardTitle={this.state.config.title}
+          config={this.state.config}
+          userCode={this.state.userCode}
+        />
         </div>
       </div>
     </div>

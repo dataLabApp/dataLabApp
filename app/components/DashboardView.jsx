@@ -31,7 +31,8 @@ const DashboardView = (props) => {
 // ----------------------- Container -----------------------
 const mapStateToProps = (state) => (
   {
-    dashBoards: state.dashboards
+    dashBoards: state.dashboards,
+    currentDashboardCards: state.dashboards.currentDashboard.cards
   }
 )
 const mapDispatchToProps = (dispatch) => ({

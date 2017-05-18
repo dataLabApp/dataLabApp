@@ -1,12 +1,15 @@
 import React, {Component} from 'react'
 var ReactFauxDOM = require('react-faux-dom')
 import {ROOT_PATH} from '../constants'
-import {customChartGenerator, chartGenerator} from '../utils/chartGenerators.js'
+import {chartGenerator, storeChartGenerator, IIFChartGenerator} from '../utils/chartGenerators'
 
 export default class ExplorerChart extends Component {
   render() {
-    const title = this.props.cardTitle || 'Delightful Chart Example'
-    const userCode = this.props.userCode || undefined
+    const title = this.props.cardTitle
+    const userCode = this.props.userCode
+    let chartGenerator = IIFChartGenerator(userCode)
+    let data = this.props.config.data
+    let config = this.props.config
     return (
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -30,7 +33,7 @@ export default class ExplorerChart extends Component {
         </div>
         <div className="x_content" style={{height: 400, width: 700}}>
           <div>
-            {customChartGenerator(this.props.config, userCode)}
+            {chartGenerator(data, config).toReact()}
           </div>
         </div>
       </div>
