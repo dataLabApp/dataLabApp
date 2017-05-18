@@ -25,7 +25,15 @@ export default class DashboardCard extends Component {
   render() {
     const title = this.props.card.title || 'Delightful Chart Example'
     const chart = this.props.card.chart
+    let chartToRender
     console.log('Chart is ', chart)
+    console.log('typeof Chart is ', typeof chart)
+    if (typeof chart === 'function') {
+      chartToRender = chart()
+    } else {
+      chartToRender = chart
+    }
+
     return (
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -48,7 +56,7 @@ export default class DashboardCard extends Component {
           <div className="clearfix"></div>
         </div>
         <div className="x_content">
-            {chart()}
+            {chartToRender}
         </div>
           <button onClick={this.exportAsSVG}>Export as SVG</button>
       </div>

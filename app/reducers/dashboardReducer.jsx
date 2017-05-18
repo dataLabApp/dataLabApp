@@ -76,10 +76,16 @@ const dashboard2 = {
   title: 'secondSeedDB',
   cards: [{title: 'DefaultCardTitle', i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'SecondCardTitle', i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
+const bubbleDB = {
+  id: 3,
+  counter: 3,
+  title: 'Bubble Chart',
+  cards: [{title: 'Bubble Chart', i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: <BubbleChart/>, rawCode: DEFAULT_TEMPLATE}]
+}
 const initialState = {
-  dashboardCounter: 2,
-  currentDashboard: dashboard1,
-  dashboards: [dashboard1, dashboard2]
+  dashboardCounter: 3,
+  currentDashboard: bubbleDB,
+  dashboards: [dashboard1, dashboard2, bubbleDB]
 }
 
 export default function dashboardReducer(state = initialState, action) {
