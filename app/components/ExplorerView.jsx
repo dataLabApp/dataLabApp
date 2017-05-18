@@ -9,6 +9,7 @@ import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import SliceSelector from './SliceSelector.jsx'
 import AxisSelector from './AxisSelector.jsx'
+import ChartSizer from './ChartSizer.jsx'
 import {addCardToDashboard, setCurrentDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 
@@ -22,6 +23,10 @@ class ExplorerView extends Component {
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
         title: 'Pick Your Title',
+        dimensions: {
+          fullHeight: 500,
+          fullWidth: 500
+        },
         x: {
           dataColumn: Object.keys(props.data.allSlices[0].data[0])[0]
         },
@@ -98,6 +103,11 @@ class ExplorerView extends Component {
           currentSettings = {this.state.config.y || {}}
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
+        />
+        <ChartSizer
+          currentWidth={this.state.config.dimensions.fullWidth}
+          currentHeight={this.state.config.dimensions.fullHeight}
+          changeDimension={this.changeConfig('dimensions')}
         />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
         </div>

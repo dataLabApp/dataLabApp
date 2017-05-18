@@ -2,11 +2,9 @@ import React, {Component} from 'react'
 import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-
-
 export default props => {
-  let columnNames = Object.keys(props.currentSlice[0])
-  let currentDataColumn = props.currentSettings.dataColumn || columnNames[0] || ''
+  const columnNames = Object.keys(props.currentSlice[0])
+  const currentDataColumn = props.currentSettings.dataColumn || columnNames[0] || ''
   return (
     <form>
       <FormGroup>
@@ -25,7 +23,6 @@ export default props => {
     </form>
   )
 }
-
 
 // class AxisSelector extends Component {
 //   constructor(props) {
