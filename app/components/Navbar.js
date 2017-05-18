@@ -38,6 +38,9 @@ function NavTop(props) {
         };
         props.auth.auth0.getDelegationToken(options, function(err, result) {
           if (!err) {
+            let userName
+            if (profile.username) userName = profile.username
+            else userName = profile.nickname
             // Exchange the delegate token for a Firebase auth token
             firebase.auth().signInWithCustomToken(result.id_token)
             .then(() => firebase.database().ref('users').once('value'))
@@ -48,9 +51,6 @@ function NavTop(props) {
               })
               if (!profileExists) {
                 //firebase.database().ref('users').push(profile)
-                let userName
-                if (profile.username) userName = profile.username
-                else userName = profile.nickname
                 firebase.database().ref().child('users').update({
                   [userName]: profile
                 })
@@ -58,6 +58,18 @@ function NavTop(props) {
               }
             })
             .then(() => props.login(profile, authResult.idToken))
+            .then(() => {
+              firebase.database().ref(`users/${userName}/message`).on('value', function (snapshot) {
+                const message = snapshot.val()
+                console.log(message)
+                let myNotification = new Notification(`${message.sender} Sent You a New Visualization`, {
+                  body: message.body
+                })
+                myNotification.onclick = () => {
+                  console.log('Notification clicked')
+                }
+              })
+            })
             .catch(function(error) {
               console.log(error)
             })
