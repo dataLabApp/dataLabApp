@@ -12,11 +12,13 @@ class AllCard extends Component {
     this.state = {
       showShareCardModal: false,
       emailAddresses: [],
-      emailMessage: ''
+      emailMessage: '',
+      selectedUsers: new Set()
     }
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSendEmails = this.handleSendEmails.bind(this)
     this.handleEmailMessageChange = this.handleEmailMessageChange.bind(this)
+    this.handleCheckBoxesChange = this.handleCheckBoxesChange.bind(this)
   }
 
   handleShowModal(event) {
@@ -26,30 +28,32 @@ class AllCard extends Component {
     })
   }
 
-  handleSendEmails(event) {
-    event.preventDefault()
+  handleCheckBoxesChange(boolChecked, username) {
+    const userSet = this.state.selectedUsers
+    boolChecked ? userSet.add(username) : userSet.delete(username)
     this.setState({
-      emailAddresses: 'test@test.com',
-      showShareCardModal: false
+      selectedUsers: userSet
     })
-
-
-  firebase.database().ref().child('users').child('mmeidlinger').update({
-    message: 'new message!'
-  })
-
-  firebase.database().ref('users/mmeidlinger').on('value', function(snapshot) {
-    const message = snapshot.val().message
-    let myNotification = new Notification('Mandi Sent You a New Visualization', {
-      body: message
-    })
-
-    myNotification.onclick = () => {
-      console.log('Notification clicked')
-    }
-  })
   }
 
+  handleSendEmails(event) {
+    event.preventDefault()
+    let sender = ''
+    this.props.currentOwner ? sender = this.props.currentOwner.nickname : sender = 'A DataLab User'
+    this.state.selectedUsers.forEach(x => {
+      firebase.database().ref().child('users').child(x).update({
+        message: {
+          body: event.target.emailMessage.value,
+          sender: sender
+        }
+      })
+    })
+
+    this.setState({
+      showShareCardModal: false,
+      selectedUsers: new Set()
+    })
+  }
 
   handleEmailMessageChange(event) {
     this.setState({
@@ -85,7 +89,7 @@ class AllCard extends Component {
             <div>
               {
                 this.state.showShareCardModal &&
-                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange}/>
+                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange} handleCheckBoxesChange={this.handleCheckBoxesChange}/>
               }
             </div>
           </div>
@@ -99,7 +103,8 @@ class AllCard extends Component {
 import { fetchUsers } from '../reducers/userReducer'
 
 const mapStateToProps = (state, ownProps) => ({
-  allUsers: state.user.allUsers
+  allUsers: state.user.allUsers,
+  currentOwner: state.auth.profile
 })
 
 const mapDispatchToProps = dispatch => ({

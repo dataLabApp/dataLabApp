@@ -25,7 +25,7 @@ const ShareCardModal = props => (
               />
               { props.users &&
                 props.users.map((x, index) =>
-                  <Checkbox key={index} readOnly>
+                  <Checkbox key={index} readOnly onChange={ (event) => props.handleCheckBoxesChange(event.target.checked, x.username)}>
                     {x.username}, {x.name}
                   </Checkbox>
 

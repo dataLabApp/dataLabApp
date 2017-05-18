@@ -49,7 +49,6 @@ export const fetchUsers = () => (dispatch) => {
           }
         )
       })
-      console.log(tempArray)
     })
     .then(() => dispatch(setAllUsers(tempArray)))
     .catch(console.error)
