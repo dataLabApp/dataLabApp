@@ -245,12 +245,12 @@ class TalkToDatabase extends Component {
             }
 
             {
-            (this.state.activeTab =='saveSlice') &&this.state.currentData &&
+            (this.state.activeTab =='saveSlice' && this.state.currentData) &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
             }
 
             {
-            this.state.currentData &&
+            (this.state.activeTab == 'saveSlice' && this.state.currentData) &&
             <Button bsStyle="primary" type='submit' className='pull-right' onClick={ (event) => {
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
