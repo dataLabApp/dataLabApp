@@ -11,11 +11,12 @@ const SQLForm = props => {
             <ControlLabel>Enter SQL Query: </ControlLabel>
             <FormControl
               componentClass="textarea"
+               style={{height: '300px'}}
               placeholder="Enter SQL Query here: " value={props.currentSQLQuery}
               onChange={props.handleChange} />
           </FormGroup>
-          <Button bsStyle="primary" type='submit'>
-            Submit Query
+          <Button bsStyle="primary" type='submit' className='pull-right'>
+            Filter Data
           </Button>
         </form>
     </div>
