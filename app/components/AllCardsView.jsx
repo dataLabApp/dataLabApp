@@ -10,7 +10,7 @@ const AllCardsView = (props) => (
               { props.cards.map(card => (
                 <li key={card.id} >
                   <div className="col-sm-6 col-md-4 col-lg-3 text-center" >
-                    <AllCard title={card.title} chart={card.chart()} onRemove= { () => props.deleteCard(card.id)}/>
+                    <AllCard title={card.title} chart={card.chartGenerator ? card.chartGenerator(card.config.data, card.config).toReact() : card.chart()} onRemove= { () => props.deleteCard(card.id)}/>
                   </div>
                 </li>
             )) }
