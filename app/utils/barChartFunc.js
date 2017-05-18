@@ -8,14 +8,15 @@
   let x = config.x.dataColumn
   let y = config.y.dataColumn
   let chartTitle = config.title
+  let fullWidth = config.dimensions.fullWidth
+  let fullHeight = config.dimensions.fullHeight
 
   let yAxisLabel = 'Dollars'
 
   let margin = {top: 20, right: 5, bottom: 50, left: 50}
   // here, we want the full chart to be 700x200, so we determine
   // the width and height by subtracting the margins from those values
-  let fullWidth = 700
-  let fullHeight = 200
+
   // the width and height values will be used in the ranges of our scales
   let width = fullWidth - margin.right - margin.left
   let height = fullHeight - margin.top - margin.bottom
