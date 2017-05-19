@@ -89,7 +89,7 @@ class ExplorerView extends Component {
     this.setState(card.state)
   }
   setChartType(e){
-    this.setState({chartType: e.target.value})
+    this.setState({chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
   }
   render() {
     return (

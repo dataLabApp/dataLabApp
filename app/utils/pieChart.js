@@ -1,53 +1,47 @@
 (function() {
   return function(data, config) {
- const hidth = config.dimensions.fullWidth
- const height = config.dimensions.fullHeight
- const radius = Math.min(width, height) / 2 - 10
- const d3 = window.d3
- var data = d3.range(10).map(Math.random).sort(d3.descending)
- console.log(data)
- var color = d3.scale.category20()
+    const width = config.dimensions.fullWidth
+    const height = config.dimensions.fullHeight
+    const radius = Math.min(width, height) / 2
+    const d3 = window.d3
+    const x = config.x.dataColumn
+    const y = config.y.dataColumn
 
-var arc = d3.svg.arc()
-    .outerRadius(radius)
+    const fauxNode = window.ReactFauxDOM.createElement('svg')
 
-var pie = d3.layout.pie()
-const fauxNode = window.ReactFauxDOM.createElement('svg')
-const svg = window.d3.select(fauxNode)
-    .datum(data)
-    .attr('width', width)
-    .attr('height', height)
-  .append('g')
-    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+    var svg = d3.select(fauxNode)
+      .attr('width', width)
+      .attr('height', height)
+    let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-var arcs = svg.selectAll('g.arc')
-    .data(pie)
-  .enter().append('g')
-    .attr('class', 'arc')
+    var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
 
-arcs.append('path')
-    .attr('fill', function(d, i) { return color(i) })
-  .transition()
-    .ease('bounce')
-    .duration(2000)
-    .attrTween('d', tweenPie)
-  .transition()
-    .ease('elastic')
-    .delay(function(d, i) { return 2000 + i * 50 })
-    .duration(750)
-    .attrTween('d', tweenDonut)
+    var pie = d3.pie()
+        .sort(null)
+        .value(function(d) { return +d[x] })
 
-function tweenPie(b) {
-  b.innerRadius = 0
-  var i = d3.interpolate({startAngle: 0, endAngle: 0}, b)
-  return function(t) { return arc(i(t)) };
-}
+    var path = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(0)
 
- function tweenDonut(b) {
-  b.innerRadius = radius * 0.6
-  var i = d3.interpolate({innerRadius: 0}, b)
-  return function(t) { return arc(i(t)) };
-}
-  return fauxNode
+    var label = d3.arc()
+        .outerRadius(radius - 40)
+        .innerRadius(radius - 40)
+
+      var arc = g.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g")
+          .attr("class", "arc")
+
+      arc.append("path")
+          .attr("d", path)
+          .attr("fill", function(d) { return color(d.data[y]) })
+
+      arc.append("text")
+          .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")" })
+          .attr("dy", "0.35em")
+          .text(function(d) { return d.data[y] })
+
+      return fauxNode
   }
 })()
