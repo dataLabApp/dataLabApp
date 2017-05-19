@@ -6,8 +6,12 @@ const path = require('path')
 client.connect()
 
 export function seedInvoiceData() {
-  const continuousSeed = window.setInterval(seedInvoicesOnce, 1500)
-  window.setTimeout(() => window.clearInterval(continuousSeed), 10*1000)
+  const continuousSeed = window.setInterval(function(){
+    seedInvoicesOnce()
+    seedInvoicesOnce()
+    seedInvoicesOnce()
+  }, 1000)
+  window.setTimeout(() => window.clearInterval(continuousSeed), 30*1000)
 }
 
 function seedInvoicesOnce() {

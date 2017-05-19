@@ -10,8 +10,11 @@
     const fauxNode = window.ReactFauxDOM.createElement('svg')
 
     var svg = d3.select(fauxNode)
-      .attr('width', width)
-      .attr('height', height)
+      // .attr('width', width)
+      // .attr('height', height)
+
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
     let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
