@@ -88,7 +88,7 @@ class ExplorerView extends Component {
 
   render() {
     return (
-  <div className='container'>
+  <div className='container-fluid'>
    <PageHeader header="Explorer" />
     <div className="container-fluid">
       <div className="row">

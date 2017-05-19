@@ -12,7 +12,7 @@ const DashboardView = (props) => {
 )
 
   return (
-    <div className = "container">
+    <div className = "container-fluid">
         <button onClick={print} className="pull-right" id="react-no-print"><span className="glyphicon glyphicon-download"></span></button>
         <ul style={{listStyle: 'none'}}>
           <h3>Choose Dashboard</h3>
