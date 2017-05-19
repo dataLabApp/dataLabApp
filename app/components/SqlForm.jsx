@@ -11,7 +11,7 @@ const SQLForm = props => {
             <ControlLabel>Enter SQL Query: </ControlLabel>
             <FormControl
               componentClass="textarea"
-               style={{height: '300px'}}
+               style={{height: '100px'}}
               placeholder="Enter SQL Query here: " value={props.currentSQLQuery}
               onChange={props.handleChange} />
           </FormGroup>
