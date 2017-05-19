@@ -377,7 +377,7 @@ export default class BubbleChart extends Component {
     var div = d3.select(fauxNode)
        .attr('id', 'vis')
        .append('svg')
-       .attr('viewBox', `0 0 ${width*2} ${height*2}`)
+       .attr('viewBox', `0 0 ${width} ${height}`)
        .attr('preserveAspectRatio', 'xMidYMid meet')
 
     return (
