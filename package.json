@@ -7,7 +7,8 @@
     "start": "electron .",
     "build": "webpack",
     "build-watch": "webpack -w",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "package": "electron-packager ./ dataLab --platform=darwin"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -28,7 +29,7 @@
     "devtron": "^1.4.0",
     "electromon": "^1.0.6",
     "electron": "~1.6.2",
-    "electron-reload": "^1.1.0",
+    "electron-packager": "^8.7.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
@@ -45,6 +46,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "brace": "^0.10.0",
+    "electron-reload": "^1.1.0",
     "css-loader": "^0.28.1",
     "d3": "^4.8.0",
     "d3-save-svg": "0.0.2",
