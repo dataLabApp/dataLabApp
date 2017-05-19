@@ -3,12 +3,13 @@ import {connect} from 'react-redux'
 import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
-import {chartGenerator, storeChartGenerator, gentleStoreChartGenerator, IIFChartGenerator} from '../utils/chartGenerators'
-import {DEFAULT_TEMPLATE, HEADLESS_TEMPLATE, IIF_BAR_CHART} from '../constants'
+import {IIFChartGenerator} from '../utils/chartGenerators'
+import {IIF_BAR_CHART} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import SliceSelector from './SliceSelector.jsx'
 import AxisSelector from './AxisSelector.jsx'
+import ChartSizer from './ChartSizer.jsx'
 import {addCardToDashboard, setCurrentDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 
@@ -21,7 +22,11 @@ class ExplorerView extends Component {
       config: {
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
-        title: 'Pick Your Title',
+        title: 'Click Here to Write Title',
+        dimensions: {
+          fullHeight: 500,
+          fullWidth: 800
+        },
         x: {
           dataColumn: Object.keys(props.data.allSlices[0].data[0])[0]
         },
@@ -51,14 +56,21 @@ class ExplorerView extends Component {
   }
 
   changeConfig(attributeToChange) {
-    const stateUpdater = newAttribute => {
-      const oldAttributeValues = this.state.config[attributeToChange] || {}
-      const updatedAttributes = Object.assign(oldAttributeValues, newAttribute)
-      const oldConfig = this.state.config
-      const newConfig = Object.assign(oldConfig, {[attributeToChange]: updatedAttributes})
-      this.setState({config: newConfig})
+    if (typeof this.state.config[attributeToChange]==='object') {
+      const stateUpdater = newAttribute => {
+        const oldAttributeValues = this.state.config[attributeToChange] || {}
+        const updatedAttributes = Object.assign(oldAttributeValues, newAttribute)
+        const oldConfig = this.state.config
+        const newConfig = Object.assign(oldConfig, {[attributeToChange]: updatedAttributes})
+        this.setState({config: newConfig})
+      }
+      return stateUpdater.bind(this)
+    } else {
+      return (newValue) => {
+        const newConfig = Object.assign(this.state.config, {[attributeToChange]: newValue})
+        this.setState({config: newConfig})
+      }
     }
-    return stateUpdater.bind(this)
   }
 
   handleAddCardToDashboard(e, dashboardId) {
@@ -99,11 +111,17 @@ class ExplorerView extends Component {
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />
+        <ChartSizer
+          currentWidth={this.state.config.dimensions.fullWidth}
+          currentHeight={this.state.config.dimensions.fullHeight}
+          changeDimension={this.changeConfig('dimensions')}
+        />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
         </div>
         <div className="col-sm-9">
         <ExplorerChart
           cardTitle={this.state.config.title}
+          updateCardTitle={this.changeConfig('title')}
           config={this.state.config}
           userCode={this.state.userCode}
         />
