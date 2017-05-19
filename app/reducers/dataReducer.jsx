@@ -33,13 +33,10 @@ export const updateSliceData = (sliceId, newData) => ({
 export const fetchSliceData = sliceId => {
   return (dispatch, getState) => {
     let data = getState().data
-    console.log('data is' , data)
     let [requestedSlice] = data.allSlices.filter(slice => {
-      console.log('comparing slice',slice,' with id', sliceId)
       return +slice.id===+sliceId
     })
     let client = new pg.Client(`postgres://localhost/${requestedSlice.database}`)
-    console.log(`postgres://localhost/${requestedSlice.database}`)
     client.connect()
     client.query(requestedSlice.SQLQuery, function(err, data) {
       if (err)console.error(err)
