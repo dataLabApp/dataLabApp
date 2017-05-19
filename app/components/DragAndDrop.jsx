@@ -5,7 +5,7 @@ import Chart from './Chart'
 import DashboardCard from './DashboardCard'
 import styles from '../../node_modules/react-grid-layout/css/styles.css'
 import styles2 from '../../node_modules/react-resizable/css/styles.css'
-import {updateDashboardLayout} from '../reducers/dashboardReducer'
+import {updateDashboardLayout, deleteCardFromDashboard} from '../reducers/dashboardReducer'
 import {fetchSliceData} from '../reducers/dataReducer'
 
 class DragAndDrop extends Component {
@@ -65,7 +65,7 @@ class DragAndDrop extends Component {
             <ReactGridLayout className="layout" layout={this.state.cards} cols={30} rowHeight={30} width={window.innerWidth * 0.9} ref="rgl" onLayoutChange={this.onLayoutChange}>
 
                 {
-                    this.state.cards.map((card) => (<div key={card.i} style={divStyle}><DashboardCard card ={card} /></div>))
+                    this.state.cards.map((card) => (<div key={card.i} style={divStyle}><DashboardCard delete={this.props.deleteCard} card ={card} /></div>))
                 }
             </ReactGridLayout>
             </div>

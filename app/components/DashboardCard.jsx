@@ -5,6 +5,7 @@ import {createHook} from '../utils/createHook.js'
 var d3SaveSvg = require('d3-save-svg')
 var d3 = require('d3')
 import {connect} from 'react-redux'
+import {updateDashboardLayout, deleteCardFromDashboard} from '../reducers/dashboardReducer'
 
 class DashboardCard extends Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class DashboardCard extends Component {
     const chart = this.props.card.chart
     const config = this.props.card.config
     const data = this.props.data
+    const cardId = this.props.card.id
+    const dashId = this.props.currentDashboard.id
     return (
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
@@ -42,7 +45,7 @@ class DashboardCard extends Component {
                 </li>
               </ul>
             </li>
-            <li><a className="close-link"><i className="fa fa-close"></i></a>
+            <li onClick={() => this.props.deleteCard(dashId, cardId)}><a className="close-link"><i className="fa fa-close"></i></a>
             </li>
           </ul>
           <div className="clearfix"></div>
@@ -57,11 +60,12 @@ class DashboardCard extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: state.data.allSlices.filter(slice => +slice.id === +ownProps.card.sliceId)[0].data
+  data: state.data.allSlices.filter(slice => +slice.id === +ownProps.card.sliceId)[0].data,
+  currentDashboard: state.dashboards.currentDashboard
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  deleteCard: (dashId, cardId) => dispatch(deleteCardFromDashboard(dashId, cardId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardCard)

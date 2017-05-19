@@ -12,6 +12,10 @@ export const HEADLESS_TEMPLATE = fs.readFileSync(path.join(decodeURI(path.dirnam
 
 export const IIF_BAR_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/barChartFunc.js'), {encoding: 'utf-8'})
 
+export const PIE_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/pieChart.js'), {encoding: 'utf-8'})
+
+export const CHART_TEMPLATES = {'Pie': PIE_CHART, 'Bar': IIF_BAR_CHART}
+
 export const ROOT_PATH = path.dirname(window.location.pathname)
 
 export const snapSensitivity = 10

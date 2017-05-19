@@ -10,7 +10,7 @@
     const chartTitle = config.title
     const fullWidth = config.dimensions.fullWidth
     const fullHeight = config.dimensions.fullHeight
-    const colors = window.d3.scaleOrdinal(window.d3.schemeCategory10)
+    const colors = window.d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
     const yAxisLabel = 'Dollars'
 
     const margin = {top: 20, right: 5, bottom: 50, left: 50}

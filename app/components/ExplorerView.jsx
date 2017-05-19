@@ -4,9 +4,10 @@ import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
 import {IIFChartGenerator} from '../utils/chartGenerators'
-import {IIF_BAR_CHART} from '../constants'
+import {IIF_BAR_CHART, PIE_CHART, CHART_TEMPLATES} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
+import ChartTypeSelector from './ChartTypeSelector.jsx'
 import SliceSelector from './SliceSelector.jsx'
 import AxisSelector from './AxisSelector.jsx'
 import ChartSizer from './ChartSizer.jsx'
@@ -19,6 +20,7 @@ class ExplorerView extends Component {
     this.state = {
       userCode: IIF_BAR_CHART,  // this should actually prepend the settings-based-code
       template: IIF_BAR_CHART,
+      chartType: 'Bar',
       config: {
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
@@ -39,6 +41,7 @@ class ExplorerView extends Component {
     this.handleAddCardToDashboard = this.handleAddCardToDashboard.bind(this)
     this.handleChangeSlice = this.handleChangeSlice.bind(this)
     this.changeConfig = this.changeConfig.bind(this)
+    this.setChartType = this.setChartType.bind(this)
     this.handleLoadState = this.handleLoadState.bind(this)
   }
 
@@ -85,7 +88,9 @@ class ExplorerView extends Component {
   handleLoadState(card) {
     this.setState(card.state)
   }
-
+  setChartType(e){
+    this.setState({chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
+  }
   render() {
     return (
   <div className='container-fluid'>
@@ -96,6 +101,11 @@ class ExplorerView extends Component {
         <SliceSelector
           changeSlice={this.handleChangeSlice}
           currentSlice={this.state.config.data}
+        />
+        <ChartTypeSelector
+          options={CHART_TEMPLATES}
+          setChartType={this.setChartType}
+          currentType={this.state.chartType}
         />
         <AxisSelector
           label='X Axis'
