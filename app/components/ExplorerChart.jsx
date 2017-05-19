@@ -20,7 +20,7 @@ export default class ExplorerChart extends Component {
         <div className="x_title" onClick={() => this.setState({showTitleForm: true})}>
           <h2>{this.state.showTitleForm
             ? <Form inline onSubmit={() => this.setState({showTitleForm: false})}>
-               <FormControl type="text" value={title} onChange={(e) => this.props.updateCardTitle(e.target.value)}>
+               <FormControl bsSize="large" type="text" value={title} onChange={(e) => this.props.updateCardTitle(e.target.value)}>
                </FormControl>
             </Form>
             : title}</h2>
