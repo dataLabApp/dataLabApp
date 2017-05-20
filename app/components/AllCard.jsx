@@ -73,7 +73,7 @@ class AllCard extends Component {
     return (
       <div className="x_panel tile">
         <div className="x_title">
-          <h2>{title}</h2>
+          <h5>{title}</h5>
           <ul className="nav navbar-right panel_toolbox">
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
             {/*<li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>*/}
