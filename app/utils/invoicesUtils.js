@@ -11,7 +11,7 @@ export function seedInvoiceData() {
     seedInvoicesOnce()
     seedInvoicesOnce()
   }, 1000)
-  window.setTimeout(() => window.clearInterval(continuousSeed), 30*1000)
+  window.setTimeout(() => window.clearInterval(continuousSeed), 60*1000)
 }
 
 function seedInvoicesOnce() {

@@ -50,7 +50,7 @@ export const fetchSliceData = sliceId => {
 
 const sampleSliceObj= {
   id: 1,
-  title: 'Example Slice',
+  title: 'Products with Prices',
   dateCreated: new Date(),
   SQLQuery: 'SELECT name, description, price FROM product',
   database: 'video-shopper',
