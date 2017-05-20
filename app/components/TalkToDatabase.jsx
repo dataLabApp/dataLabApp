@@ -67,7 +67,7 @@ class TalkToDatabase extends Component {
       currentDatabaseName: dbName
     }, this.handleFindAllTables);
 
- 
+
 
     // return this.setState({
     //     currentDatabaseName: dbName,
@@ -75,10 +75,10 @@ class TalkToDatabase extends Component {
     //   })
     // .then((res) => this.handleFindAllTables())
     // .catch(err => console.log(err))
-    
- 
+
+
   }
-    
+
 
   handleQuery(event) {
     this.state.client.query(this.state.currentSQLQuery, (err, data) => {
@@ -127,7 +127,7 @@ class TalkToDatabase extends Component {
             tableName: x.table_name,
             columnNames: columnArray
           })
-        
+
         })
         .then(() => {
           return this.setState({
@@ -201,7 +201,7 @@ class TalkToDatabase extends Component {
     }
 
     return (
-      
+
     <div className="container-fluid">
      <ProgressBar>
       <ProgressBar label='Choose a Database' bsStyle="success" now={33} key={1} onClick={()=>this.changeTab('selectDatabase')} />
@@ -218,29 +218,30 @@ class TalkToDatabase extends Component {
           </ListGroupItem>
         </ListGroup>
         </div>
-         
+
         <div className="col-sm-9">
             {
-              this.state.activeTab == "selectDatabase" &&
+              this.state.activeTab === 'selectDatabase' &&
               <FormGroup controlId="formControlsSelect">
               <ControlLabel>Select a Database</ControlLabel>
               <FormControl componentClass="select" placeholder="select" onChange={this.handleDatabaseChange}>
-              {  
+              {
               this.state.databases && this.state.databases.map((databaseName,i)=>{
                 return <option key = {databaseName} value={databaseName}>{databaseName}</option>
               })
               }
               </FormControl>
             </FormGroup>
-            
-            }  
+
+            }
             {
-              (this.state.activeTab=="selectDatabase" && this.state.rows.length>0) &&
+              (this.state.activeTab === 'selectDatabase' && this.state.rows.length>0) &&
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
             }
-      
+
             {
-            this.state.activeTab == 'makeQuery'&&
+            this.state.activeTab == 'makeQuery' &&
+            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/> &&
             <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
             }
 
@@ -265,7 +266,7 @@ class TalkToDatabase extends Component {
               <SaveSliceModal handleSaveSlice={ this.handleSaveSlice } handlesaveSliceChange={ this.handleSliceNameChange } />
             }
 
-       
+
         </div>
       </div>
     </div>
