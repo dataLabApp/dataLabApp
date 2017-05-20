@@ -30,9 +30,9 @@ class DashboardCard extends Component {
     const dashId = this.props.currentDashboard.id
     return (
       <div className="x_panel tile fixed_height_320">
-        <div className="x_title">
+        <div style={{float: 'float-left'}} className="x_title">
           <h5>{title}</h5>
-          <ul className="nav navbar-right panel_toolbox">
+          <ul style={{float: 'float-right'}} className="nav navbar-right panel_toolbox">
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>

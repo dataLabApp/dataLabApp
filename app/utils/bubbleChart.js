@@ -38,8 +38,10 @@
 
     node.append('circle')
         .attr('r', function(d) { return d.r })
-        .style('fill', function(d,i) {
-          return color(i)
+        .style('fill', function(d, i) {
+          if (typeof d.data.packageName==='number') {
+            return color(d.data.packageName)
+          } else return color(i)
         })
 
     node.append('text')
@@ -53,7 +55,7 @@
       console.log('root is', root, 'node is', node, 'x is', x, 'y is', y, 'z is', z)
       function recurse(name, node) {
         // if (node.children) node.children.forEach(function(child) { recurse(node.name, child) })
-        node.forEach(node => classes.push({packageName: [z], className: node[y], value: node[x]}))
+        node.forEach(node => classes.push({packageName: node[z], className: node[y], value: node[x]}))
       }
 
       recurse(null, root)
