@@ -23,7 +23,7 @@ render(
       <Router history={history}>
         <App>
           <Switch>
-            <Route exact path="/" component={HomeView} />
+            <Route exact path="/" component={DashboardView} />
             <Route path="/home" component={HomeView} />
             <Route path="/dashboard" component={DashboardView} />
             <Route path="/explorer" component={ExplorerView} />
