@@ -68,13 +68,13 @@ const dashboard1 = {
   id: 1,
   counter: 1,
   title: 'dashboard1',
-  cards: [{title: 'CardTitleDelight', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  cards: [{title: 'Invoices By Dept', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const dashboard2 = {
   id: 2,
   counter: 2,
   title: 'secondSeedDB',
-  cards: [{title: 'DefaultCardTitle', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'SecondCardTitle', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  cards: [{title: 'Sales by Quarter', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'Monthly Sales', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const initialState = {
   dashboardCounter: 2,
@@ -99,37 +99,38 @@ export default function dashboardReducer(state = initialState, action) {
     break
   case ADD_CARD_TO_DASHBOARD:
     {
-    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
-    ++thisDashboard.counter // this mutates the old state
-    const thisCard = Object.assign({title: 'DefaultCardTitle', i: ''+thisDashboard.counter, w: 6, h: 8, x: 1, y: Infinity, chart: null, rawCode: DEFAULT_TEMPLATE}, action.card)
-    thisDashboard.cards = thisDashboard.cards.concat([thisCard])
-    break
-  }
+      const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+      ++thisDashboard.counter // this mutates the old state
+      const thisCard = Object.assign({title: 'DefaultCardTitle', i: ''+thisDashboard.counter, w: 6, h: 8, x: 1, y: Infinity, chart: null, rawCode: DEFAULT_TEMPLATE}, action.card)
+      thisDashboard.cards = thisDashboard.cards.concat([thisCard])
+      break
+    }
   case UDPATE_DASHBOARD_CARD:
     {
-    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
-    let [thisCard] = thisDashboard.cards.filter(card => card.id===action.cardId)
-    thisCard = Object.assign({}, thisCard, action.card) // this mutates the old state
-    break
-  }
+      const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+      let [thisCard] = thisDashboard.cards.filter(card => card.id===action.cardId)
+      thisCard = Object.assign({}, thisCard, action.card) // this mutates the old state
+      break
+    }
   case DELETE_CARD_FROM_DASHBOARD:
     {
-    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
-    thisDashboard.cards = thisDashboard.cards.filter(card => card.id!==action.cardId)
-    break
-  }
+      const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboardId)
+      thisDashboard.cards = thisDashboard.cards.filter(card => card.id!==action.cardId)
+      break
+    }
   case UPDATE_DASHBOARD:
     {
-    let [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboard.id)
-    thisDashboard = Object.assign({}, thisDashboard, action.dashboard) // this mutates state
-  }
+      let [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.id===action.dashboard.id)
+      thisDashboard = Object.assign({}, thisDashboard, action.dashboard) // this mutates state
+      break
+    }
   case UPDATE_DASHBOARD_LAYOUT:
     {
-    const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.title===action.dashboardTitle)
+      const [thisDashboard] = nextState.dashboards.filter(dashboard => dashboard.title===action.dashboardTitle)
       // console.log("thisDashboard", thisDashboard, action.dashboardTitle);
-    thisDashboard.cards = action.layout
-    break
-  }
+      thisDashboard.cards = action.layout
+      break
+    }
   case LOAD_DASHBOARDS:
     nextState=action.dashboards
     return nextState

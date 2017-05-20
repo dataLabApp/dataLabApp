@@ -46,15 +46,16 @@ class D3TextEditor extends Component{
     return(
     <div>
       <form onSubmit={this.handleSubmit} >
-        <FormGroup controlId="formControlsTextarea">
-          <AceEditor style={{marginLeft: '100px', marginTop: '15px'}} mode='javascript' theme='monokai' width='600px'  wrapEnabled={true} onChange={this.handleChange} value={this.state.formText} rows={"25"} />
-        </FormGroup>
-        <Button onClick={this.revert} type='button'>
+        <Button style={{align:'center'}} onClick={this.revert} type='button'>
           Revert
         </Button>
-        <Button type="submit">
+        <Button style={{align:'center'}} type="submit">
           Save
         </Button>
+        <FormGroup style={{align:'center'}} controlId="formControlsTextarea">
+          <AceEditor fontSize={18} style={{marginLeft: '100px', marginTop: '15px'}} mode='javascript' theme='monokai' width='1000px' wrapEnabled={true} onChange={this.handleChange} value={this.state.formText} rows={"25"} />
+        </FormGroup>
+
       </form>
     </div>
     );

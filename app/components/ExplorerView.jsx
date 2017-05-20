@@ -13,11 +13,13 @@ import AxisSelector from './AxisSelector.jsx'
 import ChartSizer from './ChartSizer.jsx'
 import {addCardToDashboard, setCurrentDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
+import {Button} from 'react-bootstrap'
 
 class ExplorerView extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      showTextEditor: false,
       userCode: IIF_BAR_CHART,  // this should actually prepend the settings-based-code
       template: IIF_BAR_CHART,
       chartType: 'Bar',
@@ -46,8 +48,11 @@ class ExplorerView extends Component {
     this.changeConfig = this.changeConfig.bind(this)
     this.setChartType = this.setChartType.bind(this)
     this.handleLoadState = this.handleLoadState.bind(this)
+    this.toggleShowTextEditor = this.toggleShowTextEditor.bind(this)
   }
-
+  toggleShowTextEditor() {
+    this.setState({showTextEditor: !this.state.showTextEditor})
+  }
   handleChangeSlice(e) {
     const userSpecifiedSliceTitle = e.target.value
     const [newSlice] = this.props.data.allSlices.filter(slice => slice.title===userSpecifiedSliceTitle)
@@ -136,6 +141,7 @@ class ExplorerView extends Component {
           changeDimension={this.changeConfig('dimensions')}
         />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
+        <Button onClick={this.toggleShowTextEditor}>{this.state.showTextEditor ? 'Hide the Editor' : 'Edit the Code'}</Button>
         </div>
         <div className="col-sm-9">
         <ExplorerChart
@@ -147,7 +153,7 @@ class ExplorerView extends Component {
         </div>
       </div>
     </div>
-    <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />
+    {!this.state.showTextEditor || <D3TextEditor handleCode={this.handleCodeFromTextEditor} codeForEditor={this.state.userCode || this.state.template} />}
     <div className="container-fluid">
       <div className="row">
           <div className="container" style={{'height': 'auto', 'width': '100%'}}>
