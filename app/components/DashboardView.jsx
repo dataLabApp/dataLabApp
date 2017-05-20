@@ -19,7 +19,6 @@ const DashboardView = (props) => {
             return (<Tab eventKey={db.id} title={db.title}></Tab>)
       })
       }
-            <Tab eventKey={3} title="Tab 3" disabled>Tab 3 content</Tab>
       </Tabs>
       <div className="container">
           <DragAndDrop />
