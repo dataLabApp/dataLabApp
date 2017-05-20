@@ -46,8 +46,8 @@ function generateReduceInventory() {
   const amount = `${(Math.round(Math.random()*20))}`
   const amountBig = 3 * amount
   let id = `${Math.floor(Math.random()*4)+ 1}`
-  if (id === '1' === '3') amt = amountBig
-  if (id === '4') amt = amount
+  if (id === '1' || id === '3') amt = amountBig
+  else if (id === '4') amt = amount
   else amt = 0
   const updateAmt = invObj[id] - amt
   invObj[id] = updateAmt
