@@ -11,17 +11,16 @@ class DashboardCard extends Component {
   constructor(props) {
     super(props)
     this.title= props.card.title
-    this.exportAsSVG = this.exportAsSVG.bind(this)
-  }
-
-  exportAsSVG() {
-    var config = {
-      filename: this.title
-    }
-    d3SaveSvg.save(d3.select('svg').node(), config)
   }
 
   render() {
+    const exportAsSVG = () => {
+      var config = {
+        filename: this.title
+      }
+      d3SaveSvg.save(d3.select('svg').node(), config)
+    }
+
     const title = this.props.card.title || 'Delightful Chart Example'
     const chartGenerator = this.props.card.chartGenerator
     const chart = this.props.card.chart
@@ -32,10 +31,9 @@ class DashboardCard extends Component {
     return (
       <div className="x_panel tile fixed_height_320">
         <div className="x_title">
-          <h2>{title}</h2>
+          <h5>{title}</h5>
           <ul className="nav navbar-right panel_toolbox">
-            <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
-            </li>
+            <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
               <ul className="dropdown-menu" role="menu">
@@ -53,7 +51,6 @@ class DashboardCard extends Component {
         <div className="x_content">
             {chartGenerator ? chartGenerator(data, config).toReact() : chart()}
         </div>
-          <button onClick={this.exportAsSVG}>Export as SVG</button>
       </div>
     )
   }

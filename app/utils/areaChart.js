@@ -39,11 +39,11 @@
     const fauxNode = window.ReactFauxDOM.createElement('svg')
 
     var svg = d3.select(fauxNode)
-      // .attr('width', width)
-      // .attr('height', height)
+      .attr('width', width)
+      .attr('height', height)
 
-      .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
-      .attr('preserveAspectRatio', 'xMidYMid meet')
+      // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
+      // .attr('preserveAspectRatio', 'xMidYMid meet')
     // var svg = d3.select('body').append('svg')
     // .attr('width', width + margin.left + margin.right)
     // .attr('height', height + margin.top + margin.bottom)
