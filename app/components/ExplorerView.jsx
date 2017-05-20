@@ -20,9 +20,13 @@ class ExplorerView extends Component {
     super(props)
     this.state = {
       showTextEditor: false,
+      showZ: false,
       userCode: IIF_BAR_CHART,  // this should actually prepend the settings-based-code
       template: IIF_BAR_CHART,
       chartType: 'Bar',
+      x_label: 'Bar Name',
+      y_label: 'Bar Height',
+      z_label: '',
       config: {
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
@@ -96,8 +100,40 @@ class ExplorerView extends Component {
   handleLoadState(card) {
     this.setState(card.state)
   }
-  setChartType(e){
-    this.setState({chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
+  setChartType(e) {
+    let newX, newY, newZ
+    switch (e.target.value) {
+    case 'Bar':
+      newX = 'Bar Name'
+      newY = 'Bar Height'
+      break
+
+    case 'Pie':
+      newX = 'Slice Label'
+      newY = 'Slice Size'
+      break
+
+    case 'Bubble':
+      newX = 'Size'
+      newY = 'Label'
+      newZ = 'Color Group'
+      break
+
+    case 'Area':
+      newX = 'X Axis'
+      newY = 'Y Axis'
+      break
+
+    case 'Line':
+      newX = 'X Axis'
+      newY = 'Y Axis'
+      break
+
+    default:
+      newX = 'X Axis'
+      newY = 'Y Axis'
+    }
+    this.setState({x_label: newX, y_label: newY, showZ: !!newZ, chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
   }
   render() {
     return (
@@ -115,26 +151,26 @@ class ExplorerView extends Component {
           currentType={this.state.chartType}
         />
         <AxisSelector
-          label='X Axis'
+          label={this.state.x_label}
           attribute='x'
           currentSettings = {this.state.config.x || {}}
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />
         <AxisSelector
-          label='Y Axis'
+          label={this.state.y_label}
           attribute='y'
           currentSettings = {this.state.config.y || {}}
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />
-        <AxisSelector
-          label='Z Axis'
+        {!this.showZ || <AxisSelector
+          label={this.state.z_label}
           attribute='z'
           currentSettings = {this.state.config.z || {}}
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
-        />
+        />}
         <ChartSizer
           currentWidth={this.state.config.dimensions.fullWidth}
           currentHeight={this.state.config.dimensions.fullHeight}

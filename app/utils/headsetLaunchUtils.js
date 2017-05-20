@@ -8,6 +8,8 @@ export function seedHeadsetData() {
   const continuousSeed = window.setInterval(function() {
     seedTweetsOnce()
     seedTweetsOnce()
+    seedSegmentsOnce()
+    seedSegmentsOnce()
   }, 1000)
   window.setTimeout(() => window.clearInterval(continuousSeed), 60*1000)
 }
@@ -17,7 +19,7 @@ function seedTweetsOnce() {
   client.query(query, function(err, data) {
     if (err)console.log(err)
     else {
-      console.log('new data row created')
+      console.log('tweets updated')
     }
   })
 }
@@ -31,4 +33,24 @@ function generateRandomTweetDataRow() {
   const newOccurrences = previousOccurrences+(9-randomWordIndex)
   words[word] = newOccurrences
   return `UPDATE "tweets" SET "occurrences" = ${newOccurrences} WHERE word = '${word}'`
+}
+
+
+function seedSegmentsOnce() {
+  const query = generateRandomSegmentDataRow()
+  client.query(query, function(err, data) {
+    if (err)console.log(err)
+    else {
+      console.log('segments updated')
+    }
+  })
+}
+
+const segments = ['Gaming', 'Educ', 'Govt', 'Business', 'Other']
+
+function generateRandomSegmentDataRow() {
+  const randomSegmentIndex = Math.floor(Math.random()*5)
+  const segment = segments[randomSegmentIndex]
+  const change = 0.95 + Math.random() * 0.10
+  return `UPDATE "segments" SET "sales" = sales * ${change} WHERE segment = '${segment}'`
 }
