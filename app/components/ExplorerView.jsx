@@ -133,9 +133,10 @@ class ExplorerView extends Component {
       newX = 'X Axis'
       newY = 'Y Axis'
     }
-    this.setState({x_label: newX, y_label: newY, showZ: !!newZ, chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
+    this.setState({x_label: newX, y_label: newY, z_label: newZ || '', showZ: !!newZ, chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
   }
   render() {
+    console.log(this.state.showZ)
     return (
   <div className='container-fluid'>
     <div className="container-fluid">
@@ -164,7 +165,7 @@ class ExplorerView extends Component {
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />
-        {!this.showZ || <AxisSelector
+        {!this.state.showZ || <AxisSelector
           label={this.state.z_label}
           attribute='z'
           currentSettings = {this.state.config.z || {}}
