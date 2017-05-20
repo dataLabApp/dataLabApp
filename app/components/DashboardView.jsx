@@ -11,13 +11,11 @@ const DashboardView = (props) => {
   const print = () => (
   window.print()
 )
-  let tabNum = props.dashBoards.dashboards[0].id
+  const tabNum = props.dashBoards.dashboards[0].id
   return (
     <div className = "container-fluid">
       <Tabs defaultActiveKey={tabNum} id="dashboards" pullLeft justified onSelect={props.setCurrentDashboard}>
-      { props.dashBoards.dashboards.map((db,i) => { 
-            return (<Tab eventKey={db.id} title={db.title}></Tab>)
-      })
+      { props.dashBoards.dashboards.map((db, i) => (<Tab key={i} eventKey={db.id} title={db.title}></Tab>))
       }
       </Tabs>
       <br/><br/><br/>
@@ -41,7 +39,6 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardView)
-
 
     // <button onClick={print} className="pull-right" id="react-no-print"><span className="glyphicon glyphicon-download"></span></button>
     //     <ul style={{listStyle: 'none'}}>
