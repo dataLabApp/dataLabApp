@@ -13,7 +13,9 @@ import {LinkContainer} from 'react-router-bootstrap'
 import {Link} from 'react-router-dom'
 import {clearCachedData} from '../utils/storageUtils'
 import {seedInvoiceData} from '../utils/invoicesUtils'
+import {ROOT_PATH} from '../constants'
 
+// import logo from './logo.jsx'
 
 function NavTop(props) {
   let logInOrOutLabel;
@@ -96,11 +98,12 @@ function NavTop(props) {
     props.logout();
   }
 
+
   return (
-        <Navbar collapseOnSelect>
+        <Navbar fluid collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to ="/dashboard">dataLab</Link>
+              <img src="http://i64.tinypic.com/35cq5vn.png" />
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

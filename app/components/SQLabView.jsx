@@ -14,7 +14,6 @@ const pg = require('pg')
 export default function SQLabView() {
   return (
     <div className="container-fluid">
-      <PageHeader header="Welcome to SQLab" />
       <TalkToDatabase />
     </div>
   )

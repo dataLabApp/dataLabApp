@@ -20,7 +20,6 @@ const DashboardView = (props) => {
             <li key={db.id} ><a onClick= { () => props.setCurrentDashboard(db.id)}>{db.title}</a> </li>
         )) }
         </ul>
-        <PageHeader header="Dashboard"/>
             <div className="container">
                 <DragAndDrop />
             </div>
