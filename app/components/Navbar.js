@@ -125,7 +125,7 @@ function NavTop(props) {
               </LinkContainer>
               <NavDropdown eventKey={5} title="Dropdown" id="basic-nav-dropdown">
                 <MenuItem eventKey={5.1} onSelect={clearCachedData}>Clear Cached Data</MenuItem>
-                <MenuItem eventKey={5.2} onSelect={seedHeadsetData}>Seed Invoices Data For 10 seconds</MenuItem>
+                <MenuItem eventKey={5.2} onSelect={seedHeadsetData}>Seed Headset Data For 60 seconds</MenuItem>
                 <MenuItem eventKey={5.3}>Something else here</MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey={5.3}>Separated link</MenuItem>

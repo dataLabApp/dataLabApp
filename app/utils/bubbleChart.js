@@ -7,7 +7,7 @@
     const z = config.z.dataColumn
     const d3 = window.d3
     const diameter = width > height ? height : width // max size of the bubbles
-    const color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']) // color category
+    const color = d3.scaleOrdinal(config.colorScheme) // color category
 
     const format = d3.format(',d')
 

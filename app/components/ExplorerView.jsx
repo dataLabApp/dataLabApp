@@ -4,16 +4,19 @@ import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
 import {IIFChartGenerator} from '../utils/chartGenerators'
-import {IIF_BAR_CHART, CHART_TEMPLATES} from '../constants'
+import {IIF_BAR_CHART, CHART_TEMPLATES, COLOR_SCHEMES} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import ChartTypeSelector from './ChartTypeSelector.jsx'
 import SliceSelector from './SliceSelector.jsx'
 import AxisSelector from './AxisSelector.jsx'
+import ColorSelector from './ColorSelector.jsx'
 import ChartSizer from './ChartSizer.jsx'
 import {addCardToDashboard, setCurrentDashboard} from '../reducers/dashboardReducer.jsx'
 import {addCard} from '../reducers/cardReducer.jsx'
 import {Button} from 'react-bootstrap'
+
+
 
 class ExplorerView extends Component {
   constructor(props) {
@@ -28,6 +31,7 @@ class ExplorerView extends Component {
       y_label: 'Bar Height',
       z_label: '',
       config: {
+        colorScheme: COLOR_SCHEMES[Object.keys(COLOR_SCHEMES)[0]],
         sliceId: props.data.allSlices[0].id,
         data: props.data.allSlices[0].data.slice(),
         title: 'Click Here to Write Title',
@@ -109,8 +113,8 @@ class ExplorerView extends Component {
       break
 
     case 'Pie':
-      newX = 'Slice Label'
-      newY = 'Slice Size'
+      newX = 'Slice Size'
+      newY = 'Slice Label'
       break
 
     case 'Bubble':
@@ -136,7 +140,6 @@ class ExplorerView extends Component {
     this.setState({x_label: newX, y_label: newY, z_label: newZ || '', showZ: !!newZ, chartType: e.target.value, userCode: CHART_TEMPLATES[e.target.value]})
   }
   render() {
-    console.log(this.state.showZ)
     return (
   <div className='container-fluid'>
     <div className="container-fluid">
@@ -172,6 +175,11 @@ class ExplorerView extends Component {
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />}
+        <ColorSelector
+          label={'Color Scheme'}
+          currentScheme = {this.state.config.colorScheme || {}}
+          setScheme={this.changeConfig('colorScheme')}
+        />
         <ChartSizer
           currentWidth={this.state.config.dimensions.fullWidth}
           currentHeight={this.state.config.dimensions.fullHeight}
