@@ -54,6 +54,7 @@
     // format the data
     data.forEach(function(d,i) {
       if (xCol === 'date') d.date = i
+      else d[xCol]=+d[xCol]
       d[yCol] = +d[yCol]
     })
 
