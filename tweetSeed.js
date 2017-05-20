@@ -1,6 +1,6 @@
 
 const pg = require('pg')
-const client = new pg.Client('postgres://localhost/headsetLaunch')
+const client = new pg.Client('postgres://localhost/headSetLaunch')
 const path = require('path')
 
 const seedQuery= `INSERT INTO "tweets" (Word,Occurrences,Positive) VALUES ('great',2,1),('new',2,1),('cost',2,0),('fun',2,1),('high-tech',2,1),('expensive',2,0),('powerful',2,1),('dope',2,1),('cool',2,1)`
