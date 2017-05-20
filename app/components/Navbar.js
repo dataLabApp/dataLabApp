@@ -98,21 +98,29 @@ function NavTop(props) {
   function logoutNavBar() {
     props.logout();
   }
+  function activeTab(){
+    return active
+  }
 
-
+  var fontSize = {
+    fontSize : "16px"
+  }
+  var widthOfLogo ={
+    width :"500px"
+  }
   return (
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
-            <Navbar.Brand>
+            <Navbar.Brand width={widthOfLogo}>
               <img src="http://i64.tinypic.com/35cq5vn.png" />
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav>
+            <Nav style={fontSize}>
 
               <LinkContainer to="/dashboard">
-                  <NavItem eventKey={1}>Dashboard</NavItem>
+                  <NavItem eventKey={1} style={fontSize}>Dashboard</NavItem>
               </LinkContainer>
                <LinkContainer to="/explorer">
                   <NavItem eventKey={2}>Explorer</NavItem>
@@ -123,7 +131,7 @@ function NavTop(props) {
               <LinkContainer to="/allcardsview">
                   <NavItem eventKey={4}>Charts</NavItem>
               </LinkContainer>
-              <NavDropdown eventKey={5} title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown eventKey={5} title="Tools" id="basic-nav-dropdown">
                 <MenuItem eventKey={5.1} onSelect={clearCachedData}>Clear Cached Data</MenuItem>
                 <MenuItem eventKey={5.2} onSelect={seedHeadsetData}>Seed Headset Data For 60 seconds</MenuItem>
                 <MenuItem eventKey={5.3}>Something else here</MenuItem>
@@ -165,5 +173,5 @@ const mapDispatchToProps = (dispatch) =>({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavTop);
+export default connect(mapStateToProps, mapDispatchToProps, null, {pure:false})(NavTop);
 
