@@ -1,6 +1,6 @@
 
 const pg = require('pg')
-const client = new pg.Client('postgres://localhost/headsetLaunch')
+const client = new pg.Client('postgres://localhost/headSetLaunch')
 
 client.connect()
 
