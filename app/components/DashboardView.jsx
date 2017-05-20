@@ -4,36 +4,27 @@ import DragAndDrop from './DragAndDrop'
 import {connect} from 'react-redux'
 import {setCurrentDashboard} from '../reducers/dashboardReducer'
 var PrintTemplate = require('react-print')
-import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem} from 'react-bootstrap'
+import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem, Tabs, Tab} from 'react-bootstrap'
 
 // export default class DashboardView extends Component {
 const DashboardView = (props) => {
   const print = () => (
   window.print()
 )
-
+  let tabNum = props.dashBoards.dashboards[0].id
   return (
     <div className = "container-fluid">
-        <button onClick={print} className="pull-right" id="react-no-print"><span className="glyphicon glyphicon-download"></span></button>
-        <div className="row">
-        <div className="col-sm-3">
-
-        <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Select a Dashboard</ControlLabel>
-              <FormControl componentClass="select" placeholder="select" onChange= {props.setCurrentDashboard}>
-              {
-              props.dashBoards.dashboards.map((db)=>{
-                return <option key = {db.id} value={db.id}>{db.title}</option>
-              })
-              }
-              </FormControl>
-            </FormGroup>
-        </div>
-        <div className="col-sm-9">
-                <DragAndDrop />
-        </div>
+      <Tabs defaultActiveKey={tabNum} id="dashboards" pullLeft justified onSelect={props.setCurrentDashboard}>
+      { props.dashBoards.dashboards.map((db,i) => { 
+            return (<Tab eventKey={db.id} title={db.title}></Tab>)
+      })
+      }
+            <Tab eventKey={3} title="Tab 3" disabled>Tab 3 content</Tab>
+      </Tabs>
+      <div className="container">
+          <DragAndDrop />
+      </div>
     </div>
-  </div>
   )
 }
 
@@ -45,10 +36,17 @@ const mapStateToProps = (state) => (
   }
 )
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentDashboard: (event) => {
-    event.preventDefault()
-    let dbId = event.target.value
+  setCurrentDashboard: (dbId) => {
     dispatch(setCurrentDashboard(dbId))
   }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardView)
+
+
+    // <button onClick={print} className="pull-right" id="react-no-print"><span className="glyphicon glyphicon-download"></span></button>
+    //     <ul style={{listStyle: 'none'}}>
+    //       <h3>Choose Dashboard</h3>
+    //       { props.dashBoards.dashboards.map(db => (
+    //         <li key={db.id} ><a onClick= { () => props.setCurrentDashboard(db.id)}>{db.title}</a> </li>
+    //     )) }
+    //     </ul>
