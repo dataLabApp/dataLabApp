@@ -4,7 +4,7 @@ import SQLForm from './SQLForm.jsx'
 import ExplorerChart from './ExplorerChart.jsx'
 import D3TextEditor from './D3TextEditor.jsx'
 import {IIFChartGenerator} from '../utils/chartGenerators'
-import {IIF_BAR_CHART, PIE_CHART, CHART_TEMPLATES} from '../constants'
+import {IIF_BAR_CHART, CHART_TEMPLATES} from '../constants'
 import PageHeader from './PageHeader'
 import AddCardToDashForm from './AddCardToDashForm.jsx'
 import ChartTypeSelector from './ChartTypeSelector.jsx'
@@ -33,6 +33,9 @@ class ExplorerView extends Component {
           dataColumn: Object.keys(props.data.allSlices[0].data[0])[0]
         },
         y: {
+          dataColumn: Object.keys(props.data.allSlices[0].data[0])[1]
+        },
+        z: {
           dataColumn: Object.keys(props.data.allSlices[0].data[0])[1]
         }
       }
@@ -117,6 +120,13 @@ class ExplorerView extends Component {
           label='Y Axis'
           attribute='y'
           currentSettings = {this.state.config.y || {}}
+          currentSlice={this.state.config.data}
+          changeConfig={this.changeConfig}
+        />
+        <AxisSelector
+          label='Z Axis'
+          attribute='z'
+          currentSettings = {this.state.config.z || {}}
           currentSlice={this.state.config.data}
           changeConfig={this.changeConfig}
         />
