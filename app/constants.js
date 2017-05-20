@@ -5,6 +5,12 @@ export const ItemTypes = {
   CARD: 'card',
   VIEW: 'view'
 }
+export const COLOR_SCHEMES = {
+  Category10: window.d3.schemeCategory10,
+  Category20: window.d3.schemeCategory20,
+  Category20b: window.d3.schemeCategory20b,
+  Category20c: window.d3.schemeCategory20c
+}
 
 export const DEFAULT_TEMPLATE = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/barChartTemplate.js'), {encoding: 'utf-8'})
 

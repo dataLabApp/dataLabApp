@@ -7,7 +7,7 @@
     const zCol = config.z.dataColumn
     const d3 = window.d3
     const diameter = 500 // max size of the bubbles
-    const color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']) // color category
+    const color = d3.scaleOrdinal(config.colorScheme) // color category
 
 // set the dimensions and margins of the graph
     const margin = {top: 20, right: 20, bottom: 30, left: 50}
