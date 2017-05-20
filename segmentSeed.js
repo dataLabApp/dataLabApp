@@ -1,6 +1,6 @@
 
 const pg = require('pg')
-const client = new pg.Client('postgres://localhost/headsetLaunch')
+const client = new pg.Client('postgres://localhost/headSetLaunch')
 const path = require('path')
 
 const seedQuery= `INSERT INTO "segments" (Segment,Sales) VALUES ('Gaming',80),('Educ',10),('Govt',10),('Business',10),('Other',5)`
