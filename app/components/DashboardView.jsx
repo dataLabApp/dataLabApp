@@ -21,9 +21,9 @@ const DashboardView = (props) => {
       }
       </Tabs>
       <br/><br/><br/>
-      <div className="container">
-          <DragAndDrop />
-      </div>
+    
+      <DragAndDrop />
+
     </div>
   )
 }
