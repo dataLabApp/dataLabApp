@@ -67,13 +67,13 @@ export const loadDashboards = (dashboards) => ({
 const dashboard1 = {
   id: 1,
   counter: 1,
-  title: 'dashboard1',
-  cards: [{title: 'CardTitleDelight', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  title: '2017 Performance',
+  cards: [{title: 'Invoices By Region', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const dashboard2 = {
   id: 2,
   counter: 2,
-  title: 'secondSeedDB',
+  title: 'Monthly Indicators',
   cards: [{title: 'DefaultCardTitle', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'SecondCardTitle', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
 const initialState = {
