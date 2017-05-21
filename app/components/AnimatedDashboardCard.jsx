@@ -6,32 +6,6 @@ var d3 = require('d3')
 import {connect} from 'react-redux'
 import {updateDashboardLayout, deleteCardFromDashboard} from '../reducers/dashboardReducer'
 
-window.createHook = (comp, elem, statename) => {
-  let elems = new Map(),
-    interval
-  const updateState = () => {
-    comp.setState({[statename]: elem.toReact()})
-  }
-  setTimeout(updateState)
-  comp.isAnimating = () => !!interval
-  return (transition) => {
-    transition.each((e) => {
-      elems.set(e, (elems.get(e) || new Set()).add(transition.id))
-      interval = interval || setInterval(updateState, 16)
-    })
-    transition.each('end', (e) => {
-      const anims = elems.get(e)
-      anims.delete(transition.id)
-      if (anims.size) {
-        elems.set(e, anims)
-      } else {
-        elems.delete(e)
-      }
-      if (!elems.size) interval = clearInterval(interval)
-    })
-  }
-}
-
 class DashboardCard extends Component {
   constructor(props) {
     super(props)
@@ -47,6 +21,8 @@ class DashboardCard extends Component {
 
   componentWillReceiveProps(newProps) {
     this.state.chartNode.update(newProps.data, this.state.hook)
+    let stopRender = setInterval(this.forceUpdate, 50)
+    setTimeout(clearInterval(stopRender), 500)
   }
 
   componentDidMount() {

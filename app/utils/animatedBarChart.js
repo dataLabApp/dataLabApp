@@ -5,8 +5,8 @@
 (function() {
   return function(data, config) {
   // the config will be based on your settings from the control panel as well
-    const x = config.x.dataColumn
-    const y = config.y.dataColumn
+    const xName = config.x.dataColumn
+    const yName = config.y.dataColumn
     const chartTitle = config.title
     const fullWidth = config.dimensions.fullWidth
     const fullHeight = config.dimensions.fullHeight
@@ -98,11 +98,11 @@
   .attr('fill', function(d, i) { return colors(i) })
 
   // specify animations here
-    fauxNode.update = (data, hook) => {
+    fauxNode.update = (newData, hook) => {
       // measure the domain (for x, unique letters) (for y [0,maxFrequency])
       // now the scales are finished and usable
-      xScale.domain(data.map(function(d) { return d[x] }))
-      yScale.domain([0, d3.max(data, function(d) { return d[y] })])
+      xScale.domain(newData.map(function(d) { return d[x] }))
+      yScale.domain([0, d3.max(newData, function(d) { return d[y] })])
 
       // another g element, this time to move the origin to the bottom of the svg element
       // someSelection.call(thing) is roughly equivalent to thing(someSelection[i])
@@ -114,7 +114,7 @@
       svg.select('.y.axis').transition().duration(300).call(yAxis).call(hook)
 
       // THIS IS THE ACTUAL WORK!
-      var bars = svg.selectAll('.bar').data(data, function(d) { return d[x] }) // (data) is an array/iterable thing, second argument is an ID generator function
+      var bars = svg.selectAll('.bar').data(newData, function(d) { return d[x] }) // (data) is an array/iterable thing, second argument is an ID generator function
 
       bars.exit()
         .transition()
@@ -123,21 +123,21 @@
         .attr('height', height - y(0))
         .style('fill-opacity', 1e-6)
         .remove()
-        .call(hook)
+        // .call(hook)
 
       // // data that needs DOM = enter() (a set/selection, not an event!)
       bars.enter().append('rect')
         .attr('class', 'bar')
-        .attr('y', y(0))
-        .attr('height', height - y(0))
-        .call(hook)
+        .attr('y', yScale(0))
+        .attr('height', height - yScale(0))
+        // .call(hook)
 
       // the "UPDATE" set:
-      bars.transition().duration(300).attr('x', function(d) { return x(d[x]) }) // (d) is one item from the data array, x is the scale object from above
+      bars.transition().duration(300).attr('x', function(d) { return xScale(d[x]) }) // (d) is one item from the data array, x is the scale object from above
         .attr('width', x.rangeBand()) // constant, so no callback function(d) here
-        .attr('y', function(d) { return y(d[y]) })
-        .attr('height', function(d) { return height - y(d[y]) }) // flip the height, because y's domain is bottom up, but SVG renders top down
-        .call(hook)
+        .attr('y', function(d) { return yScale(d[y]) })
+        .attr('height', function(d) { return height - yScale(d[y]) }) // flip the height, because y's domain is bottom up, but SVG renders top down
+        // .call(hook)
     }
 
     return fauxNode

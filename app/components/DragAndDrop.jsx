@@ -66,7 +66,7 @@ class DragAndDrop extends Component {
             <ReactGridLayout className="layout" layout={this.state.cards} cols={30} rowHeight={30} width={2000} ref="rgl" onLayoutChange={this.onLayoutChange}>
 
                 {
-                    this.state.cards.map((card) => (<div key={card.i} style={divStyle}><AnimatedDashboardCard delete={this.props.deleteCard} card ={card} /></div>))
+                    this.state.cards.map((card) => (<div key={card.i} style={divStyle}><DashboardCard delete={this.props.deleteCard} card ={card} /></div>))
                 }
             </ReactGridLayout>
             </div>

@@ -20,6 +20,8 @@ export const IIF_BAR_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(wi
 
 export const ANIM_BAR_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/animatedBarChart.js'), {encoding: 'utf-8'})
 
+export const ANIM_PIE_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/animatedPieChart.js'), {encoding: 'utf-8'})
+
 export const BUBBLE_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/bubbleChart.js'), {encoding: 'utf-8'})
 
 export const PIE_CHART = fs.readFileSync(path.join(decodeURI(path.dirname(window.location.pathname)), '/app/utils/pieChart.js'), {encoding: 'utf-8'})
@@ -31,7 +33,8 @@ export const CHART_TEMPLATES = {
   'Bar': IIF_BAR_CHART,
   'Area': AREA_CHART,
   'Bubble': BUBBLE_CHART,
-  'AnimBar': ANIM_BAR_CHART
+  // 'AnimBar': ANIM_BAR_CHART,
+  // 'AnimPie': ANIM_PIE_CHART
 }
 
 export const ROOT_PATH = path.dirname(window.location.pathname)

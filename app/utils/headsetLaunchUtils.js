@@ -7,13 +7,14 @@ client.connect()
 export function seedHeadsetData() {
   const continuousSeed = window.setInterval(function() {
     seedTweetsOnce()
-    seedTweetsOnce()
-    seedSegmentsOnce()
+    seedInventoryOnce()
     seedSegmentsOnce()
     seedSalesOnce()
-  }, 1000)
-  window.setTimeout(() => window.clearInterval(continuousSeed), 60*1000)
+  }, 500)
+  window.setTimeout(() => window.clearInterval(continuousSeed), 40*1000)
 }
+
+/* ***********TWEETS********************* */
 
 function seedTweetsOnce() {
   const query = generateRandomTweetDataRow()
@@ -36,6 +37,7 @@ function generateRandomTweetDataRow() {
   return `UPDATE "tweets" SET "occurrences" = ${newOccurrences} WHERE word = '${word}'`
 }
 
+/* ***********SEGMENTS********************* */
 
 function seedSegmentsOnce() {
   const query = generateRandomSegmentDataRow()
@@ -52,10 +54,11 @@ const segments = ['Gaming', 'Educ', 'Govt', 'Business', 'Other']
 function generateRandomSegmentDataRow() {
   const randomSegmentIndex = Math.floor(Math.random()*5)
   const segment = segments[randomSegmentIndex]
-  const change = 0.95 + Math.random() * 0.10
+  const change = 0.90 + Math.random() * 0.20
   return `UPDATE "segments" SET "sales" = sales * ${change} WHERE segment = '${segment}'`
 }
 
+/* ***********SALES********************* */
 
 function seedSalesOnce() {
   const query = generateRandomSaleDataRow()
@@ -82,4 +85,35 @@ function generateRandomSaleDataRow() {
   const completeDate = prevSale.month + ' ' + newDate+ ', 2017'
   prevSale.amount = newSaleAmount
   return `INSERT INTO "sales" (date, sales) VALUES ('${completeDate}',${newSaleAmount})`
+}
+
+
+/* ***********INVENTORY********************* */
+
+
+
+function seedInventoryOnce() {
+  const query = generateReduceInventory()
+  client.query(query, function(err, data) {
+    if (err)console.log(err)
+    else {
+      console.log('inventory reduced')
+    }
+  })
+}
+
+const invObj = {'1': 416, '2': 604, '3': 569, '4': 393}
+function generateReduceInventory() {
+  let amt = 0
+  const amount = `${(Math.round(Math.random()*20))}`
+  const amountBig = 3 * amount
+  let id = `${Math.floor(Math.random()*4)+ 1}`
+  if (id === '1' || id === '3') amt = amountBig
+  else if (id === '4') amt = amount
+  else amt = 0
+  const updateAmt = invObj[id] - amt
+  invObj[id] = updateAmt
+  // console.log('amount amt, updateAmt, invObj.id, id', amount, amt, updateAmt, invObj, +id)
+  id = +id
+  return `UPDATE "inventory" SET inventory = ${updateAmt} WHERE id = ${id}`
 }
