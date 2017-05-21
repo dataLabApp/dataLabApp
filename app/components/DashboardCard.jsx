@@ -45,7 +45,9 @@ class DashboardCard extends Component {
           <ul className="nav navbar-right panel_toolbox">
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
             <li className="dropdown">
+
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-share"></i></a></li>
+
             <li onClick={() => this.props.deleteCard(dashId, cardId)}><a className="close-link"><i className="fa fa-close"></i></a>
             </li>
           </ul>

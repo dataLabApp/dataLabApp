@@ -177,7 +177,7 @@ class ExplorerView extends Component {
           changeConfig={this.changeConfig}
         />}
         <ColorSelector
-          label={'Color Scheme'}
+          label={'D3 Color Scheme'}
           currentScheme = {this.state.config.colorScheme || {}}
           setScheme={this.changeConfig('colorScheme')}
         />

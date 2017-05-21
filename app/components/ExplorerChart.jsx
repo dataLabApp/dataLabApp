@@ -35,7 +35,7 @@ export default class ExplorerChart extends Component {
           <ul className="nav navbar-right panel_toolbox">
             <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
             <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-share"></i></a>
               <ul className="dropdown-menu" role="menu">
                 <li><a href="#">Settings 1</a>
                 </li>
