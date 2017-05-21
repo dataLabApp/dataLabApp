@@ -15,13 +15,13 @@ const DashboardView = (props) => {
   return (
     <div className = "container-fluid">
       <Tabs defaultActiveKey={tabNum} id="dashboards" pullLeft justified onSelect={props.setCurrentDashboard}>
-      { props.dashBoards.dashboards.map((db,i) => { 
-            return (<Tab eventKey={db.id} title={db.title}></Tab>)
+      { props.dashBoards.dashboards.map((db,i) => {
+            return (<Tab key={i} eventKey={db.id} title={db.title}></Tab>)
       })
       }
       </Tabs>
       <br/><br/><br/>
-    
+
       <DragAndDrop />
 
     </div>

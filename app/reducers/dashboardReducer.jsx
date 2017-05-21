@@ -76,10 +76,16 @@ const dashboard2 = {
   title: 'Monthly Indicators',
   cards: [{title: 'Sales by Quarter', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'Monthly Sales', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
+const gdpData = {
+  id: 3,
+  counter: 3,
+  title: 'GDP Data',
+  cards: [{title: 'GDP Data ', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: <BubbleChart />, rawCode: DEFAULT_TEMPLATE}]
+}
 const initialState = {
-  dashboardCounter: 2,
+  dashboardCounter: 3,
   currentDashboard: dashboard1,
-  dashboards: [dashboard1, dashboard2]
+  dashboards: [dashboard1, dashboard2, gdpData]
 }
 
 export default function dashboardReducer(state = initialState, action) {
