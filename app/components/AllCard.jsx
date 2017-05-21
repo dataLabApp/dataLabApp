@@ -72,35 +72,31 @@ class AllCard extends Component {
     }
     return (
       <div className="x_panel tile">
-        <div className="row">
-          <div className="col-sm-4">
-            <div className="x_title">
-              <h6>{title}</h6>
+        <div className="x_title">
+        <ul className ="nav navbar-left">
+          <li style={{"align-items": "center"}}><h4>{title}</h4></li>
+        </ul>
+          <ul className="nav navbar-right panel_toolbox">
+            <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
+            {/*<li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>*/}
+            <li><a onClick={this.handleShowModal} ><i className="fa fa-share"></i></a></li>
+            <li><a onClick={this.props.onRemove} className="close-link"><i className="fa fa-close"></i></a></li>
+          </ul>    
+            <div className="clearfix"></div>
+       </div>
+          <div className="x_content" style={{ 'height': 'auto', 'width': '100%' }}>
+            <div>
+              {chart}
+            </div>
+            <div>
+              {
+                this.state.showShareCardModal &&
+                <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange} handleCheckBoxesChange={this.handleCheckBoxesChange}/>
+              }
             </div>
           </div>
-          <div className="col-sm-8">
-            <ul className="nav navbar-right panel_toolbox">
-              <li><a onClick={exportAsSVG} className="collapse-link"><i className="fa fa-file-code-o"></i></a></li>
-              <li><a onClick={this.handleShowModal} ><i className="fa fa-share"></i></a></li>
-              <li><a onClick={this.props.onRemove} className="close-link"><i className="fa fa-close"></i></a></li>
-            </ul>
           </div>
-          <div className="clearfix"></div>
-        </div>
-        <div className="row">
-        </div>
-        <div className="x_content" style={{ 'height': 'auto', 'width': '100%' }}>
-          <div>
-            {chart}
-          </div>
-          <div>
-            {
-              this.state.showShareCardModal &&
-              <ShareCardModal users={this.props.allUsers} handleSendEmails={this.handleSendEmails} handleEmailMessageChange={this.handleEmailMessageChange} handleCheckBoxesChange={this.handleCheckBoxesChange} />
-            }
-          </div>
-        </div>
-      </div>
+          
     )
   }
 }
