@@ -28,14 +28,14 @@ class DashboardCard extends Component {
     const data = this.props.data
     const cardId = this.props.card.id
     const dashId = this.props.currentDashboard.id
-    let chartToRender
-    if (typeof chart === 'object') {
-      chartToRender = chart
-    } else if (chartGenerator) {
-      chartToRender = chartGenerator(data, config).toReact()
-    } else {
-      chartToRender = chart()
-    }
+    let chartToRender = chartGenerator(data, config).toReact()
+    // if (typeof chart === 'object') {
+    //   chartToRender = chart
+    // } else if (chartGenerator) {
+    //   chartToRender = chartGenerator(data, config).toReact()
+    // } else {
+    //   chartToRender = chart()
+    // }
     return (
       <div className="x_panel tile">
         <div className="x_title">
@@ -56,6 +56,7 @@ class DashboardCard extends Component {
         <div className="x_content" style={{ 'height': 'auto', 'width': '100%' }}>
             {chartToRender}
         </div>
+        <div className="clearfix"></div>
       </div>
     )
   }

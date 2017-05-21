@@ -33,8 +33,8 @@ export const CHART_TEMPLATES = {
   'Bar': IIF_BAR_CHART,
   'Area': AREA_CHART,
   'Bubble': BUBBLE_CHART,
-  // 'AnimBar': ANIM_BAR_CHART,
-  // 'AnimPie': ANIM_PIE_CHART
+  'AnimBar': ANIM_BAR_CHART,
+  'AnimPie': ANIM_PIE_CHART
 }
 
 export const ROOT_PATH = path.dirname(window.location.pathname)

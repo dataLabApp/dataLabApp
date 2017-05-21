@@ -20,6 +20,7 @@ class DashboardCard extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log(newProps.data)
     this.state.chartNode.update(newProps.data, this.state.hook)
     let stopRender = setInterval(this.forceUpdate, 50)
     setTimeout(clearInterval(stopRender), 500)

@@ -72,7 +72,7 @@
         .data([newData])
         .attr('class', 'area')
         .attr('d', area)
-        .attr('fill', 'lightsteelblue')
+        .attr('fill', '#17becf')
 
     // add the valueline path.
     svg.append('path')

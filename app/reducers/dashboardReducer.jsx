@@ -68,7 +68,7 @@ const ProductLaunch = {
   id: 1,
   counter: 1,
   title: 'Product Launch',
-  cards: [{title: 'Invoices By Region', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  cards: []
 }
 const MonthlySales = {
   id: 2,
