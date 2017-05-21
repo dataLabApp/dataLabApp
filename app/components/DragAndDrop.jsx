@@ -32,7 +32,7 @@ class DragAndDrop extends Component {
     this.fetchSliceDataForAll()
     this.stopUpdating = setInterval(() => {
       this.fetchSliceDataForAll()
-    }, 3000)
+    }, 500)
   }
 
   componentWillReceiveProps(nextProps) {

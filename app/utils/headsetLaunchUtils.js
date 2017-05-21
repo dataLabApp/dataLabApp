@@ -6,11 +6,11 @@ client.connect()
 
 export function seedHeadsetData() {
   const continuousSeed = window.setInterval(function() {
-    seedTweetsOnce()
-    seedInventoryOnce()
-    seedSegmentsOnce()
-    seedSalesOnce()
-  }, 500)
+    if (Math.random() < 0.25) seedTweetsOnce()
+    if (Math.random() < 0.25) seedInventoryOnce()
+    if (Math.random() < 0.25) seedSegmentsOnce()
+    if (Math.random() < 0.25) seedSalesOnce()
+  }, 200)
   window.setTimeout(() => window.clearInterval(continuousSeed), 40*1000)
 }
 
