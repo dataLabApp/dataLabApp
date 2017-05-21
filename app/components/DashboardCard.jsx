@@ -28,6 +28,14 @@ class DashboardCard extends Component {
     const data = this.props.data
     const cardId = this.props.card.id
     const dashId = this.props.currentDashboard.id
+    let chartToRender
+    if (typeof chart === 'object') {
+      chartToRender = chart
+    } else if (chartGenerator) {
+      chartToRender = chartGenerator(data, config).toReact()
+    } else {
+      chartToRender = chart()
+    }
     return (
       <div className="x_panel tile fixed_height_320">
         <div style={{float: 'float-left'}} className="x_title">
@@ -49,7 +57,7 @@ class DashboardCard extends Component {
           <div className="clearfix"></div>
         </div>
         <div className="x_content">
-            {chartGenerator ? chartGenerator(data, config).toReact() : chart()}
+            {chartToRender}
         </div>
       </div>
     )
