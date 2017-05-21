@@ -67,14 +67,14 @@ export const loadDashboards = (dashboards) => ({
 const dashboard1 = {
   id: 1,
   counter: 1,
-  title: '2017 Performance',
-  cards: [{title: 'Invoices By Region', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  title: 'Product Launch',
+  cards: []
 }
 const dashboard2 = {
   id: 2,
   counter: 2,
-  title: 'Monthly Indicators',
-  cards: [{title: 'Sales by Quarter', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'Monthly Sales', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
+  title: 'Monthly Sales',
+  cards: []
 }
 const initialState = {
   dashboardCounter: 2,
@@ -142,3 +142,6 @@ export default function dashboardReducer(state = initialState, action) {
   })
   return nextState
 }
+
+
+const oldDashboardCards = [{title: 'Invoices By Region', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'Sales by Quarter', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}, {title: 'Monthly Sales', sliceId: 1, i: '2', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
