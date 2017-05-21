@@ -85,7 +85,7 @@ const gdpData = {
 const initialState = {
   dashboardCounter: 3,
   currentDashboard: ProductLaunch,
-  dashboards: [ProductLaunch, MonthlySales, gdpData]
+  dashboards: [ProductLaunch, MonthlySales]
 }
 
 export default function dashboardReducer(state = initialState, action) {
