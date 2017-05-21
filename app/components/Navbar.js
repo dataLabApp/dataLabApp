@@ -103,15 +103,13 @@ function NavTop(props) {
   }
 
   var fontSize = {
-    fontSize : "16px"
+    fontSize : "15px"
   }
-  var widthOfLogo ={
-    width :"500px"
-  }
+
   return (
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
-            <Navbar.Brand width={widthOfLogo}>
+            <Navbar.Brand>
               <img src="http://i64.tinypic.com/35cq5vn.png" />
             </Navbar.Brand>
             <Navbar.Toggle />

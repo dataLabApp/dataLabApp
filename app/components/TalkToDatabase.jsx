@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem, ProgressBar, ProgressBarProps} from 'react-bootstrap'
+import {Form, FormGroup, Button, ControlLabel, FormControl, ListGroup, ListGroupItem, ProgressBar, ProgressBarProps, Tabs, Tab} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import SQLForm from './SQLForm'
 import PageHeader from './PageHeader'
@@ -25,7 +25,8 @@ class TalkToDatabase extends Component {
       client: new pg.Client(`postgres://localhost/video-shopper`),
       rows: [],
       showQueryBox: false,
-      activeTab: 'selectDatabase'
+      activeTab: 'selectDatabase',
+      progressbar:{selectDatabase:0, makeQuery:0, sliceName:0}
     }
     this.handleDatabaseChange = this.handleDatabaseChange.bind(this)
     this.handleFindAllTables = this.handleFindAllTables.bind(this)
@@ -41,6 +42,7 @@ class TalkToDatabase extends Component {
     this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
     this.createRows = this.createRows.bind(this)
     this.changeTab = this.changeTab.bind(this)
+    this.progressBarUpdate = this.progressBarUpdate.bind(this)
 
   }
 
@@ -62,9 +64,9 @@ class TalkToDatabase extends Component {
 
     let dbName = event.target.value;
     console.log("dbName ",dbName)
-
+    this.progressBarUpdate("selectDatabase");
     this.setState({
-      currentDatabaseName: dbName
+      currentDatabaseName: dbName,
     }, this.handleFindAllTables);
 
 
@@ -85,9 +87,12 @@ class TalkToDatabase extends Component {
       if (err) console.error(err)
       else {
         this.setState({
-          currentData: data.rows,
-          activeTab: 'saveSlice'
-        })
+          currentData: data.rows
+         })
+        this.progressBarUpdate("makeQuery");
+        this.changeTab("sliceName")
+        console.log("this.state.progressBar ", this.state.progressbar)
+        console.log("this.state.activeTab ", this.state.activeTab)
       }
     })
     event.preventDefault()
@@ -195,6 +200,15 @@ class TalkToDatabase extends Component {
     })
   }
 
+  progressBarUpdate(key){
+    //      progressbar:{selectDatabase:0, makeQuery:0,sliceName:0}
+    this.setState({
+      progressbar: {
+        [key]: 33
+      }
+    })
+  }
+
   render() {
     if (this.state.databases.length ===0 ) {
       this.handleFindAllDatabases()
@@ -203,23 +217,18 @@ class TalkToDatabase extends Component {
     return (
 
     <div className="container-fluid">
-     <ProgressBar>
-      <ProgressBar label='Choose a Database' bsStyle="success" now={33} key={1} onClick={()=>this.changeTab('selectDatabase')} />
-      <ProgressBar label='Filter Data' bsStyle="warning" now={33} key={2} onClick={()=>this.changeTab('makeQuery')} />
-      <ProgressBar label='Save Data Slice' active bsStyle="info" now={33} key={3} onClick={()=>this.changeTab('sliceName')} />
-    </ProgressBar>
-      <div className="row">
-        <div className="col-sm-3">
-         <ListGroup >
-          <ListGroupItem onClick={()=>this.changeTab('selectDatabase')} className={this.state.activeTab == "selectDatabase" ? "active" : ""} >Choose Database</ListGroupItem>
-          <ListGroupItem onClick={()=>this.changeTab('makeQuery')} className={this.state.activeTab == "makeQuery" ? "active" : ""} >Filter Data
-          </ListGroupItem>
-          <ListGroupItem onClick={()=>this.changeTab('saveSlice')} className={this.state.activeTab == "saveSlice" ? "active" : ""} >Save Slice
-          </ListGroupItem>
-        </ListGroup>
-        </div>
+     <Tabs defaultActiveKey="selectDatabase" id="sqlab" pullLeft justified onSelect={this.changeTab} activeKey={this.state.activeTab}>
+      <Tab eventKey="selectDatabase" title="Choose Database"></Tab>
+      <Tab eventKey="makeQuery" title="Filter Data"></Tab>
+      <Tab eventKey="sliceName" title="Save Data Slice"></Tab>      
+      </Tabs>
+      <br/><br/><br/>
 
-        <div className="col-sm-9">
+     <ProgressBar>
+      <ProgressBar label='Choose a Database' bsStyle="success" now={this.state.progressbar.selectDatabase} key={1} />
+      <ProgressBar label='Filter Data' bsStyle="warning" now={this.state.progressbar.makeQuery} key={2} />
+      <ProgressBar label='Save Data Slice' active bsStyle="info" now={this.state.progressbar.sliceName} key={3} />
+    </ProgressBar>
             {
               this.state.activeTab === 'selectDatabase' &&
               <FormGroup controlId="formControlsSelect">
@@ -242,17 +251,32 @@ class TalkToDatabase extends Component {
             {
             this.state.activeTab == 'makeQuery' &&
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/> &&
-            <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery } />
+            <form onSubmit={
+              this.handleQuery}>
+            <FormGroup controlId="formsControlTextarea">
+                  <ControlLabel>Enter SQL Query: </ControlLabel>
+                  <FormControl
+                    componentClass="textarea"
+                    style={{height: '100px'}}
+                    placeholder="Enter SQL Query here: " value={this.state.currentSQLQuery}
+                    onChange={this.handleChange} />
+                </FormGroup>
+                <Button bsStyle="primary" type='submit' className='pull-right'>
+                  Filter Data
+                </Button>
+              </form>
+
             }
 
             {
-            (this.state.activeTab =='saveSlice' && this.state.currentData) &&
+            (this.state.activeTab =='sliceName' && this.state.currentData) &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
             }
 
             {
-            (this.state.activeTab == 'saveSlice' && this.state.currentData) &&
+            (this.state.activeTab == 'sliceName' && this.state.currentData) &&
             <Button bsStyle="primary" type='submit' className='pull-right' onClick={ (event) => {
+              this.progressBarUpdate('sliceName');
               this.props.setCurrentData(this.state.currentData)
               this.handleShowModal()
             }
@@ -268,8 +292,7 @@ class TalkToDatabase extends Component {
 
 
         </div>
-      </div>
-    </div>
+  
     )
   }
 }
@@ -288,3 +311,19 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TalkToDatabase)
+
+
+//  <div className="row">
+//         <div className="col-sm-3">
+//          <ListGroup >
+//           <ListGroupItem onClick={()=>this.changeTab('selectDatabase')} className={this.state.activeTab == "selectDatabase" ? "active" : ""} >Choose Database</ListGroupItem>
+//           <ListGroupItem onClick={()=>this.changeTab('makeQuery')} className={this.state.activeTab == "makeQuery" ? "active" : ""} >Filter Data
+//           </ListGroupItem>
+//           <ListGroupItem onClick={()=>this.changeTab('saveSlice')} className={this.state.activeTab == "saveSlice" ? "active" : ""} >Save Slice
+//           </ListGroupItem>
+//         </ListGroup>
+//         </div>
+
+//         <div className="col-sm-9">
+
+//  <SQLForm {...this.state} handleChange = { this.handleChange } handleQuery = { this.handleQuery }/>
