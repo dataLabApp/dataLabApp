@@ -14,20 +14,20 @@
 }
 .x_title {
     border-bottom: 2px solid #E6E9ED;
-    padding: 1px 5px 6px;
-    margin-bottom: 10px
+    padding: 1px 5px 3px;
+    margin-bottom: 4px;
 }
 .x_title .filter {
     width: 40%;
     float: right
 }
-.x_title h2 {
+.x_title h4 {
     margin: 5px 0 6px;
     float: left;
     display: block;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap
+    white-space: nowrap;
 }
 .x_title h2 small {
     margin-left: 10px
@@ -41,7 +41,7 @@
     width: 100%;
     float: left;
     clear: both;
-    margin-top: 5px
+    margin-top: 10px
 }
 .x_content h4 {
     font-size: 16px;
@@ -105,7 +105,9 @@ legend {
     width: 300px
 }
 
-
+/*.fixed_height_320 {
+    height: 320px
+}*/
 /*
 
 .daterangepicker .ranges li {
@@ -433,9 +435,7 @@ body {
 .page-title .title_right .pull-right {
     margin: 10px 0
 }
-.fixed_height_320 {
-    height: 320px
-}
+
 .fixed_height_390 {
     height: 390px
 }
