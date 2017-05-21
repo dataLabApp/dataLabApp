@@ -20,6 +20,7 @@ import {Button} from 'react-bootstrap'
 
 class ExplorerView extends Component {
   constructor(props) {
+    let lastSlice = props.data.allSlices[props.data.allSlices.length-1]
     super(props)
     this.state = {
       showTextEditor: false,
@@ -32,21 +33,21 @@ class ExplorerView extends Component {
       z_label: '',
       config: {
         colorScheme: COLOR_SCHEMES[Object.keys(COLOR_SCHEMES)[0]],
-        sliceId: props.data.allSlices[0].id,
-        data: props.data.allSlices[0].data.slice(),
+        sliceId: lastSlice.id,
+        data: lastSlice.data,
         title: 'Click Here to Write Title',
         dimensions: {
           fullHeight: 500,
           fullWidth: 800
         },
         x: {
-          dataColumn: Object.keys(props.data.allSlices[0].data[0])[0]
+          dataColumn: Object.keys(lastSlice.data[0])[0]
         },
         y: {
-          dataColumn: Object.keys(props.data.allSlices[0].data[0])[1]
+          dataColumn: Object.keys(lastSlice.data[0])[1]
         },
         z: {
-          dataColumn: Object.keys(props.data.allSlices[0].data[0])[1]
+          dataColumn: Object.keys(lastSlice.data[0])[2]
         }
       }
     }
@@ -147,7 +148,7 @@ class ExplorerView extends Component {
         <div className="col-sm-3">
         <SliceSelector
           changeSlice={this.handleChangeSlice}
-          currentSlice={this.state.config.data}
+          currentSlice={this.state.config.sliceId}
         />
         <ChartTypeSelector
           options={CHART_TEMPLATES}
