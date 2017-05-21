@@ -64,13 +64,13 @@ export const loadDashboards = (dashboards) => ({
   dashboards
 })
 // ----------- Reducer
-const dashboard1 = {
+const ProductLaunch = {
   id: 1,
   counter: 1,
-  title: '2017 Performance',
+  title: 'Product Launch',
   cards: [{title: 'Invoices By Region', sliceId: 1, i: '1', w: 3, h: 3, x: 1, y: Infinity, chart: storeChartGenerator(DEFAULT_TEMPLATE), rawCode: DEFAULT_TEMPLATE}]
 }
-const dashboard2 = {
+const MonthlySales = {
   id: 2,
   counter: 2,
   title: 'Monthly Indicators',
@@ -84,8 +84,8 @@ const gdpData = {
 }
 const initialState = {
   dashboardCounter: 3,
-  currentDashboard: dashboard1,
-  dashboards: [dashboard1, dashboard2, gdpData]
+  currentDashboard: ProductLaunch,
+  dashboards: [ProductLaunch, MonthlySales, gdpData]
 }
 
 export default function dashboardReducer(state = initialState, action) {
