@@ -10,6 +10,7 @@ export function seedHeadsetData() {
     seedTweetsOnce()
     seedSegmentsOnce()
     seedSegmentsOnce()
+    seedSalesOnce()
   }, 1000)
   window.setTimeout(() => window.clearInterval(continuousSeed), 60*1000)
 }
@@ -53,4 +54,32 @@ function generateRandomSegmentDataRow() {
   const segment = segments[randomSegmentIndex]
   const change = 0.95 + Math.random() * 0.10
   return `UPDATE "segments" SET "sales" = sales * ${change} WHERE segment = '${segment}'`
+}
+
+
+function seedSalesOnce() {
+  const query = generateRandomSaleDataRow()
+  client.query(query, function(err, data) {
+    if (err)console.log(err)
+    else {
+      console.log('Sales updated')
+    }
+  })
+}
+
+let Months = ['May', 'June', 'July', 'August']
+
+let prevSale= {month: 'May', monthIndex: 0, date: 17, amount: 38205}
+
+function generateRandomSaleDataRow() {
+  let newDate = ++prevSale.date
+  let newSaleAmount = 0.9 * prevSale.amount + (Math.random() * 0.30) * prevSale.amount
+  if (newDate > 31 || (prevSale.month === 'June' && newDate === 31)) {
+    newDate = 1
+    prevSale.date = 1
+    prevSale.month = Months[++prevSale.monthIndex]
+  }
+  const completeDate = prevSale.month + ' ' + newDate+ ', 2017'
+  prevSale.amount = newSaleAmount
+  return `INSERT INTO "sales" (date, sales) VALUES ('${completeDate}',${newSaleAmount})`
 }

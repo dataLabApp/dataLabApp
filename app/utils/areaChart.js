@@ -1,12 +1,11 @@
 (function() {
-  return function(data, config) {
+  return function(oldData, config) {
     const fullWidth = config.dimensions.fullWidth
     const fullHeight = config.dimensions.fullHeight
     const xCol = config.x.dataColumn
     const yCol = config.y.dataColumn
     const zCol = config.z.dataColumn
     const d3 = window.d3
-    const diameter = 500 // max size of the bubbles
     const color = d3.scaleOrdinal(config.colorScheme) // color category
 
 // set the dimensions and margins of the graph
@@ -15,7 +14,7 @@
     const height = fullHeight - margin.top - margin.bottom
 
 // parse the date / time
-    var parseTime = d3.timeParse('%d-%b-%y')
+    var parseTime = d3.timeParse('%b %d, %Y')
 
 // set the ranges
     var x = d3.scaleTime().range([0, width])
@@ -23,13 +22,13 @@
 
 // define the area
     var area = d3.area()
-    .x(function(d) { return x(d[xCol]) })
+    .x(function(d) { return x(d.date) })
     .y0(height)
     .y1(function(d) { return y(d[yCol]) })
 
 // define the line
     var valueline = d3.line()
-    .x(function(d) { return x(d[xCol]) })
+    .x(function(d) { return x(d.date) })
     .y(function(d) { return y(d[yCol]) })
 
 // append the svg obgect to the body of the page
@@ -39,8 +38,8 @@
     const fauxNode = window.ReactFauxDOM.createElement('svg')
 
     var svg = d3.select(fauxNode)
-      .attr('width', width)
-      .attr('height', height)
+      .attr('width', fullWidth)
+      .attr('height', fullHeight)
 
       // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
       // .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -50,29 +49,37 @@
   .append('g')
     .attr('transform',
           'translate(' + margin.left + ',' + margin.top + ')')
-
+    let data = oldData.slice()
+    data.forEach(d => {
+      let newObj = {}
+      for (let key in d) {
+        newObj[key] = d[key]
+      }
+      d = newObj
+    })
     // format the data
+    let newData = []
     data.forEach(function(d,i) {
-      if (xCol === 'date') d.date = i
-      else d[xCol]=+d[xCol]
-      d[yCol] = +d[yCol]
+      newData.push({date: parseTime(d.date), [yCol]: +d[yCol]})
     })
 
     // scale the range of the data
-    x.domain(d3.extent(data, function(d) { return d[xCol] }))
-    y.domain([0, d3.max(data, function(d) { return d[yCol] })])
+    x.domain(d3.extent(newData, function(d) { return d[xCol] }))
+    y.domain([0, d3.max(newData, function(d) { return d[yCol] })])
 
     // add the area
     svg.append('path')
-        .data([data])
+        .data([newData])
         .attr('class', 'area')
         .attr('d', area)
+        .attr('fill', 'lightsteelblue')
 
     // add the valueline path.
     svg.append('path')
-        .data([data])
+        .data([newData])
         .attr('class', 'line')
         .attr('d', valueline)
+        .style('fill', 'none')
 
     // add the X Axis
     svg.append('g')
