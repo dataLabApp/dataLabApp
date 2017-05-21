@@ -36,7 +36,7 @@ class TalkToDatabase extends Component {
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
-    this.handleFindAllDatabases = this. handleFindAllDatabases.bind(this)
+    this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
     this.createRows = this. createRows.bind(this)
     this.toggleQueryBox = this. toggleQueryBox.bind(this)
     this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
@@ -243,14 +243,11 @@ class TalkToDatabase extends Component {
             </FormGroup>
 
             }
-            {
-              (this.state.activeTab === 'selectDatabase' && this.state.rows.length>0) &&
-            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
-            }
 
             {
             this.state.activeTab == 'makeQuery' &&
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/> &&
+            <div className ="row">
             <form onSubmit={
               this.handleQuery}>
             <FormGroup controlId="formsControlTextarea">
@@ -261,13 +258,18 @@ class TalkToDatabase extends Component {
                     placeholder="Enter SQL Query here: " value={this.state.currentSQLQuery}
                     onChange={this.handleChange} />
                 </FormGroup>
-                <Button bsStyle="primary" type='submit' className='pull-right'>
+                <Button bsStyle="primary" type='submit' className='pull-right' style={{marginBottom:"10px"}}>
                   Filter Data
                 </Button>
               </form>
-
+              </div>
             }
-
+              <div>   {
+              ((this.state.activeTab === 'selectDatabase' || this.state.activeTab== "makeQuery") && this.state.rows.length>0) &&
+            <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
+              }
+            </div>
+            
             {
             (this.state.activeTab =='sliceName' && this.state.currentData) &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />

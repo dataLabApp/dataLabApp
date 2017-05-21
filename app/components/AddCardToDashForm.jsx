@@ -11,13 +11,13 @@ class AddCardToDashForm extends Component{
     this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
-  handleSelectChange(e){
+  handleSelectChange(e) {
     this.setState({selectedDashboard:e.target.value})
   }
 
-  render(){
+  render() {
     return (
-      <form onSubmit={e=>this.props.handleSubmit(e,this.state.selectedDashboard)}>
+      <form onSubmit={e => this.props.handleSubmit(e,this.state.selectedDashboard)}>
         <FormGroup>
           <ControlLabel>Select Dashboard</ControlLabel>
           <FormControl componentClass="select" placeholder="select" onChange={this.handleSelectChange}>
@@ -28,7 +28,8 @@ class AddCardToDashForm extends Component{
               )
             })}
           </FormControl>
-          <Button type='submit'>
+          <br />
+          <Button bsStyle="primary" type='submit'>
             Add Card
           </Button>
         </FormGroup>

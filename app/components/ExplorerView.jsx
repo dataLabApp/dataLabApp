@@ -177,7 +177,7 @@ class ExplorerView extends Component {
           changeConfig={this.changeConfig}
         />}
         <ColorSelector
-          label={'Color Scheme'}
+          label={'D3 Color Scheme'}
           currentScheme = {this.state.config.colorScheme || {}}
           setScheme={this.changeConfig('colorScheme')}
         />
@@ -187,7 +187,7 @@ class ExplorerView extends Component {
           changeDimension={this.changeConfig('dimensions')}
         />
         <AddCardToDashForm handleSubmit={this.handleAddCardToDashboard} />
-        <Button onClick={this.toggleShowTextEditor}>{this.state.showTextEditor ? 'Hide the Editor' : 'Edit the Code'}</Button>
+        <Button bsStyle="warning" onClick={this.toggleShowTextEditor}>{this.state.showTextEditor ? 'Hide the Editor' : 'Edit the Code'}</Button>
         </div>
         <div className="col-sm-9">
         <ExplorerChart
