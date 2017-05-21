@@ -14,7 +14,7 @@
     const height = fullHeight - margin.top - margin.bottom
 
 // parse the date / time
-    var parseTime = d3.timeParse('%b %d, %Y')
+    var parseTime = d3.timeParse('%B %d, %Y')
 
 // set the ranges
     var x = d3.scaleTime().range([0, width])
