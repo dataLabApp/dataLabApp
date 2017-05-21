@@ -15,7 +15,7 @@ const SQLForm = props => {
               placeholder="Enter SQL Query here: " value={props.currentSQLQuery}
               onChange={props.handleChange} />
           </FormGroup>
-          <Button bsStyle="primary" type='submit' className='pull-right'>
+          <Button bsStyle="primary" type='submit' className='pull-right' >
             Filter Data
           </Button>
         </form>
