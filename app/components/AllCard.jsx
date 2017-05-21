@@ -81,8 +81,7 @@ class AllCard extends Component {
             {/*<li><a className="collapse-link"><i className="fa fa-cloud-upload"></i></a></li>*/}
             <li><a onClick={this.handleShowModal} ><i className="fa fa-share"></i></a></li>
             <li><a onClick={this.props.onRemove} className="close-link"><i className="fa fa-close"></i></a></li>
-          </ul>
-             
+          </ul>    
             <div className="clearfix"></div>
        </div>
           <div className="x_content" style={{ 'height': 'auto', 'width': '100%' }}>
@@ -96,7 +95,8 @@ class AllCard extends Component {
               }
             </div>
           </div>
-      </div>
+          </div>
+          
     )
   }
 }
