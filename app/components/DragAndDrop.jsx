@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Chart from './Chart'
 import DashboardCard from './DashboardCard'
+import AnimatedDashboardCard from './AnimatedDashboardCard'
 import styles from '../../node_modules/react-grid-layout/css/styles.css'
 import styles2 from '../../node_modules/react-resizable/css/styles.css'
 import {updateDashboardLayout, deleteCardFromDashboard} from '../reducers/dashboardReducer'
@@ -31,7 +32,7 @@ class DragAndDrop extends Component {
     this.fetchSliceDataForAll()
     this.stopUpdating = setInterval(() => {
       this.fetchSliceDataForAll()
-    }, 3000)
+    }, 500)
   }
 
   componentWillReceiveProps(nextProps) {
