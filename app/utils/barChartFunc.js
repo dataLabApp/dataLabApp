@@ -11,9 +11,9 @@
     const fullWidth = config.dimensions.fullWidth
     const fullHeight = config.dimensions.fullHeight
     const colors = window.d3.scaleOrdinal(config.colorScheme)
-    const yAxisLabel = 'Dollars'
+    const yAxisLabel = 'Products Stocked'
 
-    const margin = {top: 20, right: 5, bottom: 50, left: 50}
+    const margin = {top: 20, right: 5, bottom: 50, left: 65}
   // here, we want the full chart to be 700x200, so we determine
   // the width and height by subtracting the margins from those values
 
@@ -71,7 +71,7 @@
   .style('text-anchor', 'middle')
   .style('fill', 'black')
   .attr('dy', '-2.5em')
-  .style('font-size', 14)
+  .style('font-size', 20)
   .text(yAxisLabel)
 
     var barHolder = svg.append('g')

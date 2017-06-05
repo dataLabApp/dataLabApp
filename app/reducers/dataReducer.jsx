@@ -47,7 +47,17 @@ export const fetchSliceData = sliceId => {
     })
   }
 }
-
+// const seedSliceData = (arrOfSlices) => {
+//   arrOfSlices.forEach(slice =>
+//     // client.query(`${slice.SQLQuery}`, function(err, data) {
+//     //   if (err)console.error(err)
+//     //   else {
+//     //     slice.data = data.rows
+//     //   }
+//     // })
+//     fetchSliceData(slice.id)
+//   )
+// }
 const sampleSliceObj= {
   id: 1,
   title: 'Products with Prices',
@@ -57,11 +67,51 @@ const sampleSliceObj= {
   data: [{xVar: 1, yVar: 2, extraVar: 3}]
 }
 
+const segmentSlice= {
+  id: 1,
+  title: 'segmentsById',
+  dateCreated: new Date(),
+  SQLQuery: 'SELECT * FROM segments ORDER BY id',
+  database: 'headSetLaunch',
+  data: []
+}
+
+const salesSlice= {
+  id: 2,
+  title: 'dailySales',
+  dateCreated: new Date(),
+  SQLQuery: 'SELECT * FROM sales ORDER BY id',
+  database: 'headSetLaunch',
+  data: []
+}
+
+const inventorySlice= {
+  id: 3,
+  title: 'inventoryByLocation',
+  dateCreated: new Date(),
+  SQLQuery: 'SELECT * FROM inventory ORDER BY id',
+  database: 'headSetLaunch',
+  data: []
+}
+
+const tweetSlice= {
+  id: 4,
+  title: 'tweetWords',
+  dateCreated: new Date(),
+  SQLQuery: 'SELECT * FROM tweets ORDER BY id',
+  database: 'headSetLaunch',
+  data: []
+}
+
+let allSeedSlices = [segmentSlice, salesSlice, inventorySlice, tweetSlice]
+
+// setTimeout(() => seedSliceData(allSeedSlices), 50)
+
 // ----------- Reducer
 const initialState = {
   currentData: [],
   allSlices: [sampleSliceObj],
-  sliceIdCounter: 2
+  sliceIdCounter: 5
 }
 
 export default function dataReducer(state = initialState, action) {
@@ -85,7 +135,6 @@ export default function dataReducer(state = initialState, action) {
   }
 
   storage.set('data', nextState, function(err) {
-
     if (err) throw err
   })
   return nextState

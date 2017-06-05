@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 class SliceSelector extends Component {
   render() {
-    let currentSliceTitle = this.props.data.allSlices.filter(slice => slice.id === this.props.currentSlice)[0].title
+    let currentSliceTitle = this.props.currentSlice ? this.props.data.allSlices.filter(slice => slice.id === this.props.currentSlice)[0].title : ''
 
     return (
       <form>

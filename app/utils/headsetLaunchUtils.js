@@ -3,13 +3,13 @@ const pg = require('pg')
 const client = new pg.Client('postgres://localhost/headSetLaunch')
 
 client.connect()
-
+let counter = 1
 export function seedHeadsetData() {
   const continuousSeed = window.setInterval(function() {
     if (Math.random() < 0.25) seedTweetsOnce()
     if (Math.random() < 0.25) seedInventoryOnce()
     if (Math.random() < 0.25) seedSegmentsOnce()
-    if (Math.random() < 0.25) seedSalesOnce()
+    if (++counter % 5 === 0) seedSalesOnce()
   }, 200)
   window.setTimeout(() => window.clearInterval(continuousSeed), 40*1000)
 }
@@ -105,12 +105,12 @@ function seedInventoryOnce() {
 const invObj = {'1': 416, '2': 604, '3': 569, '4': 393}
 function generateReduceInventory() {
   let amt = 0
-  const amount = `${(Math.round(Math.random()*20))}`
+  const amount = `${(Math.round(Math.random()*5))}`
   const amountBig = 3 * amount
   let id = `${Math.floor(Math.random()*4)+ 1}`
   if (id === '1' || id === '3') amt = amountBig
   else if (id === '4') amt = amount
-  else amt = 0
+  else amt = amount / 2
   const updateAmt = invObj[id] - amt
   invObj[id] = updateAmt
   // console.log('amount amt, updateAmt, invObj.id, id', amount, amt, updateAmt, invObj, +id)
