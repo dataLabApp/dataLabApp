@@ -1,3 +1,4 @@
+![dataLab Logo](./assets/grahics/datalaplogo.png "dataLab Logo")
 # dataLab
 dataLab is a desktop application that enables businesses to stay informed of critical performance metrics through shareable dashboards of live-updating D3 visualizations sourced from their local databases.
 
@@ -10,46 +11,51 @@ The application was made during a 2.5 week project as part of Fullstack Academy'
 TECHNOLOGIES: React, Redux, Electron, JavaScript, SQL, HTML, CSS, D3, Firebase, Auth0.
 
 ## Installation
-From your command line:
-
-```bash
-# Clone this repository:
+First, clone the repository through git and change to the new directory:
+```
 git clone https://github.com/dataLabApp/dataLabApp.git
-# Navigate to the new directory:
 cd dataLabApp
-# Install the required dependencies:
+```
+Then install the required dependencies:
+```
 npm install
-# Run the app:
+```
+Run the app:
+```
 npm start
 ```
 
 ## Screenshots & Gifs
-#### Real-time Updating Dashboards
+### Real-time Updating Dashboards
 ![dataLab Screenshot 1](./assets/gifs/dashboard.gif "dataLab")
 
-#### Beautiful D3 Visualizations
+### Beautiful D3 Visualizations
 ![dataLab Screenshot 2](./assets/gifs/gdp.gif "dataLab")
 
-#### Login via Auth0
-![dataLab Screenshot 3](./assets/gifs/login.gif "dataLab")
+### Query and Slice Data from Local Databases
+![dataLab Screenshot 3](./assets/gifs/sqlab.gif "dataLab")
 
-#### Export Visualization as SVG
-![dataLab Screenshot 4](./assets/gifs/saving.gif "dataLab")
+### Create D3 Visualizations from Local Databases
+![dataLab Screenshot 4](./assets/gifs/slice.gif "dataLab")
 
-#### Share Visualizations
-![dataLab Screenshot 5](./assets/gifs/sharing.gif "dataLab")
+### Edit D3 Code Directly for Advanced D3 Users
+![dataLab Screenshot 5](./assets/gifs/editthecode.gif "dataLab")
 
-#### Query and Slice Data from Local Databases
-![dataLab Screenshot 6](./assets/gifs/sqlab.gif "dataLab")
+### User Accounts Maintained with Auth0 and Firebase
+![dataLab Screenshot 6](./assets/gifs/login.gif "dataLab")
 
-#### Modify D3 Visualizations
-![dataLab Screenshot 7](./assets/gifs/slice.gif "dataLab")
+### Export D3 Visualization as SVG Object of PDF
+![dataLab Screenshot 7](./assets/gifs/saving.gif "dataLab")
+
+### Share Visualizations
+![dataLab Screenshot 8](./assets/gifs/sharing.gif "dataLab")
+
 
 ## Contributors
-*[Andrew Hookom](https://www.linkedin.com/in/ahookom/)
-*[Bruce Grugett](https://www.linkedin.com/in/bruce-grugett/)
-*[Mandi Meidlinger](https://www.linkedin.com/in/mandi-meidlinger/)
-*[Sara Al Mughairy](https://www.linkedin.com/in/sawra/)
+* [Andrew Hookom](https://www.linkedin.com/in/ahookom/)
+* [Bruce Grugett](https://www.linkedin.com/in/bruce-grugett/)
+* [Mandi Meidlinger](https://www.linkedin.com/in/mandi-meidlinger/)
+* [Sara Al Mughairy](https://www.linkedin.com/in/sawra/)
 
 ## License
 MIT © Andrew Hookom, Bruce Grugett, Mandi Meidlinger, Sara Al Mughairy

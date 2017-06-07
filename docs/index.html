@@ -47,6 +47,11 @@
                             github
                             </a>
                         </li>
+                        <li>
+                            <a href="https://youtu.be/WiOlMsGFFZE?t=2m14s">
+                            <i class="fa fa-youtube"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -77,24 +82,35 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="section section-gray section-clients">
+            <div class="section section-gray section-clients">
                 <div class="container text-center">
-                    <h4 class="header-text">Happy Customers</h4>
+                    <h4 class="header-text">Technologies Used</h4>
                     <p>
-                        Designing in Photoshop became a trend. Change, save, redo. Change, save, redo. After searching thoroughly for an alternative to create something great, it was clear that there weren’t any great solutions or intentions by anyone to create a pixel-perfect template for anyone to use. We don't do pixel-perfect, we focus on client-perfect projects.<br>
+                        We decided to create a desktop application versus a web-based app. This means that businesses can use dataLab with their local databases rather than host their sensitive data on a cloud.
+
+                        We used Electron to create the desktop application because it allowed us to make a native app, but with web technologies like JavaScript, HTML, CSS, React, and Redux.
+
+                        And why use D3? Besides being beautiful and interactive, D3 has two advantages: First, D3 is customizable. D3 lets you visualize any  business insight you may need. Secondly, D3 is executable JavaScript code, which means your visualizations can update in real-time.
+                        <br>
                     </p>
                     <div class="logos">
                         <ul class="list-unstyled">
-                            <li ><img src="assets/img/logos/adobe.png"/></li>
-                            <li ><img src="assets/img/logos/zendesk.png"/></li>
-                            <li ><img src="assets/img/logos/ebay.png"/></i>
-                            <li ><img src="assets/img/logos/evernote.png"/></li>
-                            <li ><img src="assets/img/logos/airbnb.png"/></li>
-                            <li ><img src="assets/img/logos/zappos.png"/></li>
+                            <li ><img src="./assets/logos/d3-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/electron-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/firebase-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/postgres-logo.png" style="height:40px;"/></li>
+                        </ul>
+                        <ul class="list-unstyled">
+                            <li ><img src="./assets/logos/js-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/html-css-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/oauth-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/react-logo.png" style="height:40px;"/></li>
+                            <li ><img src="./assets/logos/redux-logo.png" style="height:40px;"/></li>
                         </ul>
                     </div>
                 </div>
             </div>
+            <!--
             <div class="section section-presentation">
                 <div class="container">
                     <div class="row">
@@ -116,39 +132,72 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="section section-demo">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="demo-image">
-                                <img src="assets/img/showcases/showcase-2/examples/home_4.jpg" alt="">
+                                <img src="./assets/gifs/sqlab.gif" alt="">
                             </div>
                         </div>
                         <div class="col-md-5 col-md-offset-1">
-                            <h4 class="header-text">Beautiful colors</h4>
+                            <h4 class="header-text">Slice Data</h4>
                             <p>
-                                Each color has a strong pigment and was chosen to make your design shine. Each component from our product can have one of these colors. Try on different combinations and be sure that everything works together.
+                                Access information from your company’s local databases. Then filter the data via SQL queries and save slices.
                             </p>
                             <p>
-                                PSD Custom focuses on conveying the attention of your users to the important parts of the page and the actions. While keeping a light feel, the colors give the page an extra push.
+                                We used pg as the database driver to send the user's SQL commands via postgres to their local database.
                             </p>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-5">
-                            <h4 class="header-text">Pixel Perfect</h4>
+                            <h4 class="header-text">D3 Visualizations</h4>
                             <p>
-                                Each color has a strong pigment and was chosen to make your design shine. Each component from our product can have one of these colors. Try on different combinations and be sure that everything works together.
+                                After slicing the data, the user is taken to the Explorer page, which is home to the D3 chart creation tools. A control panel allows non-D3 users to easily make charts.
                             </p>
                             <p>
-                                PSD Custom focuses on conveying the attention of your users to the important parts of the page and the actions. While keeping a light feel, the colors give the page an extra push.
+                                Once a D3 is created, it can be saved to any dashboard.
                             </p>
                         </div>
                         <div class="col-md-6 col-md-offset-1">
                             <div class="demo-image">
-                                <img src="assets/img/showcases/showcase-2/examples/home_6.jpg" alt="">
+                                <img src="./assets/gifs/slice.gif" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="demo-image">
+                                <img src="./assets/gifs/dashboard.gif" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                            <h4 class="header-text">Real-time Dashboards</h4>
+                            <p>
+                                Once a chart is created, multiple charts can be combined onto a dashboard. Charts are updated in real-time as the user's local databases are updated.
+                            </p>
+                            <p>
+
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4 class="header-text">Sharing</h4>
+                            <p>
+                                D3 visualations can be exported as a non-proprietery SVG object or pdf.
+                            </p>
+                            <p>
+                                By using a firebase database, we are able to remotely keep track of all user accounts. So when a user shares a chart with coworkers, they receive a notification on their desktops.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="demo-image">
+                                <img src="./assets/gifs/sharing.gif" alt="">
                             </div>
                         </div>
                     </div>
@@ -156,49 +205,48 @@
             </div>
             <div class="section section-features">
                 <div class="container">
-                    <h4 class="header-text text-center">Features</h4>
+                    <h4 class="header-text text-center">Contributors</h4>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-pen"></i>
+                                <div class="mask">§
+                                    <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAkNAAAAJDJkYmMxMmY0LWVlMTAtNDA3Yy05ZDhkLTQxZDJjZWNlOTdlOA.jpg" style="width:150px;height:150px;" alt="Andrew Hookom">
                                 </div>
                                 <div class="text">
-                                    <h4>Client-Perfect Draws</h4>
-                                    <p>All appointments sync with your Google calendar so your availability is always up to date. See your schedule at a glance from any device.</p>
+                                <h4><a href="https://www.linkedin.com/in/ahookom/" style="text-decoration: none">Andrew Hookom</a></h4>
+                                <p></p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-look"></i>
+                                <div class="mask">§
+                                    <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/2/000/192/1fe/331c884.jpg" style="width:150px;height:150px;" alt="Bruce Grugett">
                                 </div>
-                                <h4>Retina Ready</h4>
-                                <p>Automatic text and email reminders make sure customers always remember their upcoming appointments.</p>
+                                <h4><a href="https://www.linkedin.com/in/bruce-grugett/" style="text-decoration: none">Bruce Grugett</a></h4>
+                                <p></p>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-like"></i>
+                                <div class="mask">§
+                                    <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAfHAAAAJDQ3MWE0YjU5LTI1ZGUtNDlhOC04NzU4LTU1ZTcxNTA0NTk4Ng.jpg" style="width:150px;height:150px;" alt="Mandi Meidlinger">
                                 </div>
-                                <h4>You'll love it</h4>
-                                <p>You'll Love It, you will find dining room sets, couches, chairs and pre-owned furniture of all kinds as well as lamps, rugs and accessories.</p>
+                                <h4><a href="https://www.linkedin.com/in/mandi-meidlinger/" style="text-decoration: none">Mandi Meidlinger</a></h4>
+                                <p></p>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-piggy"></i>
+                                    <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAPnAAAAJGU3MTQxZTQzLTZmOWQtNDM3MS1iZTI4LWM3MjJkM2E4OGNiMA.jpg" style="width:150px;height:150px;" alt="Sara Al Mughairy">
                                 </div>
-                                <h4>Big Discount</h4>
-                                <p>Take payments and run your business on the go, in your store and then see how it all adds up with analytics.</p>
+                                <h4><a href="https://www.linkedin.com/in/sawra/" style="text-decoration: none">Sara Al Mughairy</a></h4>
+                                <p></p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
             <!--<div class="section section-testimonial">
                 <div class="container">
                     <h4 class="header-text text-center">What people think</h4>
