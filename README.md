@@ -1,4 +1,4 @@
-![dataLab Logo](./assets/grahics/datalaplogo.png "dataLab Logo")
+![dataLab Logo](./assets/graphics/datalablogo.png "dataLab Logo")
 # dataLab
 dataLab is a desktop application that enables businesses to stay informed of critical performance metrics through shareable dashboards of live-updating D3 visualizations sourced from their local databases.
 
@@ -44,7 +44,7 @@ npm start
 ### User Accounts Maintained with Auth0 and Firebase
 ![dataLab Screenshot 6](./assets/gifs/login.gif "dataLab")
 
-### Export D3 Visualization as SVG Object of PDF
+### Export D3 Visualization as SVG Object or PDF
 ![dataLab Screenshot 7](./assets/gifs/saving.gif "dataLab")
 
 ### Share Visualizations
