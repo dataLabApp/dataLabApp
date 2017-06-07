@@ -35,13 +35,13 @@ npm start
 ### Query and Slice Data from Local Databases
 ![dataLab Screenshot 3](./assets/gifs/sqlab.gif "dataLab")
 
-### Create D3 Visualizations
+### Create D3 Visualizations from Local Databases
 ![dataLab Screenshot 4](./assets/gifs/slice.gif "dataLab")
 
 ### Edit D3 Code Directly for Advanced D3 Users
 ![dataLab Screenshot 5](./assets/gifs/editthecode.gif "dataLab")
 
-### Login via Auth0
+### User Accounts Maintained with Auth0 and Firebase
 ![dataLab Screenshot 6](./assets/gifs/login.gif "dataLab")
 
 ### Export D3 Visualization as SVG Object of PDF
