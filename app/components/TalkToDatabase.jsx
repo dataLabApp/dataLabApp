@@ -37,8 +37,8 @@ class TalkToDatabase extends Component {
     this.handleSaveSlice = this.handleSaveSlice.bind(this)
     this.handleSliceNameChange = this.handleSliceNameChange.bind(this)
     this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
-    this.createRows = this. createRows.bind(this)
-    this.toggleQueryBox = this. toggleQueryBox.bind(this)
+    this.createRows = this.createRows.bind(this)
+    this.toggleQueryBox = this.toggleQueryBox.bind(this)
     this.handleFindAllDatabases = this.handleFindAllDatabases.bind(this)
     this.createRows = this.createRows.bind(this)
     this.changeTab = this.changeTab.bind(this)
@@ -220,7 +220,7 @@ class TalkToDatabase extends Component {
      <Tabs defaultActiveKey="selectDatabase" id="sqlab" pullLeft justified onSelect={this.changeTab} activeKey={this.state.activeTab}>
       <Tab eventKey="selectDatabase" title="Choose Database"></Tab>
       <Tab eventKey="makeQuery" title="Filter Data"></Tab>
-      <Tab eventKey="sliceName" title="Save Data Slice"></Tab>      
+      <Tab eventKey="sliceName" title="Save Data Slice"></Tab>
       </Tabs>
       <br/><br/><br/>
 
@@ -269,7 +269,7 @@ class TalkToDatabase extends Component {
             <Table columns = {['tableName', 'columnNames']} rows = {this.state.rows} tableName={`Tables in ${this.state.currentDatabaseName}`}/>
               }
             </div>
-            
+
             {
             (this.state.activeTab =='sliceName' && this.state.currentData) &&
             <Table columns = { Object.keys(this.state.currentData[0]) } rows = {(this.state.currentData) } tableName = { this.state.currentSQLQuery } />
@@ -294,7 +294,7 @@ class TalkToDatabase extends Component {
 
 
         </div>
-  
+
     )
   }
 }

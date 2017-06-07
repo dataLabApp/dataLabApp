@@ -20,7 +20,7 @@ import {Button} from 'react-bootstrap'
 
 class ExplorerView extends Component {
   constructor(props) {
-    let lastSlice = props.data.allSlices[props.data.allSlices.length-1]
+    let lastSlice = props.data.allSlices.length ? props.data.allSlices[props.data.allSlices.length-1] : null
     super(props)
     this.state = {
       showTextEditor: false,
@@ -33,21 +33,21 @@ class ExplorerView extends Component {
       z_label: '',
       config: {
         colorScheme: COLOR_SCHEMES[Object.keys(COLOR_SCHEMES)[0]],
-        sliceId: lastSlice.id,
-        data: lastSlice.data,
+        sliceId: lastSlice ? lastSlice.id : null,
+        data: lastSlice ? lastSlice.data : [],
         title: 'Click Here to Write Title',
         dimensions: {
           fullHeight: 500,
           fullWidth: 800
         },
         x: {
-          dataColumn: Object.keys(lastSlice.data[0])[0]
+          dataColumn: lastSlice ? Object.keys(lastSlice.data[0])[0] : null
         },
         y: {
-          dataColumn: Object.keys(lastSlice.data[0])[1]
+          dataColumn: lastSlice ? Object.keys(lastSlice.data[0])[1] : null
         },
         z: {
-          dataColumn: Object.keys(lastSlice.data[0])[2]
+          dataColumn: lastSlice ? Object.keys(lastSlice.data[0])[2] : null
         }
       }
     }

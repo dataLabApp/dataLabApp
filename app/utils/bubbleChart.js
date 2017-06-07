@@ -46,6 +46,7 @@
 
     node.append('text')
         .attr('dy', '.3em')
+        .style('font-size','25')
         .style('text-anchor', 'middle')
         .text(function(d) { return d.data.className.substring(0, d.r / 3) })
 

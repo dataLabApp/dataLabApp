@@ -31,15 +31,17 @@ export const loadCards = (cards) => ({
 })
 
 // ----------- Reducer
-const initialState = [{
-  id: 1,
-  title: 'Sample Card',
-  rawCode: DEFAULT_TEMPLATE,
-  chart: () => (<Chart />),
-  sliceId: 1,
-  owner: "DuperSet",
-  public: true
-}]
+const initialState = [
+//   {
+//   id: 1,
+//   title: 'Sample Card',
+//   rawCode: DEFAULT_TEMPLATE,
+//   chart: () => (<Chart />),
+//   sliceId: 1,
+//   owner: "DuperSet",
+//   public: true
+// }
+]
 
 initialState.count = 1
 
